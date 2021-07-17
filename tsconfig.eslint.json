@@ -5,7 +5,6 @@
     "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.jsx",
-    "emulator/*.js",
     ".eslintrc.js"
   ]
 }

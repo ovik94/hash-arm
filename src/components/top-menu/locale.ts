@@ -1,12 +1,12 @@
 const Locale = {
   menu: [
     {
-      label: 'Заявка',
-      url: '/test'
+      label: 'Чек-лист Менеджера',
+      url: '/check-list'
     },
     {
       label: 'Поставщики',
-      url: '/test2'
+      url: '/contractors'
     }
   ]
 };
