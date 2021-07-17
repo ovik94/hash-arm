@@ -1,0 +1,8 @@
+.idea
+.idea/*.iws
+.idea/workspace.xml
+.idea/tasks.xml
+!.idea/giftcards-ts.iml
+*.cmd
+node_modules
+dist

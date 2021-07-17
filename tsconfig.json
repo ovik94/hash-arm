@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": ["es6", "dom", "esnext"],
+    "jsx": "react-jsx",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "noErrorTruncation": true,
+    "noImplicitAny": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "outDir": "./dist/"
+  },
+  "include": [
+    "src"
+  ]
+}
