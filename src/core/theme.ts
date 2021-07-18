@@ -4,8 +4,12 @@ import { createTheme } from '@material-ui/core/styles';
 export const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#4265ED',
-      dark: '#5171EE'
+      main: '#9f2720',
+      dark: '#8f231d'
+    },
+    secondary: {
+      main: '#147d78',
+      dark: '#116864'
     }
   },
   typography: {

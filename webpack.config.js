@@ -35,6 +35,14 @@ module.exports = () => ({
             allowTsInNodeModules: true
           }
         }
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ]
       }
     ],
   },

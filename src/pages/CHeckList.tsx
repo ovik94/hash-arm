@@ -4,19 +4,25 @@ import { observer } from 'mobx-react';
 import useStore from '../hooks/useStore';
 
 const CheckList = () => {
-  const store = useStore();
-
-  console.log({ ...store.admin });
+  const { admin, setAdmin, setCheckList, checkList } = useStore();
 
   const onSubmit = (event: any) => {
-    console.log(event, '111111');
-    store.setAdmin({ name: event.target.value });
+    setAdmin({ name: event.target.value });
+  };
+
+  const onSubmitCheckList = (event: any) => {
+    setCheckList([{ title: event.target.value }]);
   };
 
   return (
     <div>
-      <Typography>{store.admin.name}</Typography>
-      <TextField onChange={onSubmit} />
+
+      <TextField variant="outlined" onChange={onSubmit} />
+      <TextField variant="outlined" onChange={onSubmitCheckList} />
+      <Typography>{admin.name}</Typography>
+      {
+      checkList.map(item => <Typography>{item.title}</Typography>)
+      }
     </div>
   );
 };

@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
-import { useLocalStore } from 'mobx-react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { useLocalObservable } from 'mobx-react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core';
-import CheckList from '../pages/CHeckList';
 import ErrorBoundary from './ErrorBoundary';
 import { CoreContextProvider } from './CoreContext';
 import { StoreContextProvider } from './StoreContext';
@@ -15,6 +14,8 @@ import locale from './locale/locale';
 import RequestFactory from './request/request-factory';
 import RouteView from './RouteView';
 import { rootStore } from '../store/rootStore';
+import CheckList from '../pages/CHeckList';
+import Login from '../pages/Login';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -29,7 +30,7 @@ const createRequest = requestFactory.createRequest.bind(requestFactory);
 
 const App: FunctionComponent = () => {
   const classes = useStyles();
-  const store = useLocalStore(rootStore);
+  const store = useLocalObservable(rootStore);
 
   return (
     <div className={classes.root}>
@@ -42,8 +43,11 @@ const App: FunctionComponent = () => {
                 <Router>
                   <div>
                     <Switch>
+                      <Route exact path="/login">
+                        <Login />
+                      </Route>
                       <RouteView exact path="/">
-                        <div>Главная</div>
+                        {/* <Home /> */}
                       </RouteView>
                       <RouteView exact path="/check-list">
                         <CheckList />
