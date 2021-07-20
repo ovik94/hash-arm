@@ -11,26 +11,26 @@ interface IMuiSelect {
   // eslint-disable-next-line react/require-default-props
   renderItem?: (option: { label: string, value: string }) => JSX.Element;
   onChange: (value: string) => void;
-  options: Array<{ label: string, value: string }>
+  options: Array<{ label: string, value: string }>;
+  [key: string]: any
 }
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   control: {
     margin: theme.spacing(1),
-    minWidth: 300
+    minWidth: 250
   }
 }));
 
-const MuiSelect: FC<IMuiSelect> = ({ value, id, label, onChange, options, renderItem }: IMuiSelect): JSX.Element => {
+const MuiSelect: FC<IMuiSelect> = ({ value, id, label, onChange, options, renderItem, ...otherProps }: IMuiSelect): JSX.Element => {
   const classes = useStyles();
 
   const onChangeOption = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>): void => {
-    console.log(event.target.name, 'name');
     console.log(event.target.value, 'value');
-
-    // onChange();
+    onChange(event.target.value as string);
   };
 
+  console.log('File: MuiSelect.tsx, Function: MuiSelect,  otherProps: ', otherProps);
   return (
     <FormControl className={classes.control}>
       { label && <InputLabel id="select-label">{label}</InputLabel> }
@@ -40,6 +40,7 @@ const MuiSelect: FC<IMuiSelect> = ({ value, id, label, onChange, options, render
         value={value || ''}
         onChange={onChangeOption}
         input={<Input />}
+        {...otherProps}
       >
         {options.map(option => (
           <MenuItem value={option.value} key={option.value}>

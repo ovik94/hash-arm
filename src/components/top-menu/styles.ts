@@ -9,14 +9,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     marginBottom: '48px',
     height: '56px'
   },
-  armName: {
-    padding: theme.spacing(2),
-    fontWeight: 500,
-    fontSize: '15px',
-    lineHeight: '24px',
-    letterSpacing: '-0.2px',
-    color: '#FFFFFF'
-  },
   buttonGroup: {
     display: 'flex',
     height: '56px',

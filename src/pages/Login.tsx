@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // @ts-ignore
 import patternImageUrl from './images/pattern.png';
 import LoginForm from '../components/login-form/LoginForm';
+import useTitle from '../hooks/useTitle';
 
 const useStyles = makeStyles(theme => ({
   pattern: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
+  useTitle();
 
   return (
     <div>

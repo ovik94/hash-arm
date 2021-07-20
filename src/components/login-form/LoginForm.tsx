@@ -1,8 +1,9 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Cookies from 'js-cookie';
 import useStyles from './styles';
 import Locale from './locale';
 import useStore from '../../hooks/useStore';
@@ -18,6 +19,7 @@ const LoginForm: FC = (): JSX.Element => {
   const locale = useLocale(Locale);
   const { userStore } = useStore();
   const history = useHistory();
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
     if (!userStore.usersList.length) {
@@ -26,12 +28,15 @@ const LoginForm: FC = (): JSX.Element => {
   }, [userStore.usersList]);
 
   const onChange = (value: string): void => {
-    // setUser(event.target.name as string);
+    const user = userStore.usersList.find(item => item.id === value) || {} as IUser;
+    setUserName(value);
+    userStore.setUser(user);
   };
 
   const onClick = (): void => {
     if (userStore.user) {
-      userStore.setAutorithed(true);
+      userStore.setAuthorized(true);
+      Cookies.set('adminName', userStore.user);
       history.push('/');
     }
   };
@@ -41,10 +46,10 @@ const LoginForm: FC = (): JSX.Element => {
 
     return (
       <div className={classes.selectItem}>
-        <AccountCircle />
+        <AccountCircle color="secondary" />
         <div className={classes.userInfo}>
           <Typography variant="body1">{option.label}</Typography>
-          { userData?.phone && <Typography variant="subtitle2">{userData.phone}</Typography> }
+          { userData?.phone && <Typography variant="subtitle1" className={classes.phone}>{userData.phone}</Typography> }
         </div>
       </div>
     );
@@ -52,7 +57,6 @@ const LoginForm: FC = (): JSX.Element => {
 
   const selectOptions = userStore.usersList.map(user => ({ label: user.name, value: user.id }));
 
-  console.log('userStore.usersList', { ...userStore.usersList });
   return (
     <div className={classes.loginForm}>
       {
@@ -62,9 +66,11 @@ const LoginForm: FC = (): JSX.Element => {
       <MuiSelect
         label={locale.selectLabel}
         id="selectUser"
+        value={userName}
         options={selectOptions}
         onChange={onChange}
         renderItem={renderSelectItem}
+        disabled={userStore.isLoading}
       />
       <Button
         fullWidth
@@ -72,6 +78,7 @@ const LoginForm: FC = (): JSX.Element => {
         color="primary"
         className={classes.button}
         onClick={onClick}
+        disabled={!userStore.user.name}
       >
         {locale.buttonLabel}
       </Button>

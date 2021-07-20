@@ -19,12 +19,16 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     marginTop: theme.spacing(2)
   },
   selectItem: {
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
   },
   userInfo: {
     display: 'flex',
     flexDirection: 'column',
     marginLeft: theme.spacing(2)
+  },
+  phone: {
+    color: 'rgba(0, 0, 0, 0.6)'
   }
 }));
 

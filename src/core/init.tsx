@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core';
+import Cookies from 'js-cookie';
 import ErrorBoundary from './ErrorBoundary';
 import { CoreContextProvider } from './CoreContext';
 import { StoreContextProvider } from './StoreContext';
@@ -32,6 +33,13 @@ store.setCreateRequest(createRequest);
 
 const App: FunctionComponent = () => {
   const classes = useStyles();
+
+  if (Cookies.get('adminName')) {
+    const user = JSON.parse(Cookies.get('adminName') || '');
+
+    store.userStore.setUser(user);
+    store.userStore.setAuthorized(true);
+  }
 
   return (
     <div className={classes.root}>

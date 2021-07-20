@@ -15,9 +15,9 @@ export interface IStoreContext {
   setAdminList: (data: IAdminList) => void;
   setCheckList: (data: ICkeckList) => void;
   fetchAdminList: () => void;
-  isAutorithed: boolean;
+  isAuthorized: boolean;
   isLoading: boolean;
-  setAutorithed: (value: boolean) => void;
+  setAuthorized: (value: boolean) => void;
   setLoading: (value: boolean) => void;
 }
 

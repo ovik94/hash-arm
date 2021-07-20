@@ -13,7 +13,7 @@ export default class UserStore {
 
   public usersList: Array<IUser> = [];
 
-  public isAutorithed: boolean = false;
+  public isAuthorized: boolean = false;
 
   public isLoading: boolean = false;
 
@@ -28,8 +28,8 @@ export default class UserStore {
     this.isLoading = value;
   };
 
-  public setAutorithed = (value: boolean) => {
-    this.isAutorithed = value;
+  public setAuthorized = (value: boolean) => {
+    this.isAuthorized = value;
   };
 
   public setUser = (user: IUser) => {
