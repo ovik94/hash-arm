@@ -35,6 +35,10 @@ export default class RequestFactory {
       getUsersList: {
         method: RequestMethods.GET,
         path: '/api/user/list'
+      },
+      getCheckList: {
+        method: RequestMethods.GET,
+        path: '/api/checkList'
       }
     };
   }

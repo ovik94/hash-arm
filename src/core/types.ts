@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAdmin, IAdminList, ICkeckList } from '../store/rootStore';
+import { IAdmin, IAdminList, ICkeckList } from '../store/RootStore';
 import RequestFactory from './request/request-factory';
 
 export interface IMainAppOptions {

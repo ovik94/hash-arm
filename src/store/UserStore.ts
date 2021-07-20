@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
-import { RootStore } from './rootStore';
+import { RootStore } from './RootStore';
 
 export interface IUser {
   id: string;

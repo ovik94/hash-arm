@@ -13,8 +13,8 @@ import { defaultTheme } from './theme';
 import locale from './locale/locale';
 import RequestFactory from './request/request-factory';
 import RouteView from './RouteView';
-import { RootStore } from '../store/rootStore';
-import CheckList from '../pages/CHeckList';
+import { RootStore } from '../store/RootStore';
+import CheckList from '../pages/CheckList';
 import Login from '../pages/Login';
 import Contractors from '../pages/Contractors';
 

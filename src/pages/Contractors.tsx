@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
+import { observer } from 'mobx-react';
 import useTitle from '../hooks/useTitle';
 import useLocale from '../hooks/useLocale';
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => createStyles({
   }
 }));
 
-const Contractors: FunctionComponent = (): JSX.Element => {
+const Contractors: FC = (): JSX.Element => {
   const classes = useStyles();
   const locale = useLocale(Locale);
   useTitle(locale.title);
@@ -33,4 +34,4 @@ const Contractors: FunctionComponent = (): JSX.Element => {
   );
 };
 
-export default Contractors;
+export default observer(Contractors);

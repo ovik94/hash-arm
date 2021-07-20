@@ -1,6 +1,7 @@
 import { makeObservable, observable, action } from 'mobx';
 import RequestFactory from '../core/request/request-factory';
 import UserStore from './UserStore';
+import CheckListStore from './CheckListStore';
 
 export interface IAdmin {
   name: string;
@@ -26,8 +27,11 @@ export class RootStore {
 
   userStore: UserStore;
 
+  checkListStore: CheckListStore;
+
   constructor() {
     this.userStore = new UserStore(this);
+    this.checkListStore = new CheckListStore(this);
 
     makeObservable(this, { isLoading: observable, setLoading: action });
   }
