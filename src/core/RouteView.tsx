@@ -6,9 +6,9 @@ import TopMenu from '../components/top-menu/TopMenu';
 import { IRouteProps } from './types';
 
 const RouteView: FC<IRouteProps> = ({ children, ...rest }: IRouteProps): JSX.Element => {
-  const { isAutorithed } = useStore();
+  const { userStore } = useStore();
 
-  if (!isAutorithed) {
+  if (!userStore.isAutorithed) {
     return <Redirect to="/login" />;
   }
 

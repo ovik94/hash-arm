@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
-import { useLocalObservable } from 'mobx-react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -13,7 +12,7 @@ import { defaultTheme } from './theme';
 import locale from './locale/locale';
 import RequestFactory from './request/request-factory';
 import RouteView from './RouteView';
-import { rootStore } from '../store/rootStore';
+import { RootStore } from '../store/rootStore';
 import CheckList from '../pages/CHeckList';
 import Login from '../pages/Login';
 
@@ -27,10 +26,11 @@ const useStyles = makeStyles(() => ({
 
 const requestFactory = new RequestFactory();
 const createRequest = requestFactory.createRequest.bind(requestFactory);
+const store = new RootStore();
+store.setCreateRequest(createRequest);
 
 const App: FunctionComponent = () => {
   const classes = useStyles();
-  const store = useLocalObservable(rootStore);
 
   return (
     <div className={classes.root}>
@@ -47,6 +47,7 @@ const App: FunctionComponent = () => {
                         <Login />
                       </Route>
                       <RouteView exact path="/">
+                        <CheckList />
                         {/* <Home /> */}
                       </RouteView>
                       <RouteView exact path="/check-list">

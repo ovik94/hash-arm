@@ -1,3 +1,7 @@
+import { makeObservable, observable, action } from 'mobx';
+import RequestFactory from '../core/request/request-factory';
+import UserStore from './UserStore';
+
 export interface IAdmin {
   name: string;
 }
@@ -15,40 +19,24 @@ interface IAdminListItem {
 export type ICkeckList = Array<ICheckListItem>;
 export type IAdminList = Array<IAdminListItem>;
 
-export function rootStore() {
-  return {
-    isAutorithed: false,
-    isLoading: false,
-    admin: {} as IAdmin,
-    adminList: [] as IAdminList,
-    checkList: [] as ICkeckList,
+export class RootStore {
+  createRequest: RequestFactory['createRequest'] = Promise.resolve;
 
-    setAutorithed(value: boolean) {
-      this.isAutorithed = value;
-    },
+  isLoading: boolean = false;
 
-    setLoading(value: boolean) {
-      this.isLoading = value;
-    },
+  userStore: UserStore;
 
-    setCheckList(data: ICkeckList) {
-      this.checkList = data;
-    },
+  constructor() {
+    this.userStore = new UserStore(this);
 
-    setAdmin(data: IAdmin) {
-      this.admin = { ...this.admin, ...data };
-    },
+    makeObservable(this, { isLoading: observable, setLoading: action });
+  }
 
-    setAdminList(adminList: IAdminList) {
-      this.adminList = adminList;
-    },
+  setCreateRequest(createRequest: RequestFactory['createRequest']) {
+    this.createRequest = createRequest;
+  }
 
-    fetchAdminList() {
-
-    },
-
-    fetchCheckList() {
-
-    }
-  };
+  public setLoading(value: boolean) {
+    this.isLoading = value;
+  }
 }

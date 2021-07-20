@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { IStoreContext } from './types';
+import { RootStore } from '../store/RootStore';
 
-export const StoreContext = createContext<IStoreContext>({} as IStoreContext);
+export const StoreContext = createContext<RootStore>({} as RootStore);
 export const StoreContextProvider = StoreContext.Provider;

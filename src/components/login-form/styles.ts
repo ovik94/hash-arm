@@ -4,7 +4,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   loginForm: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
   },
   logo: {
     margin: theme.spacing(6, 2),
@@ -12,6 +13,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   button: {
     margin: theme.spacing(3, 0, 2)
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 300
+  },
+  selectUserButton: {
+    display: 'block',
+    marginTop: theme.spacing(2)
   }
 }));
 
