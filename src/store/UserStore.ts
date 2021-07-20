@@ -46,6 +46,6 @@ export default class UserStore {
       .then(({ data }) => {
         this.setUsersList(data);
         this.setLoading(false);
-      });
+      }).catch(() => this.setLoading(false));
   };
 }

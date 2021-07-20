@@ -15,6 +15,7 @@ import RouteView from './RouteView';
 import { RootStore } from '../store/rootStore';
 import CheckList from '../pages/CHeckList';
 import Login from '../pages/Login';
+import Contractors from '../pages/Contractors';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,7 +55,7 @@ const App: FunctionComponent = () => {
                         <CheckList />
                       </RouteView>
                       <RouteView exact path="/contractors">
-                        <div>Тест2</div>
+                        <Contractors />
                       </RouteView>
                     </Switch>
                   </div>

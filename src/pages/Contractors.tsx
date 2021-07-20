@@ -5,11 +5,11 @@ import useTitle from '../hooks/useTitle';
 import useLocale from '../hooks/useLocale';
 
 const Locale = {
-  title: 'Чек-лист менеджера'
+  title: 'Поставщики'
 };
 
 const useStyles = makeStyles(theme => createStyles({
-  chekList: {
+  contractors: {
 
   },
   title: {
@@ -21,16 +21,16 @@ const useStyles = makeStyles(theme => createStyles({
   }
 }));
 
-const CheckList: FunctionComponent = (): JSX.Element => {
+const Contractors: FunctionComponent = (): JSX.Element => {
   const classes = useStyles();
   const locale = useLocale(Locale);
   useTitle(locale.title);
 
   return (
-    <div className={classes.chekList}>
+    <div className={classes.contractors}>
       <Typography variant="h2" className={classes.title}>{locale.title}</Typography>
     </div>
   );
 };
 
-export default CheckList;
+export default Contractors;

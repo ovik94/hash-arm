@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, MenuItem, Select, InputLabel, Input, FormControl } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import useStyles from './styles';
 import Locale from './locale';
 import useStore from '../../hooks/useStore';
@@ -9,13 +10,14 @@ import useLocale from '../../hooks/useLocale';
 // @ts-ignore
 import logoUrl from './images/logo.png';
 import Loader from '../loader/Loader';
+import MuiSelect from '../../mui-components/MuiSelect';
+import { IUser } from '../../store/UserStore';
 
 const LoginForm: FC = (): JSX.Element => {
   const classes = useStyles();
   const locale = useLocale(Locale);
   const { userStore } = useStore();
   const history = useHistory();
-  const [name, setName] = React.useState<string>('');
 
   useEffect(() => {
     if (!userStore.usersList.length) {
@@ -23,9 +25,8 @@ const LoginForm: FC = (): JSX.Element => {
     }
   }, [userStore.usersList]);
 
-  const onChange = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>): void => {
-    setName(event.target.name as string);
-    setUser(event.target.name as string);
+  const onChange = (value: string): void => {
+    // setUser(event.target.name as string);
   };
 
   const onClick = (): void => {
@@ -35,6 +36,22 @@ const LoginForm: FC = (): JSX.Element => {
     }
   };
 
+  const renderSelectItem = (option: { label: string, value: string }): JSX.Element => {
+    const userData = userStore.usersList.find(user => user.id === option.value) || {} as IUser;
+
+    return (
+      <div className={classes.selectItem}>
+        <AccountCircle />
+        <div className={classes.userInfo}>
+          <Typography variant="body1">{option.label}</Typography>
+          { userData?.phone && <Typography variant="subtitle2">{userData.phone}</Typography> }
+        </div>
+      </div>
+    );
+  };
+
+  const selectOptions = userStore.usersList.map(user => ({ label: user.name, value: user.id }));
+
   console.log('userStore.usersList', { ...userStore.usersList });
   return (
     <div className={classes.loginForm}>
@@ -42,18 +59,13 @@ const LoginForm: FC = (): JSX.Element => {
         userStore.isLoading && <Loader />
       }
       <img src={logoUrl} alt="logo" className={classes.logo} />
-      <FormControl className={classes.formControl}>
-        <InputLabel id="select-label">Выбрать пользователя</InputLabel>
-        <Select
-          labelId="select-label"
-          id="selectUser"
-          value={name}
-          onChange={onChange}
-          input={<Input />}
-        >
-          {userStore.usersList.map(user => <MenuItem value={user.name} key={user.id}>{user.name}</MenuItem>)}
-        </Select>
-      </FormControl>
+      <MuiSelect
+        label={locale.selectLabel}
+        id="selectUser"
+        options={selectOptions}
+        onChange={onChange}
+        renderItem={renderSelectItem}
+      />
       <Button
         fullWidth
         variant="contained"

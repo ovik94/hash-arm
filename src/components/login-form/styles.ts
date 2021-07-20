@@ -14,13 +14,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   button: {
     margin: theme.spacing(3, 0, 2)
   },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 300
-  },
   selectUserButton: {
     display: 'block',
     marginTop: theme.spacing(2)
+  },
+  selectItem: {
+    display: 'flex'
+  },
+  userInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: theme.spacing(2)
   }
 }));
 
