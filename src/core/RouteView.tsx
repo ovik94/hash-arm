@@ -9,7 +9,7 @@ import Loader from '../components/loader/Loader';
 
 const useStyles = makeStyles(theme => createStyles({
   main: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(0, 3, 5, 3)
   }
 }));
 

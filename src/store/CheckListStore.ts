@@ -10,6 +10,8 @@ export interface ICheckList {
 export default class CheckListStore {
   public checkList: Array<ICheckList> = [];
 
+  public activeStep: { [key: number]: number } = {};
+
   protected rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
@@ -19,6 +21,18 @@ export default class CheckListStore {
 
   public setCheckList = (checkList: Array<ICheckList>) => {
     this.checkList = checkList;
+  };
+
+  public addStep = (index: number) => {
+    this.activeStep = { ...this.activeStep, [index]: (this.activeStep[index] || 0) + 1 };
+  };
+
+  public takeAwayStep = (index: number) => {
+    this.activeStep = { ...this.activeStep, [index]: (this.activeStep[index] || 0) - 1 };
+  };
+
+  public resetStep = () => {
+    this.activeStep = {};
   };
 
   public fetchCheckList = (): Promise<void> => {

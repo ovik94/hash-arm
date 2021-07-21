@@ -95,6 +95,13 @@ export const defaultTheme = createTheme({
       root: {
         color: '#B5BABF'
       }
+    },
+    MuiStepIcon: {
+      root: {
+        '&$completed': {
+          color: '#147d78'
+        }
+      }
     }
   }
 });
