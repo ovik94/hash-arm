@@ -39,6 +39,10 @@ export default class RequestFactory {
       getCheckList: {
         method: RequestMethods.GET,
         path: '/api/checkList'
+      },
+      getPackagingList: {
+        method: RequestMethods.GET,
+        path: '/api/contractors/packaging'
       }
     };
   }
