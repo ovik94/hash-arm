@@ -2,15 +2,24 @@ import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
 import { RootStore } from './RootStore';
 
-export interface IPackagingList {
+export interface IContractorNomenclatures {
   id: string;
   title: string;
   unit: string;
   price: string;
 }
 
+export interface Contractor {
+  id: string;
+  title: string;
+  phone: string;
+  manager: string;
+}
+
 export default class CheckListStore {
-  public packagingList: Array<IPackagingList> = [];
+  public contractorNomenclatures: { [key: string]: Array<IContractorNomenclatures> } = {};
+
+  public contractors: Array<Contractor> = [];
 
   protected rootStore: RootStore;
 
@@ -19,15 +28,28 @@ export default class CheckListStore {
     makeAutoObservable(this);
   }
 
-  public setPackagingList = (data: Array<IPackagingList>) => {
-    this.packagingList = data;
+  public setContractors = (data: Array<Contractor>) => {
+    this.contractors = data;
   };
 
-  public fetchPackagingList = (): Promise<void> => {
+  public setContractorNomenclatures = (id: string, data: Array<IContractorNomenclatures>) => {
+    this.contractorNomenclatures[id] = data;
+  };
+
+  public fetchContractors = (): Promise<void> => {
     this.rootStore.setLoading(true);
-    return this.rootStore.createRequest<Array<IPackagingList>>('getPackagingList')
+    return this.rootStore.createRequest<Array<Contractor>>('getContractors')
       .then(({ data }) => {
-        this.setPackagingList(data);
+        this.setContractors(data);
+        this.rootStore.setLoading(false);
+      }).catch(() => this.rootStore.setLoading(false));
+  };
+
+  public fetchContractorInfo = (id: string): Promise<void> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IContractorNomenclatures>>('getContractorInfo', { id })
+      .then(({ data }) => {
+        this.setContractorNomenclatures(id, data);
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
   };

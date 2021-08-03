@@ -17,7 +17,7 @@ export interface IResponse<T> {
 
 export type IRequestConfigList = Record<string, IRequestConfig>;
 
-export type GetParams = Record<string, string | number | boolean | null | undefined>;
+export type GetParams = string | string[][] | Record<string, string> | URLSearchParams | undefined;
 
 export type PostParams = Record<string, any>;
 
@@ -40,9 +40,17 @@ export default class RequestFactory {
         method: RequestMethods.GET,
         path: '/api/checkList'
       },
+      getContractors: {
+        method: RequestMethods.GET,
+        path: '/api/contractors'
+      },
       getPackagingList: {
         method: RequestMethods.GET,
         path: '/api/contractors/packaging'
+      },
+      getContractorInfo: {
+        method: RequestMethods.GET,
+        path: '/api/contractors/info'
       }
     };
   }
@@ -62,7 +70,8 @@ export default class RequestFactory {
     options?: RequestOptions
   ): Promise<never | IResponse<T>> {
     const isFormData = typeof FormData === 'function' && (body instanceof FormData || body instanceof File);
-    const { path, method } = this.requestConfigList[requestId];
+    let { path } = this.requestConfigList[requestId];
+    const { method } = this.requestConfigList[requestId];
     let requestBody: string | null | undefined;
     const headers: Record<string, any> = {
       'X-Requested-With': 'XMLHttpRequst'
@@ -71,6 +80,10 @@ export default class RequestFactory {
     if (!isFormData) {
       headers['Content-Type'] = 'application/json;charset=utf-8';
       requestBody = JSON.stringify(body);
+    }
+
+    if (params) {
+      path += `?${new URLSearchParams(params).toString()}`;
     }
 
     const request = new Request(path, {

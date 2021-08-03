@@ -26,11 +26,9 @@ const MuiSelect: FC<IMuiSelect> = ({ value, id, label, onChange, options, render
   const classes = useStyles();
 
   const onChangeOption = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>): void => {
-    console.log(event.target.value, 'value');
     onChange(event.target.value as string);
   };
 
-  console.log('File: MuiSelect.tsx, Function: MuiSelect,  otherProps: ', otherProps);
   return (
     <FormControl className={classes.control}>
       { label && <InputLabel id="select-label">{label}</InputLabel> }
