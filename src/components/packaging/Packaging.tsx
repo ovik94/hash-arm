@@ -5,12 +5,10 @@ import useStore from '../../hooks/useStore';
 import useTitle from '../../hooks/useTitle';
 import useStyles from './styles';
 import Locale from './locale';
+import MuiTable from '../table/MuiTable';
+import { IContractor } from '../../core/types';
 
-interface PackagingProps {
-
-}
-
-const Packaging: FC<PackagingProps> = (props: PackagingProps) => {
+const Packaging: FC<IContractor> = (props: IContractor) => {
   const classes = useStyles();
   const locale = useLocale(Locale);
   const { contractorsStore } = useStore();
@@ -19,15 +17,23 @@ const Packaging: FC<PackagingProps> = (props: PackagingProps) => {
 
   useEffect(() => {
     if (!contractorsStore.contractorNomenclatures.packaging) {
-      contractorsStore.fetchContractorInfo('packaging');
+      contractorsStore.fetchContractorInfo(props.id);
     }
   }, [contractorsStore.contractorNomenclatures.packaging]);
 
   return (
-    <div>
-      фывфывыфв
+    <div className={classes.root}>
+      {
+        contractorsStore.contractorNomenclatures.packaging && (
+          <MuiTable
+            data={contractorsStore.contractorNomenclatures.packaging}
+            headCells={locale.headCells}
+            isSearchable
+          />
+        )
+      }
     </div>
   );
 };
 
-export default observer(Packaging);
+export default observer<IContractor>(Packaging);

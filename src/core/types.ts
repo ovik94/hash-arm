@@ -25,3 +25,10 @@ export interface IRouteProps {
   children: React.ReactNode;
   [option: string]: any;
 }
+
+export interface IContractor {
+  id: string;
+  manager: string;
+  phone: string;
+  title: string;
+}

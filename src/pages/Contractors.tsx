@@ -9,6 +9,7 @@ import useLocale from '../hooks/useLocale';
 import useStore from '../hooks/useStore';
 import TabContent from '../components/tab-content/TabContent';
 import Packaging from '../components/packaging/Packaging';
+import { IContractor } from '../core/types';
 
 const Locale = {
   title: 'Поставщики',
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => createStyles({
   }
 }));
 
-const TabsContent: { [key: string]: FC } = {
+const TabsContent: { [key: string]: FC<IContractor> } = {
   packaging: Packaging
 };
 
@@ -67,9 +68,9 @@ const Contractors: FC = (): JSX.Element => {
         contractorsStore.contractors.map((item, index) => {
           const TabComponent = TabsContent[item.id];
 
-          return (
+          return TabComponent && (
             <TabContent value={tabValue} index={index} key={item.id}>
-              <TabComponent />
+              <TabComponent {...item} />
             </TabContent>
           );
         })

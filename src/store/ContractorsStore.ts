@@ -1,25 +1,19 @@
 import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
 import { RootStore } from './RootStore';
+import { IContractor } from '../core/types';
 
 export interface IContractorNomenclatures {
   id: string;
   title: string;
-  unit: string;
-  price: string;
-}
-
-export interface Contractor {
-  id: string;
-  title: string;
-  phone: string;
-  manager: string;
+  unit?: string;
+  price?: string;
 }
 
 export default class CheckListStore {
   public contractorNomenclatures: { [key: string]: Array<IContractorNomenclatures> } = {};
 
-  public contractors: Array<Contractor> = [];
+  public contractors: Array<IContractor> = [];
 
   protected rootStore: RootStore;
 
@@ -28,7 +22,7 @@ export default class CheckListStore {
     makeAutoObservable(this);
   }
 
-  public setContractors = (data: Array<Contractor>) => {
+  public setContractors = (data: Array<IContractor>) => {
     this.contractors = data;
   };
 
@@ -38,7 +32,7 @@ export default class CheckListStore {
 
   public fetchContractors = (): Promise<void> => {
     this.rootStore.setLoading(true);
-    return this.rootStore.createRequest<Array<Contractor>>('getContractors')
+    return this.rootStore.createRequest<Array<IContractor>>('getContractors')
       .then(({ data }) => {
         this.setContractors(data);
         this.rootStore.setLoading(false);
