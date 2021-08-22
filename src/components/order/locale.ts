@@ -12,7 +12,9 @@ const Locale = {
       id: 'price',
       label: 'Цена'
     }
-  ]
+  ],
+  inputLabel: 'Кол-во',
+  orderButtonLabel: 'Отправить'
 };
 
 export default Locale;

@@ -65,35 +65,12 @@ export const defaultTheme = createTheme({
   overrides: {
     MuiDivider: {
       root: {
-        marginTop: '48px',
-        marginBottom: '48px',
+        marginTop: '16px',
+        marginBottom: '16px',
         backgroundColor: 'rgba(0, 0, 0, 0.12)'
       },
       vertical: {
         margin: 0
-      }
-    },
-    MuiTablePagination: {
-      root: {
-        fontSize: '12px',
-        lineHeight: '16px',
-        letterSpacing: '0.4px',
-        color: '#B5BABF'
-      },
-      actions: {
-        color: 'rgba(0, 0, 0, 0.54)'
-      }
-    },
-    MuiInput: {
-      underline: {
-        '&:before': {
-          borderBottom: '1px solid #E2E5E9'
-        }
-      }
-    },
-    MuiIconButton: {
-      root: {
-        color: '#B5BABF'
       }
     },
     MuiStepIcon: {

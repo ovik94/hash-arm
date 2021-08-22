@@ -31,4 +31,6 @@ export interface IContractor {
   manager: string;
   phone: string;
   title: string;
+  description?: string;
+  hasOrder?: boolean;
 }

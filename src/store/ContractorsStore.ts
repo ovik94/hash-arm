@@ -8,6 +8,7 @@ export interface IContractorNomenclatures {
   title: string;
   unit?: string;
   price?: string;
+  count?: string;
 }
 
 export default class CheckListStore {
@@ -28,6 +29,11 @@ export default class CheckListStore {
 
   public setContractorNomenclatures = (id: string, data: Array<IContractorNomenclatures>) => {
     this.contractorNomenclatures[id] = data;
+  };
+
+  public setCount = (id: string, count: string) => {
+    this.contractorNomenclatures[id] = this.contractorNomenclatures[id]
+      .map(nomenclature => ({ ...nomenclature, count }));
   };
 
   public fetchContractors = (): Promise<void> => {

@@ -1,6 +1,6 @@
 const Locale = {
   toolbarTitle: 'Выберите номенклатуры',
-  selectedLabel: (numSelected: number) => `${numSelected} выбрано`,
+  buttonLabel: (numSelected: number) => `Выбрать ${numSelected} элементов`,
   searchLabel: 'Поиск'
 };
 

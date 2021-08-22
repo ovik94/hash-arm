@@ -11,6 +11,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   table: {
     minWidth: 750
   },
+  count: {
+    '& input': {
+      padding: theme.spacing(1)
+    }
+  },
   visuallyHidden: {
     border: 0,
     clip: 'rect(0 0 0 0)',
@@ -27,11 +32,18 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     paddingRight: theme.spacing(1)
   },
   highlight: {
+    display: 'flex',
     color: theme.palette.secondary.main,
     backgroundColor: lighten(theme.palette.secondary.light, 0.85)
   },
   toolbarTitle: {
-    flex: '1 1 100%'
+    marginRight: theme.spacing(2)
+  },
+  searchInput: {
+    flexGrow: 5
+  },
+  button: {
+    marginRight: theme.spacing(2)
   }
 }));
 

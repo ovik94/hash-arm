@@ -1,5 +1,6 @@
 const locale = {
-  defaultTitle: 'АРМ ХашЛаваш'
+  defaultTitle: 'АРМ ХашЛаваш',
+  fieldRequired: 'Заполните поле'
 };
 
 export default locale;

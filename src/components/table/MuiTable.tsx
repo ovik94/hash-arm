@@ -15,12 +15,13 @@ import TableHeader from './TableHeader';
 
 interface ITableProps {
   data: Array<IContractorNomenclatures>;
-  headCells: Array<{ id: string; label: string; }>
+  headCells: Array<{ id: string; label: string; }>;
+  onSelected: (selectedIds: Array<string>) => void;
   // eslint-disable-next-line react/require-default-props
   isSearchable?: boolean;
 }
 
-const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false }: ITableProps): JSX.Element => {
+const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false, onSelected }: ITableProps): JSX.Element => {
   const classes = useStyles();
   const [selected, setSelected] = useState<Array<string>>([]);
   const [items, setItems] = useState<Array<IContractorNomenclatures>>(data);
@@ -67,12 +68,23 @@ const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false }: IT
     }
   };
 
+  const onSubmit = (): void => {
+    console.log('File: MuiTable.tsx, Function: onSubmit,  1111: ', 111);
+    onSelected(selected);
+  };
+
   const isSelected = (name: string) => selected.includes(name);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <TableToolbar numSelected={selected.length} onDelete={onDeleteSelectedItems} isSearchable={isSearchable} onChangeSearchField={onChangeSearchField} />
+        <TableToolbar
+          onSubmit={onSubmit}
+          numSelected={selected.length}
+          onDelete={onDeleteSelectedItems}
+          isSearchable={isSearchable}
+          onChangeSearchField={onChangeSearchField}
+        />
         <TableContainer>
           <Table className={classes.table} size="small">
             <TableHeader
@@ -89,7 +101,6 @@ const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false }: IT
                   return (
                     <TableRow
                       hover
-                      onClick={event => onClickRow(event, item.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -97,7 +108,7 @@ const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false }: IT
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox checked={isItemSelected} />
+                        <Checkbox checked={isItemSelected} onClick={event => onClickRow(event, item.id)} />
                       </TableCell>
                       <TableCell>{item.title}</TableCell>
                       <TableCell>{item.unit}</TableCell>

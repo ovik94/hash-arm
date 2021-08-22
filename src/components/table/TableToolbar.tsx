@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { Typography, Toolbar, IconButton, Input, InputAdornment, InputLabel, FormControl } from '@material-ui/core';
+import { Typography, Toolbar, IconButton, Input, InputAdornment, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ClearIcon from '@material-ui/icons/Clear';
 import useLocale from '../../hooks/useLocale';
@@ -10,6 +10,7 @@ import useStyles from './styles';
 interface ITableToolbarProps {
   numSelected: number;
   onDelete: () => void;
+  onSubmit: () => void;
   isSearchable: boolean;
   // eslint-disable-next-line react/require-default-props
   onChangeSearchField?: (value: string) => void;
@@ -18,6 +19,7 @@ interface ITableToolbarProps {
 const TableToolbar: FC<ITableToolbarProps> = ({
   numSelected,
   onDelete,
+  onSubmit,
   isSearchable,
   onChangeSearchField
 }: ITableToolbarProps) => {
@@ -46,9 +48,14 @@ const TableToolbar: FC<ITableToolbarProps> = ({
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.toolbarTitle} color="inherit" variant="subtitle1">
-          {locale.selectedLabel(numSelected)}
-        </Typography>
+        <Button
+          onClick={onSubmit}
+          variant="contained"
+          color="primary"
+          className={classes.button}
+        >
+          {locale.buttonLabel(numSelected)}
+        </Button>
       ) : (
         <Typography className={classes.toolbarTitle} variant="h6">
           {locale.toolbarTitle}
@@ -57,6 +64,7 @@ const TableToolbar: FC<ITableToolbarProps> = ({
       {
         isSearchable && (
           <Input
+            className={classes.searchInput}
             id="clear"
             placeholder={locale.searchLabel}
             onChange={onChangeSearch}

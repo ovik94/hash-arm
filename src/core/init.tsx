@@ -17,6 +17,7 @@ import { RootStore } from '../store/RootStore';
 import CheckList from '../pages/CheckList';
 import Login from '../pages/Login';
 import Contractors from '../pages/Contractors';
+import Order from '../components/order/Order';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -64,6 +65,9 @@ const App: FunctionComponent = () => {
                       </RouteView>
                       <RouteView exact path="/contractors">
                         <Contractors />
+                      </RouteView>
+                      <RouteView exact path="/contractors/:id">
+                        <Order />
                       </RouteView>
                     </Switch>
                   </div>
