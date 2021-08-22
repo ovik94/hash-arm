@@ -1,14 +1,29 @@
 import React, { FC } from 'react';
-import { CircularProgress } from '@material-ui/core';
-import useStyles from './styles';
+import { Backdrop, CircularProgress } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-const Loader: FC = (): JSX.Element => {
+interface IProps {
+  isLoading: boolean;
+}
+const useStyles = makeStyles(() => createStyles({
+  backdrop: {
+    zIndex: 50,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    background: 'rgba(255, 255, 255, 0.7)'
+  }
+}));
+
+const Loader: FC<IProps> = ({ isLoading }: IProps): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <div className={classes.wrapper}>
-      <CircularProgress color="secondary" className={classes.progress} />
-    </div>
+    <Backdrop open={isLoading} className={classes.backdrop}>
+      <CircularProgress color="primary" />
+    </Backdrop>
   );
 };
 

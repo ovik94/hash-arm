@@ -43,7 +43,7 @@ export default class UserStore {
   public fetchUsersList = (): Promise<void> => {
     this.setLoading(true);
     return this.rootStore.createRequest<Array<IUser>>('getUsersList')
-      .then(({ data }) => {
+      .then((data) => {
         this.setUsersList(data);
         this.setLoading(false);
       }).catch(() => this.setLoading(false));

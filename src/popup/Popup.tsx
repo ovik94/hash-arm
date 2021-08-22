@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { Modal, Fade, Backdrop, IconButton } from '@material-ui/core';
+import { Dialog, Fade, Backdrop, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import useStyles from './styles';
@@ -16,14 +16,13 @@ const Popup: FC<IPopup> = ({ open, size = 'small', onClose, children }: IPopup):
   const classes = useStyles();
 
   return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
+    <Dialog
       className={classes.modal}
       open={open}
       onClose={onClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
+      maxWidth="lg"
       BackdropProps={{
         timeout: 500
       }}
@@ -34,7 +33,7 @@ const Popup: FC<IPopup> = ({ open, size = 'small', onClose, children }: IPopup):
           {children}
         </div>
       </Fade>
-    </Modal>
+    </Dialog>
   );
 };
 

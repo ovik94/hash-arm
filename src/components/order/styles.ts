@@ -8,14 +8,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   input: {
     width: '100px'
   },
+  orderForm: {
+    position: 'relative'
+  },
   orderItem: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: theme.spacing(2)
-  },
-  orderItemTitle: {
-    flexGrow: 4
   },
   button: {
     marginTop: theme.spacing(4),

@@ -16,6 +16,8 @@ export default class CheckListStore {
 
   public contractors: Array<IContractor> = [];
 
+  public isLoadingOrder: boolean = false;
+
   protected rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
@@ -27,19 +29,18 @@ export default class CheckListStore {
     this.contractors = data;
   };
 
-  public setContractorNomenclatures = (id: string, data: Array<IContractorNomenclatures>) => {
-    this.contractorNomenclatures[id] = data;
+  public setLoadingOrder = (value: boolean) => {
+    this.isLoadingOrder = value;
   };
 
-  public setCount = (id: string, count: string) => {
-    this.contractorNomenclatures[id] = this.contractorNomenclatures[id]
-      .map(nomenclature => ({ ...nomenclature, count }));
+  public setContractorNomenclatures = (id: string, data: Array<IContractorNomenclatures>) => {
+    this.contractorNomenclatures[id] = data;
   };
 
   public fetchContractors = (): Promise<void> => {
     this.rootStore.setLoading(true);
     return this.rootStore.createRequest<Array<IContractor>>('getContractors')
-      .then(({ data }) => {
+      .then((data) => {
         this.setContractors(data);
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
@@ -48,9 +49,18 @@ export default class CheckListStore {
   public fetchContractorInfo = (id: string): Promise<void> => {
     this.rootStore.setLoading(true);
     return this.rootStore.createRequest<Array<IContractorNomenclatures>>('getContractorInfo', { id })
-      .then(({ data }) => {
+      .then((data) => {
         this.setContractorNomenclatures(id, data);
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
+  };
+
+  public createOrder = (id: string, data: Array<IContractorNomenclatures>): Promise<void> => {
+    this.setLoadingOrder(true);
+    return this.rootStore.createRequest<Array<IContractorNomenclatures>>('postCreateOrder', { id }, { data })
+      .then(() => {
+        this.rootStore.notificationStore.addNotification({ code: 'CREATE_ORDER_SUCCESS', type: 'success' });
+        this.setLoadingOrder(false);
+      }).catch(() => this.setLoadingOrder(false));
   };
 }

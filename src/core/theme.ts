@@ -79,6 +79,11 @@ export const defaultTheme = createTheme({
           color: '#147d78'
         }
       }
+    },
+    MuiOutlinedInput: {
+      input: {
+        padding: '12px'
+      }
     }
   }
 });

@@ -69,7 +69,6 @@ const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false, onSe
   };
 
   const onSubmit = (): void => {
-    console.log('File: MuiTable.tsx, Function: onSubmit,  1111: ', 111);
     onSelected(selected);
   };
 
@@ -106,6 +105,7 @@ const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false, onSe
                       tabIndex={-1}
                       key={item.id}
                       selected={isItemSelected}
+                      onClick={event => onClickRow(event, item.id)}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox checked={isItemSelected} onClick={event => onClickRow(event, item.id)} />

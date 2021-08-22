@@ -24,43 +24,28 @@ export type PostParams = Record<string, any>;
 export interface RequestOptions {
   timeout?: number;
   transport?: (...args: any[]) => Promise<any>;
+
   [option: string]: any;
 }
 
+export interface IRequestFactoryOptions {
+  requestConfigList: IRequestConfigList;
+  onError: (status: string) => void;
+}
+
 export default class RequestFactory {
-  readonly requestConfigList: IRequestConfigList;
+  private options: IRequestFactoryOptions;
 
-  constructor() {
-    this.requestConfigList = {
-      getUsersList: {
-        method: RequestMethods.GET,
-        path: '/api/user/list'
-      },
-      getCheckList: {
-        method: RequestMethods.GET,
-        path: '/api/checkList'
-      },
-      getContractors: {
-        method: RequestMethods.GET,
-        path: '/api/contractors'
-      },
-      getPackagingList: {
-        method: RequestMethods.GET,
-        path: '/api/contractors/packaging'
-      },
-      getContractorInfo: {
-        method: RequestMethods.GET,
-        path: '/api/contractors/info'
-      }
-    };
+  constructor(options: IRequestFactoryOptions) {
+    this.options = options;
   }
 
-  static onSuccess<T>(response: Response): Promise<IResponse<T>> {
-    return response.text().then(text => (text ? JSON.parse(text) : {}));
-  }
+  protected onError(status: string): Promise<any> {
+    if (this.options.onError) {
+      this.options.onError(status);
+    }
 
-  static onError(response: Response): Promise<any> {
-    return Promise.reject<any>(response.statusText);
+    return Promise.reject<any>(status);
   }
 
   public createRequest<T>(
@@ -68,13 +53,13 @@ export default class RequestFactory {
     params?: GetParams,
     body?: PostParams,
     options?: RequestOptions
-  ): Promise<never | IResponse<T>> {
+  ): Promise<never | T> {
     const isFormData = typeof FormData === 'function' && (body instanceof FormData || body instanceof File);
-    let { path } = this.requestConfigList[requestId];
-    const { method } = this.requestConfigList[requestId];
+    let { path } = this.options.requestConfigList[requestId];
+    const { method } = this.options.requestConfigList[requestId];
     let requestBody: string | null | undefined;
     const headers: Record<string, any> = {
-      'X-Requested-With': 'XMLHttpRequst'
+      'X-Requested-With': 'XMLHttpRequest'
     };
 
     if (!isFormData) {
@@ -95,11 +80,13 @@ export default class RequestFactory {
       body: requestBody
     });
 
-    return fetch(request).then((response: Response): Promise<IResponse<T>> => {
-      if (response.ok) {
-        return RequestFactory.onSuccess<T>(response);
-      }
-      return RequestFactory.onError(response);
-    });
+    return fetch(request).then((response: Response): Promise<T> => response.json()
+      .then((res: IResponse<T>) => {
+        if (res.status === 'OK') {
+          return res.data;
+        }
+
+        return this.onError(res.status);
+      }));
   }
 }

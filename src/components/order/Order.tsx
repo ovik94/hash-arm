@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { SubmitHandler } from 'react-hook-form';
 import useLocale from '../../hooks/useLocale';
 import useStore from '../../hooks/useStore';
@@ -18,6 +18,7 @@ const Order: FC = () => {
   const { contractorsStore } = useStore();
   const [open, setOpen] = useState<boolean>(false);
   const [orderData, setOrderData] = useState<Array<IContractorNomenclatures>>([]);
+  const history = useHistory();
 
   // @ts-ignore
   const { id } = useParams();
@@ -35,14 +36,17 @@ const Order: FC = () => {
   };
 
   const onSelected = (ids: Array<string>) => {
-    console.log('File: Order.tsx, Function: onSelected,  112312312313: ', 123123123123);
     const data = contractorsStore.contractorNomenclatures[id].filter(item => ids.includes(item.id));
     setOrderData(data);
     setOpen(true);
   };
 
-  const onSubmit: SubmitHandler<{ }> = (data) => {
-    console.log(data, 'data');
+  const onSubmit: SubmitHandler<{}> = (data) => {
+    // @ts-ignore
+    const resultData = orderData.map(item => ({ ...item, count: data[item.id] }));
+    contractorsStore.createOrder(id, resultData);
+    onClosePopup();
+    history.push('/contractors');
   };
 
   return (

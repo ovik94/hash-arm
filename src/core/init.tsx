@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
@@ -18,6 +18,21 @@ import CheckList from '../pages/CheckList';
 import Login from '../pages/Login';
 import Contractors from '../pages/Contractors';
 import Order from '../components/order/Order';
+import Notifier from './Notifier';
+import RequestConfigList from './request/RequestConfigList';
+
+const store = new RootStore();
+
+const onError = (status: string): void => {
+  store.notificationStore.addNotification({
+    type: 'error',
+    code: status
+  });
+};
+
+const requestFactory = new RequestFactory({ requestConfigList: RequestConfigList, onError });
+const createRequest = requestFactory.createRequest.bind(requestFactory);
+store.setCreateRequest(createRequest);
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,11 +41,6 @@ const useStyles = makeStyles(() => ({
     minHeight: '100vh'
   }
 }));
-
-const requestFactory = new RequestFactory();
-const createRequest = requestFactory.createRequest.bind(requestFactory);
-const store = new RootStore();
-store.setCreateRequest(createRequest);
 
 const App: FunctionComponent = () => {
   const classes = useStyles();
@@ -48,32 +58,35 @@ const App: FunctionComponent = () => {
         <SnackbarProvider autoHideDuration={10000} hideIconVariant>
           <CssBaseline />
           <ThemeProvider theme={defaultTheme}>
-            <StoreContextProvider value={store}>
-              <CoreContextProvider value={{ createRequest, locale }}>
-                <Router>
-                  <div>
-                    <Switch>
-                      <Route exact path="/login">
-                        <Login />
-                      </Route>
-                      <RouteView exact path="/">
-                        <CheckList />
-                        {/* <Home /> */}
-                      </RouteView>
-                      <RouteView exact path="/check-list">
-                        <CheckList />
-                      </RouteView>
-                      <RouteView exact path="/contractors">
-                        <Contractors />
-                      </RouteView>
-                      <RouteView exact path="/contractors/:id">
-                        <Order />
-                      </RouteView>
-                    </Switch>
-                  </div>
-                </Router>
-              </CoreContextProvider>
-            </StoreContextProvider>
+            <SnackbarProvider>
+              <StoreContextProvider value={store}>
+                <CoreContextProvider value={{ createRequest, locale }}>
+                  <Notifier />
+                  <Router>
+                    <div>
+                      <Switch>
+                        <Route exact path="/login">
+                          <Login />
+                        </Route>
+                        <RouteView exact path="/">
+                          <CheckList />
+                          {/* <Home /> */}
+                        </RouteView>
+                        <RouteView exact path="/check-list">
+                          <CheckList />
+                        </RouteView>
+                        <RouteView exact path="/contractors">
+                          <Contractors />
+                        </RouteView>
+                        <RouteView exact path="/contractors/:id">
+                          <Order />
+                        </RouteView>
+                      </Switch>
+                    </div>
+                  </Router>
+                </CoreContextProvider>
+              </StoreContextProvider>
+            </SnackbarProvider>
           </ThemeProvider>
         </SnackbarProvider>
       </ErrorBoundary>

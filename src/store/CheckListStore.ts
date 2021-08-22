@@ -38,7 +38,7 @@ export default class CheckListStore {
   public fetchCheckList = (): Promise<void> => {
     this.rootStore.setLoading(true);
     return this.rootStore.createRequest<Array<ICheckList>>('getCheckList')
-      .then(({ data }) => {
+      .then((data) => {
         this.setCheckList(data);
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));

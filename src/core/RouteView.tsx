@@ -22,9 +22,7 @@ const RouteView: FC<IRouteProps> = ({ children, ...rest }: IRouteProps): JSX.Ele
 
   return (
     <Route {...rest}>
-      {
-        isLoading && <Loader />
-      }
+      <Loader isLoading={isLoading} />
       <TopMenu />
       <div className={classes.main}>
         {children}

@@ -59,9 +59,7 @@ const LoginForm: FC = (): JSX.Element => {
 
   return (
     <div className={classes.loginForm}>
-      {
-        userStore.isLoading && <Loader />
-      }
+      <Loader isLoading={userStore.isLoading} />
       <img src={logoUrl} alt="logo" className={classes.logo} />
       <MuiSelect
         label={locale.selectLabel}

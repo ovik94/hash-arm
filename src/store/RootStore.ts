@@ -3,6 +3,7 @@ import RequestFactory from '../core/request/request-factory';
 import UserStore from './UserStore';
 import CheckListStore from './CheckListStore';
 import ContractorsStore from './ContractorsStore';
+import NotificationsStore from './NotificationsStore';
 
 export interface IAdmin {
   name: string;
@@ -18,7 +19,7 @@ interface IAdminListItem {
   name: string;
 }
 
-export type ICkeckList = Array<ICheckListItem>;
+export type ICheckList = Array<ICheckListItem>;
 export type IAdminList = Array<IAdminListItem>;
 
 export class RootStore {
@@ -28,12 +29,15 @@ export class RootStore {
 
   userStore: UserStore;
 
+  notificationStore: NotificationsStore;
+
   checkListStore: CheckListStore;
 
   contractorsStore: ContractorsStore;
 
   constructor() {
     this.userStore = new UserStore(this);
+    this.notificationStore = new NotificationsStore(this);
     this.checkListStore = new CheckListStore(this);
     this.contractorsStore = new ContractorsStore(this);
 

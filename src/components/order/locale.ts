@@ -13,7 +13,7 @@ const Locale = {
       label: 'Цена'
     }
   ],
-  inputLabel: 'Кол-во',
+  inputLabel: (unit: string) => `Кол-во, ${unit}`,
   orderButtonLabel: 'Отправить'
 };
 
