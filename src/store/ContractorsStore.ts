@@ -11,7 +11,7 @@ export interface IContractorNomenclatures {
   count?: string;
 }
 
-export default class CheckListStore {
+export default class ContractorsStore {
   public contractorNomenclatures: { [key: string]: Array<IContractorNomenclatures> } = {};
 
   public contractors: Array<IContractor> = [];

@@ -20,6 +20,7 @@ import Contractors from '../pages/Contractors';
 import Order from '../components/order/Order';
 import Notifier from './Notifier';
 import RequestConfigList from './request/RequestConfigList';
+import Instructions from '../pages/Instructions';
 
 const store = new RootStore();
 
@@ -70,7 +71,6 @@ const App: FunctionComponent = () => {
                         </Route>
                         <RouteView exact path="/">
                           <CheckList />
-                          {/* <Home /> */}
                         </RouteView>
                         <RouteView exact path="/check-list">
                           <CheckList />
@@ -80,6 +80,9 @@ const App: FunctionComponent = () => {
                         </RouteView>
                         <RouteView exact path="/contractors/:id">
                           <Order />
+                        </RouteView>
+                        <RouteView exact path="/instructions">
+                          <Instructions />
                         </RouteView>
                       </Switch>
                     </div>

@@ -24,6 +24,10 @@ const RequestConfigList: IRequestConfigList = {
   postCreateOrder: {
     method: RequestMethods.POST,
     path: '/api/contractors/create'
+  },
+  getInstructions: {
+    method: RequestMethods.GET,
+    path: '/api/instructions'
   }
 };
 

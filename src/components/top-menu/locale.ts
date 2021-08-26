@@ -7,6 +7,10 @@ const Locale = {
     {
       label: 'Поставщики',
       url: '/contractors'
+    },
+    {
+      label: 'Иструкции',
+      url: '/instructions'
     }
   ]
 };
