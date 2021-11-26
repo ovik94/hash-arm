@@ -28,6 +28,10 @@ const RequestConfigList: IRequestConfigList = {
   getInstructions: {
     method: RequestMethods.GET,
     path: '/api/instructions'
+  },
+  getBarBalance: {
+    method: RequestMethods.GET,
+    path: '/api/iiko/bar-balance'
   }
 };
 

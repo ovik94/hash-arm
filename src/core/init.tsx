@@ -21,6 +21,8 @@ import Order from '../components/order/Order';
 import Notifier from './Notifier';
 import RequestConfigList from './request/RequestConfigList';
 import Instructions from '../pages/Instructions';
+import BarBalance from '../pages/BarBalance';
+import Banquets from '../pages/Banquets';
 
 const store = new RootStore();
 
@@ -83,6 +85,12 @@ const App: FunctionComponent = () => {
                         </RouteView>
                         <RouteView exact path="/instructions">
                           <Instructions />
+                        </RouteView>
+                        <RouteView exact path="/bar-balance">
+                          <BarBalance />
+                        </RouteView>
+                        <RouteView exact path="/ordering-banquets">
+                          <Banquets />
                         </RouteView>
                       </Switch>
                     </div>

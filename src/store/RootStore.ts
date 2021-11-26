@@ -5,6 +5,7 @@ import CheckListStore from './CheckListStore';
 import ContractorsStore from './ContractorsStore';
 import NotificationsStore from './NotificationsStore';
 import InstructionsStore from './InstructionsStore';
+import BalanceStore from './BalanceStore';
 
 export interface IAdmin {
   name: string;
@@ -38,12 +39,15 @@ export class RootStore {
 
   instructionsStore: InstructionsStore;
 
+  balanceStore: BalanceStore;
+
   constructor() {
     this.userStore = new UserStore(this);
     this.notificationStore = new NotificationsStore(this);
     this.checkListStore = new CheckListStore(this);
     this.contractorsStore = new ContractorsStore(this);
     this.instructionsStore = new InstructionsStore(this);
+    this.balanceStore = new BalanceStore(this);
 
     makeObservable(this, { isLoading: observable, setLoading: action });
   }

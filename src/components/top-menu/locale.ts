@@ -11,6 +11,14 @@ const Locale = {
     {
       label: 'Иструкции',
       url: '/instructions'
+    },
+    {
+      label: 'Склад',
+      url: '/bar-balance'
+    },
+    {
+      label: 'Заказ банкетов',
+      url: '/ordering-banquets'
     }
   ]
 };
