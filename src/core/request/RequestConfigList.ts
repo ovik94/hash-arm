@@ -32,6 +32,10 @@ const RequestConfigList: IRequestConfigList = {
   getBarBalance: {
     method: RequestMethods.GET,
     path: '/api/iiko/bar-balance'
+  },
+  getMenu: {
+    method: RequestMethods.GET,
+    path: '/api/iiko/menu'
   }
 };
 

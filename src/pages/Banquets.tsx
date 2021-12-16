@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Typography } from '@mui/material';
 import { observer } from 'mobx-react';
+import { Theme } from '@mui/material/styles';
 import useTitle from '../hooks/useTitle';
 import useLocale from '../hooks/useLocale';
 import useStore from '../hooks/useStore';
@@ -10,28 +11,27 @@ const Locale = {
   title: 'Заказ банкетов'
 };
 
-const useStyles = makeStyles(theme => createStyles({
-  title: {
-    marginBottom: theme.spacing(4)
-  }
+const useStyles = makeStyles((theme: Theme) => createStyles({
+
 }));
 
 const Banquets: FC = (): JSX.Element => {
   const classes = useStyles();
   const locale = useLocale(Locale);
-  const { instructionsStore } = useStore();
+  const { menuStore } = useStore();
 
   useTitle(locale.title);
 
   useEffect(() => {
-    if (!instructionsStore.instructions.length) {
-      instructionsStore.fetchInstructions();
+    if (!Object.keys(menuStore.menu).length) {
+      menuStore.fetchMenu();
     }
-  }, [instructionsStore.instructions]);
+  }, [menuStore.menu]);
 
+  console.log(menuStore.menu, 'menuStore.menu');
   return (
     <div>
-      <Typography variant="h2" className={classes.title}>{locale.title}</Typography>
+      <Typography variant="h2" style={{ marginBottom: '32px' }}>{locale.title}</Typography>
     </div>
   );
 };

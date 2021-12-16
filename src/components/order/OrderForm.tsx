@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
-import { Typography, OutlinedInput, FormHelperText, FormControl, Button } from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
+import { Typography, OutlinedInput, FormHelperText, FormControl, Button, InputLabel } from '@mui/material';
 import useLocale from '../../hooks/useLocale';
 import useStyles from './styles';
 import Locale from './locale';
@@ -39,7 +38,7 @@ const OrderForm: FC<IOrderForm> = ({ data, onSubmit }: IOrderForm) => {
                 defaultValue=""
                 rules={{ required: locale.fieldRequired }}
                 render={({ field }) => (
-                  <FormControl className={classes.formControl} error={Boolean(errors[item.id]?.message)}>
+                  <FormControl style={{ margin: '0 16px', minWidth: '100px' }} error={Boolean(errors[item.id]?.message)}>
                     <InputLabel
                       id={`${item.id}-label`}
                       shrink

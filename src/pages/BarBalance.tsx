@@ -1,14 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
 import { observer } from 'mobx-react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Paper, TableRow, TableHead, Table, TableBody, TableCell, TableContainer, Typography } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 import useStore from '../hooks/useStore';
 import useLocale from '../hooks/useLocale';
 import useTitle from '../hooks/useTitle';
@@ -19,16 +13,10 @@ const Locale = {
   headCells: ['Название', 'Категория', 'Остаток', 'Ед.измерения']
 };
 
-const useStyles = makeStyles(theme => createStyles({
-  title: {
-    marginBottom: theme.spacing(4)
-  },
+const useStyles = makeStyles((theme: Theme) => createStyles({
   table: {
     minWidth: 650,
     margin: theme.spacing(3, 0)
-  },
-  tableTitle: {
-    margin: theme.spacing(2, 2)
   },
   tableRow: {
     '&:nth-of-type(odd)': {
@@ -57,7 +45,7 @@ const BarBalance: FC = (): JSX.Element => {
 
     return (
       <TableContainer component={Paper} className={classes.table}>
-        <Typography variant="h3" className={classes.tableTitle}>{category}</Typography>
+        <Typography variant="h3" style={{ margin: '16px' }}>{category}</Typography>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -86,7 +74,7 @@ const BarBalance: FC = (): JSX.Element => {
 
   return (
     <div>
-      <Typography variant="h2" className={classes.title}>{locale.title}</Typography>
+      <Typography variant="h2" style={{ marginBottom: '32px' }}>{locale.title}</Typography>
       {renderTable(locale.headCells, balanceStore.barBalance, 'Напитки')}
       {renderTable(locale.headCells, balanceStore.barBalance, 'Крепкий Алкоголь')}
     </div>

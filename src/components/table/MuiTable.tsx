@@ -7,7 +7,7 @@ import {
   TableCell,
   TableRow,
   Checkbox
-} from '@material-ui/core';
+} from '@mui/material';
 import TableToolbar from './TableToolbar';
 import useStyles from './styles';
 import { IContractorNomenclatures } from '../../store/ContractorsStore';

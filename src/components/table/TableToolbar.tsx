@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { Typography, Toolbar, IconButton, Input, InputAdornment, Button } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ClearIcon from '@material-ui/icons/Clear';
+import { Typography, Toolbar, IconButton, Input, InputAdornment, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import useLocale from '../../hooks/useLocale';
 import Locale from './locale';
 import useStyles from './styles';
@@ -52,12 +52,12 @@ const TableToolbar: FC<ITableToolbarProps> = ({
           onClick={onSubmit}
           variant="contained"
           color="primary"
-          className={classes.button}
+          style={{ marginRight: '16px' }}
         >
           {locale.buttonLabel(numSelected)}
         </Button>
       ) : (
-        <Typography className={classes.toolbarTitle} variant="h6">
+        <Typography style={{ marginRight: '16px' }} variant="h6">
           {locale.toolbarTitle}
         </Typography>
       )}

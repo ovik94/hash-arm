@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { TableHead, TableRow, TableCell, Checkbox } from '@material-ui/core';
+import { TableHead, TableRow, TableCell, Checkbox } from '@mui/material';
 
 interface ITableHeaderProps {
   numSelected: number;

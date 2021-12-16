@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from 'react';
-import { Dialog, Fade, Backdrop, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Dialog, Fade, Backdrop, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
 import clsx from 'clsx';
 import useStyles from './styles';
 
@@ -29,7 +30,9 @@ const Popup: FC<IPopup> = ({ open, size = 'small', onClose, children }: IPopup):
     >
       <Fade in={open}>
         <div className={clsx(classes.paper, classes[size])}>
-          <IconButton className={classes.close} onClick={onClose} size="small"><CloseIcon /></IconButton>
+          <IconButton className={classes.close} style={{ position: 'absolute' }} onClick={onClose} size="small">
+            <CloseIcon />
+          </IconButton>
           {children}
         </div>
       </Fade>

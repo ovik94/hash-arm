@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import { CssBaseline } from '@mui/material';
 import Cookies from 'js-cookie';
 import ErrorBoundary from './ErrorBoundary';
 import { CoreContextProvider } from './CoreContext';
@@ -58,48 +58,46 @@ const App: FunctionComponent = () => {
   return (
     <div className={classes.root}>
       <ErrorBoundary>
-        <SnackbarProvider autoHideDuration={10000} hideIconVariant>
-          <CssBaseline />
-          <ThemeProvider theme={defaultTheme}>
-            <SnackbarProvider>
-              <StoreContextProvider value={store}>
-                <CoreContextProvider value={{ createRequest, locale }}>
-                  <Notifier />
-                  <Router>
-                    <div>
-                      <Switch>
-                        <Route exact path="/login">
-                          <Login />
-                        </Route>
-                        <RouteView exact path="/">
-                          <CheckList />
-                        </RouteView>
-                        <RouteView exact path="/check-list">
-                          <CheckList />
-                        </RouteView>
-                        <RouteView exact path="/contractors">
-                          <Contractors />
-                        </RouteView>
-                        <RouteView exact path="/contractors/:id">
-                          <Order />
-                        </RouteView>
-                        <RouteView exact path="/instructions">
-                          <Instructions />
-                        </RouteView>
-                        <RouteView exact path="/bar-balance">
-                          <BarBalance />
-                        </RouteView>
-                        <RouteView exact path="/ordering-banquets">
-                          <Banquets />
-                        </RouteView>
-                      </Switch>
-                    </div>
-                  </Router>
-                </CoreContextProvider>
-              </StoreContextProvider>
-            </SnackbarProvider>
-          </ThemeProvider>
-        </SnackbarProvider>
+        <CssBaseline />
+        <ThemeProvider theme={defaultTheme}>
+          <SnackbarProvider autoHideDuration={10000} hideIconVariant>
+            <StoreContextProvider value={store}>
+              <CoreContextProvider value={{ createRequest, locale }}>
+                <Notifier />
+                <Router>
+                  <div>
+                    <Switch>
+                      <Route exact path="/login">
+                        <Login />
+                      </Route>
+                      <RouteView exact path="/">
+                        <CheckList />
+                      </RouteView>
+                      <RouteView exact path="/check-list">
+                        <CheckList />
+                      </RouteView>
+                      <RouteView exact path="/contractors">
+                        <Contractors />
+                      </RouteView>
+                      <RouteView exact path="/contractors/:id">
+                        <Order />
+                      </RouteView>
+                      <RouteView exact path="/instructions">
+                        <Instructions />
+                      </RouteView>
+                      <RouteView exact path="/bar-balance">
+                        <BarBalance />
+                      </RouteView>
+                      <RouteView exact path="/ordering-banquets">
+                        <Banquets />
+                      </RouteView>
+                    </Switch>
+                  </div>
+                </Router>
+              </CoreContextProvider>
+            </StoreContextProvider>
+          </SnackbarProvider>
+        </ThemeProvider>
       </ErrorBoundary>
     </div>
   );

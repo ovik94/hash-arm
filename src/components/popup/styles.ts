@@ -1,4 +1,5 @@
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   modal: {
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     width: '730px'
   },
   close: {
-    position: 'absolute',
     right: theme.spacing(3),
     top: theme.spacing(3)
   }

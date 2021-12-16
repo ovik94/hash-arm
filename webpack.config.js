@@ -17,7 +17,8 @@ module.exports = () => ({
     port: 80,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:8082',
+        // target: 'http://185.20.226.121:8082',
         secure: false
       },
     },

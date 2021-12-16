@@ -1,13 +1,14 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { Container } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 // @ts-ignore
 import patternImageUrl from './images/pattern.png';
 import LoginForm from '../components/login-form/LoginForm';
 import useTitle from '../hooks/useTitle';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   pattern: {
     width: '100%',
     height: theme.spacing(10),

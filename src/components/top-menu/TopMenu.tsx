@@ -2,13 +2,8 @@ import React, { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Link, useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import { AccountCircle, ExitToApp } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Typography, Divider, Button, Toolbar, AppBar } from '@mui/material';
+import { AccountCircle, ExitToApp } from '@mui/icons-material';
 import useStyles from './styles';
 import Locale from './locale';
 import useLocale from '../../hooks/useLocale';
@@ -29,8 +24,8 @@ const TopMenu: FC = (): JSX.Element => {
   };
 
   return (
-    <AppBar position="static" className={classes.appBar}>
-      <Toolbar className={classes.toolbar}>
+    <AppBar position="static" style={{ marginBottom: '48px', height: '56px' }}>
+      <Toolbar style={{ minHeight: '56px', padding: 0 }}>
         <div className={classes.buttonGroup}>
           {
             locale.menu.map((item: any) => (
@@ -40,7 +35,13 @@ const TopMenu: FC = (): JSX.Element => {
                   component={Link}
                   to={item.url}
                   key={item.url}
-                  className={classes.button}
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    lineHeight: '16px',
+                    letterSpacing: '0.75px',
+                    padding: '16px'
+                  }}
                 >
                   {item.label}
                 </Button>
@@ -55,7 +56,9 @@ const TopMenu: FC = (): JSX.Element => {
               <Divider orientation="vertical" />
               <div className={classes.userInfo}>
                 <AccountCircle />
-                <Typography variant="body1" className={classes.userName}>{userStore.user.name}</Typography>
+                <Typography variant="body1" style={{ margin: '0 8px', color: '#FFFFFF' }}>
+                  {userStore.user.name}
+                </Typography>
                 <IconButton
                   onClick={logOut}
                   color="inherit"

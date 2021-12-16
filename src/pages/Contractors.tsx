@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Button, Divider, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Button, Divider, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
+import InfoIcon from '@mui/icons-material/InfoOutlined';
 import { useHistory } from 'react-router-dom';
+import { Theme } from '@mui/material/styles';
 import useTitle from '../hooks/useTitle';
 import useLocale from '../hooks/useLocale';
 import useStore from '../hooks/useStore';
@@ -20,7 +21,7 @@ const Locale = {
   orderLabel: 'Сделать заказ'
 };
 
-const useStyles = makeStyles(theme => createStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   contractor: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -28,9 +29,6 @@ const useStyles = makeStyles(theme => createStyles({
   },
   contractorInfo: {
     marginBottom: theme.spacing(2)
-  },
-  title: {
-    marginBottom: theme.spacing(4)
   },
   contractorTitle: {
     marginBottom: theme.spacing(2)
@@ -72,7 +70,7 @@ const Contractors: FC = (): JSX.Element => {
 
   return (
     <div>
-      <Typography variant="h2" className={classes.title}>{locale.title}</Typography>
+      <Typography variant="h2" style={{ marginBottom: '32px' }}>{locale.title}</Typography>
       {
         contractorsStore.contractors.map(contractor => (
           <div key={contractor.id}>

@@ -1,10 +1,7 @@
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-  formControl: {
-    margin: theme.spacing(0, 2),
-    minWidth: '100px'
-  },
   input: {
     width: '100px'
   },

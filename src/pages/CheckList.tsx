@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Typography, Button } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Typography, Button } from '@mui/material';
 import { observer } from 'mobx-react';
+import { Theme } from '@mui/material/styles';
 import useTitle from '../hooks/useTitle';
 import useLocale from '../hooks/useLocale';
 import useStore from '../hooks/useStore';
@@ -12,9 +13,8 @@ const Locale = {
   reset: 'Сбросить данные'
 };
 
-const useStyles = makeStyles(theme => createStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
-    marginBottom: theme.spacing(4),
     display: 'inline-block'
   },
   resetButton: {
@@ -63,7 +63,7 @@ const CheckList: FunctionComponent = (): JSX.Element | null => {
 
   return (
     <div>
-      <Typography variant="h2" className={classes.title}>{locale.title}</Typography>
+      <Typography variant="h2" style={{ marginBottom: '32px' }} className={classes.title}>{locale.title}</Typography>
       <Button onClick={onReset} className={classes.resetButton}>
         {locale.reset}
       </Button>

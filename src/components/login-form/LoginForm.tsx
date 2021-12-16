@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import Cookies from 'js-cookie';
 import useStyles from './styles';
 import Locale from './locale';

@@ -8,7 +8,7 @@ import useTitle from '../../hooks/useTitle';
 import useStyles from './styles';
 import Locale from './locale';
 import MuiTable from '../table/MuiTable';
-import Popup from '../../popup/Popup';
+import Popup from '../popup/Popup';
 import { IContractorNomenclatures } from '../../store/ContractorsStore';
 import OrderForm from './OrderForm';
 

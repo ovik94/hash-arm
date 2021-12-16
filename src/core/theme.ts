@@ -1,4 +1,4 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 
 // eslint-disable-next-line import/prefer-default-export
 export const defaultTheme = createTheme({
@@ -62,27 +62,33 @@ export const defaultTheme = createTheme({
       color: 'rgba(0, 0, 0, 0.87)'
     }
   },
-  overrides: {
+  components: {
     MuiDivider: {
-      root: {
-        marginTop: '16px',
-        marginBottom: '16px',
-        backgroundColor: 'rgba(0, 0, 0, 0.12)'
-      },
-      vertical: {
-        margin: 0
+      styleOverrides: {
+        root: {
+          marginTop: '16px',
+          marginBottom: '16px',
+          backgroundColor: 'rgba(0, 0, 0, 0.12)'
+        },
+        vertical: {
+          margin: 0
+        }
       }
     },
     MuiStepIcon: {
-      root: {
-        '&$completed': {
-          color: '#147d78'
+      styleOverrides: {
+        root: {
+          '&$completed': {
+            color: '#147d78'
+          }
         }
       }
     },
     MuiOutlinedInput: {
-      input: {
-        padding: '12px'
+      styleOverrides: {
+        input: {
+          padding: '12px'
+        }
       }
     }
   }

@@ -1,8 +1,9 @@
 import React, { FC, useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useTitle from '../hooks/useTitle';
 import useLocale from '../hooks/useLocale';
 import useStore from '../hooks/useStore';
@@ -11,10 +12,7 @@ const Locale = {
   title: 'Инструкции'
 };
 
-const useStyles = makeStyles(theme => createStyles({
-  title: {
-    marginBottom: theme.spacing(4)
-  },
+const useStyles = makeStyles((theme: Theme) => createStyles({
   heading: {
     flexBasis: '33.33%',
     flexShrink: 0
@@ -82,7 +80,7 @@ const Instructions: FC = (): JSX.Element => {
 
   return (
     <div>
-      <Typography variant="h2" className={classes.title}>{locale.title}</Typography>
+      <Typography variant="h2" style={{ marginBottom: '32px' }}>{locale.title}</Typography>
       {
         instructionsStore.instructions.map(instruction => (
           <Accordion expanded={expanded === instruction.id} onChange={onChange(instruction.id)} key={instruction.id}>

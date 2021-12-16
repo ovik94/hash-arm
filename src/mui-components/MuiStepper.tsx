@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Stepper, StepLabel, Step, StepContent, Button } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Stepper, StepLabel, Step, StepContent, Button } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 import useLocale from '../hooks/useLocale';
 
 interface IMuiStepper {
@@ -16,11 +17,7 @@ const Locale = {
   next: 'Дальше'
 };
 
-const useStyles = makeStyles(theme => createStyles({
-  button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
+const useStyles = makeStyles((theme: Theme) => createStyles({
   actionsContainer: {
     marginBottom: theme.spacing(2)
   }
@@ -42,7 +39,10 @@ const MuiStepper: FunctionComponent<IMuiStepper> = ({ id, onNext, onBack, active
                   <Button
                     disabled={!activeStep || activeStep === 0}
                     onClick={() => onBack(id)}
-                    className={classes.button}
+                    style={{
+                      marginTop: '8px',
+                      marginRight: '8px'
+                    }}
                   >
                     {locale.back}
                   </Button>
@@ -50,7 +50,10 @@ const MuiStepper: FunctionComponent<IMuiStepper> = ({ id, onNext, onBack, active
                     variant="contained"
                     color="primary"
                     onClick={() => onNext(id)}
-                    className={classes.button}
+                    style={{
+                      marginTop: '8px',
+                      marginRight: '8px'
+                    }}
                   >
                     {locale.next}
                   </Button>

@@ -1,4 +1,6 @@
-import { makeStyles, Theme, createStyles, lighten } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import { lighten } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -36,14 +38,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     color: theme.palette.secondary.main,
     backgroundColor: lighten(theme.palette.secondary.light, 0.85)
   },
-  toolbarTitle: {
-    marginRight: theme.spacing(2)
-  },
   searchInput: {
     flexGrow: 5
-  },
-  button: {
-    marginRight: theme.spacing(2)
   }
 }));
 

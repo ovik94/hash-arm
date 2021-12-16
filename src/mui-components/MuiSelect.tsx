@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
-import { MenuItem, Select, InputLabel, Input, FormControl } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { MenuItem, Select, InputLabel, Input, FormControl } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 interface IMuiSelect {
   id: string;
@@ -12,6 +14,7 @@ interface IMuiSelect {
   renderItem?: (option: { label: string, value: string }) => JSX.Element;
   onChange: (value: string) => void;
   options: Array<{ label: string, value: string }>;
+
   [key: string]: any
 }
 
@@ -22,16 +25,24 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 
-const MuiSelect: FC<IMuiSelect> = ({ value, id, label, onChange, options, renderItem, ...otherProps }: IMuiSelect): JSX.Element => {
+const MuiSelect: FC<IMuiSelect> = ({
+  value,
+  id,
+  label,
+  onChange,
+  options,
+  renderItem,
+  ...otherProps
+}: IMuiSelect): JSX.Element => {
   const classes = useStyles();
 
-  const onChangeOption = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>): void => {
+  const onChangeOption = (event: SelectChangeEvent): void => {
     onChange(event.target.value as string);
   };
 
   return (
     <FormControl className={classes.control}>
-      { label && <InputLabel id="select-label">{label}</InputLabel> }
+      {label && <InputLabel id="select-label">{label}</InputLabel>}
       <Select
         labelId="select-label"
         id={id}

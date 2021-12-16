@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { Backdrop, CircularProgress } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Backdrop, CircularProgress } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 
 interface IProps {
   isLoading: boolean;
