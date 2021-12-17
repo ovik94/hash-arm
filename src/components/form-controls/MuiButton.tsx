@@ -1,31 +1,30 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import { Theme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { Button } from '@mui/material';
 
-interface IMuiButton {
+export interface IMuiButton {
   label?: string;
-  styles?: string
+  className?: string;
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  button: {
-    width: '100%',
-    marginTop: theme.spacing(5)
+const useStyles = makeStyles(() => createStyles({
+  formControl: {
+    width: '100%'
   }
 }));
 
-const MuiButton: FC<IMuiButton> = ({ label = 'Сохранить результат', styles }) => {
+const MuiButton: FC<IMuiButton> = ({ label = 'Сохранить результат', className }) => {
   const classes = useStyles();
 
   return (
     <Button
       type="submit"
-      className={clsx(classes.button, styles)}
+      className={clsx(classes.formControl, className)}
       variant="contained"
       color="primary"
+      size="large"
     >
       {label}
     </Button>

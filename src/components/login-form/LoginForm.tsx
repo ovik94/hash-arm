@@ -74,9 +74,11 @@ const LoginForm: FC = (): JSX.Element => {
         fullWidth
         variant="contained"
         color="primary"
-        className={classes.button}
         onClick={onClick}
         disabled={!userStore.user.name}
+        style={{
+          margin: '24px 0 16px'
+        }}
       >
         {locale.buttonLabel}
       </Button>

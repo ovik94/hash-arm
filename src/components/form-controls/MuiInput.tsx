@@ -1,61 +1,57 @@
 import React, { FC } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import { Theme } from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
-import { FieldError, Controller, Control } from 'react-hook-form';
-import { OutlinedInput, FormHelperText, FormControl } from '@mui/material';
+import clsx from 'clsx';
+import { Controller, useFormContext } from 'react-hook-form';
+import { createStyles, makeStyles } from '@mui/styles';
+import { TextField } from '@mui/material';
 
-interface IMuiInput {
+export interface IMuiInputProps {
   name: string;
-  control: Control<any>;
   defaultValue?: string;
   label?: string;
-  error?: FieldError;
-  validators?: any;
   multiline?: boolean;
   minRows?: number;
   maxRows?: number;
+  className?: string;
+  helperText?: string;
   [otherProps: string]: any
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles(() => createStyles({
   formControl: {
-    margin: theme.spacing(3, 0),
     width: '100%'
   }
 }));
 
-const MuiInput: FC<IMuiInput> = ({
+const MuiInput: FC<IMuiInputProps> = ({
   defaultValue = '',
-  control,
   name,
-  validators,
-  label,
-  error,
+  className,
+  helperText = ' ',
   ...otherProps
-}: IMuiInput) => {
+}) => {
   const classes = useStyles();
+  const { control, formState: { errors } } = useFormContext();
+  const error = errors[name];
 
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
-      rules={validators}
-      render={({ field }) => (
-        <FormControl className={classes.formControl} error={Boolean(error?.message)}>
-          {label && <InputLabel id={`${name}-label`} shrink variant="outlined">{label}</InputLabel>}
-          <OutlinedInput
-            notched
-            label={label}
-            id={`${name}-label`}
-            {...field}
+      render={({ field }) => {
+        const { ref, ...otherField } = field;
+        return (
+          <TextField
+            className={clsx(classes.formControl, className)}
+            variant="outlined"
+            error={Boolean(error?.message)}
+            helperText={error?.message || helperText}
+            inputRef={ref}
+            {...otherField}
             {...otherProps}
           />
-          {error?.message && <FormHelperText>{error.message}</FormHelperText>}
-        </FormControl>
-      )}
+        );
+      }}
     />
   );
 };

@@ -1,13 +1,18 @@
 import React, { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { SubmitHandler, useForm, Controller } from 'react-hook-form';
-import { Typography, OutlinedInput, FormHelperText, FormControl, Button, InputLabel } from '@mui/material';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Typography } from '@mui/material';
+import yup from '../../core/yup-extended';
 import useLocale from '../../hooks/useLocale';
 import useStyles from './styles';
 import Locale from './locale';
 import { IContractorNomenclatures } from '../../store/ContractorsStore';
 import Loader from '../loader/Loader';
 import useStore from '../../hooks/useStore';
+import MuiInput from '../form-controls/MuiInput';
+import MuiButton from '../form-controls/MuiButton';
+import MuiForm from '../form-controls/MuiForm';
 
 interface IForm {
   [id: string]: number | string;
@@ -22,61 +27,41 @@ const OrderForm: FC<IOrderForm> = ({ data, onSubmit }: IOrderForm) => {
   const classes = useStyles();
   const locale = useLocale(Locale);
   const { contractorsStore } = useStore();
-  const { control, handleSubmit, formState: { errors } } = useForm<IForm>();
+
+  const generateSchema = (fields: Array<IContractorNomenclatures>) => {
+    const object: { [id: string]: any } = {};
+
+    fields.forEach((field) => {
+      object[field.id] = yup.string().required();
+    });
+
+    return yup.object(object);
+  };
+
+  const methods = useForm<IForm>(
+    {
+      resolver: yupResolver(generateSchema(data)),
+      mode: 'onTouched'
+    }
+  );
 
   return (
     <div className={classes.orderForm}>
       <Loader isLoading={contractorsStore.isLoadingOrder} />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {
-          data.map(item => (
-            <div className={classes.orderItem} key={item.id}>
-              <Typography variant="body2">{item.title}</Typography>
-              <Controller
+      <MuiForm methods={methods} onSubmit={onSubmit}>
+        {data.map(item => (
+          <div className={classes.orderItem} key={item.id}>
+            <Typography variant="body2">{item.title}</Typography>
+            <div className={classes.input}>
+              <MuiInput
                 name={item.id}
-                control={control}
-                defaultValue=""
-                rules={{ required: locale.fieldRequired }}
-                render={({ field }) => (
-                  <FormControl style={{ margin: '0 16px', minWidth: '100px' }} error={Boolean(errors[item.id]?.message)}>
-                    <InputLabel
-                      id={`${item.id}-label`}
-                      shrink
-                      variant="outlined"
-                    >
-                      {locale.inputLabel(item.unit)}
-                    </InputLabel>
-                    <OutlinedInput
-                      notched
-                      margin="none"
-                      label={locale.inputLabel(item.unit)}
-                      className={classes.input}
-                      id={`${item.id}-label`}
-                      {...field}
-                    />
-                    {errors[item.id]?.message && <FormHelperText>{errors[item.id]?.message}</FormHelperText>}
-                  </FormControl>
-                )}
+                label={locale.inputLabel(item.unit)}
               />
             </div>
-          ))
-        }
-        <Controller
-          name="button"
-          control={control}
-          render={({ field }) => (
-            <Button
-              type="submit"
-              className={classes.button}
-              variant="contained"
-              color="primary"
-              {...field}
-            >
-              {locale.orderButtonLabel}
-            </Button>
-          )}
-        />
-      </form>
+          </div>
+        ))}
+        <MuiButton label={locale.orderButtonLabel} />
+      </MuiForm>
     </div>
   );
 };

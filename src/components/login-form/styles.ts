@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     margin: theme.spacing(6, 2),
     height: theme.spacing(12)
   },
-  button: {
-    margin: theme.spacing(3, 0, 2)
-  },
   selectUserButton: {
     display: 'block',
     marginTop: theme.spacing(2)

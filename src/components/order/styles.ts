@@ -3,15 +3,15 @@ import { Theme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   input: {
-    width: '100px'
+    width: '150px',
+    marginTop: theme.spacing(1)
   },
   orderForm: {
     position: 'relative'
   },
   orderItem: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'column',
     marginBottom: theme.spacing(2)
   },
   button: {

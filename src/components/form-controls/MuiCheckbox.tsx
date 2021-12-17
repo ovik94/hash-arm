@@ -3,15 +3,13 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import { FieldError, Controller, Control } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 
 interface IMuiCheckbox {
   name: string;
   label: string;
-  control: Control<any>;
   defaultValue?: boolean;
-  error?: FieldError;
   validators?: any;
 }
 
@@ -24,12 +22,12 @@ const useStyles = makeStyles(() => createStyles({
 const MuiRadioGroup: FC<IMuiCheckbox> = ({
   defaultValue = false,
   label,
-  control,
   name,
-  validators,
-  error
+  validators
 }) => {
   const classes = useStyles();
+  const { control, formState: { errors } } = useFormContext();
+  const error = errors[name];
 
   return (
     <Controller

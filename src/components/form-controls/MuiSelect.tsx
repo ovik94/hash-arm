@@ -3,16 +3,14 @@ import InputLabel from '@mui/material/InputLabel';
 import { Theme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import { FieldError, Controller, Control } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { OutlinedInput, Select, MenuItem, FormHelperText, FormControl } from '@mui/material';
 
 interface IMuiSelect {
   options: Array<{ value: string; label: string; }>;
   name: string;
-  control: Control<any>;
   defaultValue?: string;
   label?: string | ReactNode;
-  error?: FieldError;
   validators?: any;
 }
 
@@ -25,14 +23,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const MuiSelect: FC<IMuiSelect> = ({
   defaultValue = '',
-  control,
   name,
   options,
   validators,
-  label,
-  error
+  label
 }: IMuiSelect): JSX.Element => {
   const classes = useStyles();
+  const { control, formState: { errors } } = useFormContext();
+  const error = errors[name];
 
   return (
     <Controller

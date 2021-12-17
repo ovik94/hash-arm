@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
-import { MenuItem, Select, InputLabel, Input, FormControl } from '@mui/material';
-import { createStyles, makeStyles } from '@mui/styles';
-import { Theme } from '@mui/material/styles';
+import { MenuItem, Select, InputLabel, OutlinedInput, FormControl } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 interface IMuiSelect {
@@ -18,13 +16,6 @@ interface IMuiSelect {
   [key: string]: any
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  control: {
-    margin: theme.spacing(1),
-    minWidth: 250
-  }
-}));
-
 const MuiSelect: FC<IMuiSelect> = ({
   value,
   id,
@@ -34,21 +25,19 @@ const MuiSelect: FC<IMuiSelect> = ({
   renderItem,
   ...otherProps
 }: IMuiSelect): JSX.Element => {
-  const classes = useStyles();
-
   const onChangeOption = (event: SelectChangeEvent): void => {
     onChange(event.target.value as string);
   };
 
   return (
-    <FormControl className={classes.control}>
-      {label && <InputLabel id="select-label">{label}</InputLabel>}
+    <FormControl style={{ margin: '8px', width: '100%' }}>
+      {label && <InputLabel id={`${id}-select-label`}>{label}</InputLabel>}
       <Select
         labelId="select-label"
         id={id}
         value={value || ''}
         onChange={onChangeOption}
-        input={<Input />}
+        input={<OutlinedInput label={label} />}
         {...otherProps}
       >
         {options.map(option => (
