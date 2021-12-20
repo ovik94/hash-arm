@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 
-const MuiSelect: FC<IMuiSelect> = ({
+const MuiFormSelect: FC<IMuiSelect> = ({
   defaultValue = '',
   name,
   options,
@@ -62,4 +62,4 @@ const MuiSelect: FC<IMuiSelect> = ({
   );
 };
 
-export default MuiSelect;
+export default MuiFormSelect;

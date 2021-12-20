@@ -6,11 +6,13 @@ import { ThemeProvider } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import { CssBaseline } from '@mui/material';
 import Cookies from 'js-cookie';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import ErrorBoundary from './ErrorBoundary';
 import { CoreContextProvider } from './CoreContext';
 import { StoreContextProvider } from './StoreContext';
 import { defaultTheme } from './theme';
-import locale from './locale/locale';
+import locale, { DateFnsData } from './locale/locale';
 import RequestFactory from './request/request-factory';
 import RouteView from './RouteView';
 import { RootStore } from '../store/RootStore';
@@ -61,41 +63,43 @@ const App: FunctionComponent = () => {
         <CssBaseline />
         <ThemeProvider theme={defaultTheme}>
           <SnackbarProvider autoHideDuration={10000} hideIconVariant>
-            <StoreContextProvider value={store}>
-              <CoreContextProvider value={{ createRequest, locale }}>
-                <Notifier />
-                <Router>
-                  <div>
-                    <Switch>
-                      <Route exact path="/login">
-                        <Login />
-                      </Route>
-                      <RouteView exact path="/">
-                        <CheckList />
-                      </RouteView>
-                      <RouteView exact path="/check-list">
-                        <CheckList />
-                      </RouteView>
-                      <RouteView exact path="/contractors">
-                        <Contractors />
-                      </RouteView>
-                      <RouteView exact path="/contractors/:id">
-                        <Order />
-                      </RouteView>
-                      <RouteView exact path="/instructions">
-                        <Instructions />
-                      </RouteView>
-                      <RouteView exact path="/bar-balance">
-                        <BarBalance />
-                      </RouteView>
-                      <RouteView exact path="/ordering-banquets">
-                        <Banquets />
-                      </RouteView>
-                    </Switch>
-                  </div>
-                </Router>
-              </CoreContextProvider>
-            </StoreContextProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={DateFnsData}>
+              <StoreContextProvider value={store}>
+                <CoreContextProvider value={{ createRequest, locale }}>
+                  <Notifier />
+                  <Router>
+                    <div>
+                      <Switch>
+                        <Route exact path="/login">
+                          <Login />
+                        </Route>
+                        <RouteView exact path="/">
+                          <CheckList />
+                        </RouteView>
+                        <RouteView exact path="/check-list">
+                          <CheckList />
+                        </RouteView>
+                        <RouteView exact path="/contractors">
+                          <Contractors />
+                        </RouteView>
+                        <RouteView exact path="/contractors/:id">
+                          <Order />
+                        </RouteView>
+                        <RouteView exact path="/instructions">
+                          <Instructions />
+                        </RouteView>
+                        <RouteView exact path="/bar-balance">
+                          <BarBalance />
+                        </RouteView>
+                        <RouteView exact path="/ordering-banquets">
+                          <Banquets />
+                        </RouteView>
+                      </Switch>
+                    </div>
+                  </Router>
+                </CoreContextProvider>
+              </StoreContextProvider>
+            </LocalizationProvider>
           </SnackbarProvider>
         </ThemeProvider>
       </ErrorBoundary>

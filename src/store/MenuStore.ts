@@ -2,19 +2,19 @@ import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
 import { RootStore } from './RootStore';
 
-interface MenuItem {
+export interface IMenuItem {
   title: string;
   price: number;
   weight: number;
 }
 
 export interface IMenu {
-  potables: Array<MenuItem>;
-  salads: Array<MenuItem>;
-  snacks: Array<MenuItem>;
-  hotter: Array<MenuItem>;
-  sideDishes: Array<MenuItem>;
-  banquetMenu: Array<MenuItem>;
+  potables: Array<IMenuItem>;
+  salads: Array<IMenuItem>;
+  snacks: Array<IMenuItem>;
+  hotter: Array<IMenuItem>;
+  sideDishes: Array<IMenuItem>;
+  banquetMenu: Array<IMenuItem>;
 }
 
 export default class MenuStore {

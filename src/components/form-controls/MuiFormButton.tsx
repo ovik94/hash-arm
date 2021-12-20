@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-const MuiButton: FC<IMuiButton> = ({ label = 'Сохранить результат', className }) => {
+const MuiFormButton: FC<IMuiButton> = ({ label = 'Сохранить результат', className }) => {
   const classes = useStyles();
 
   return (
@@ -31,4 +31,4 @@ const MuiButton: FC<IMuiButton> = ({ label = 'Сохранить результ�
   );
 };
 
-export default MuiButton;
+export default MuiFormButton;

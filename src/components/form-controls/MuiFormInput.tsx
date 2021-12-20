@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-const MuiInput: FC<IMuiInputProps> = ({
+const MuiFormInput: FC<IMuiInputProps> = ({
   defaultValue = '',
   name,
   className,
@@ -56,4 +56,4 @@ const MuiInput: FC<IMuiInputProps> = ({
   );
 };
 
-export default MuiInput;
+export default MuiFormInput;

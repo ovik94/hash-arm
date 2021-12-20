@@ -10,8 +10,8 @@ import Locale from './locale';
 import { IContractorNomenclatures } from '../../store/ContractorsStore';
 import Loader from '../loader/Loader';
 import useStore from '../../hooks/useStore';
-import MuiInput from '../form-controls/MuiInput';
-import MuiButton from '../form-controls/MuiButton';
+import MuiFormInput from '../form-controls/MuiFormInput';
+import MuiFormButton from '../form-controls/MuiFormButton';
 import MuiForm from '../form-controls/MuiForm';
 
 interface IForm {
@@ -53,14 +53,14 @@ const OrderForm: FC<IOrderForm> = ({ data, onSubmit }: IOrderForm) => {
           <div className={classes.orderItem} key={item.id}>
             <Typography variant="body2">{item.title}</Typography>
             <div className={classes.input}>
-              <MuiInput
+              <MuiFormInput
                 name={item.id}
                 label={locale.inputLabel(item.unit)}
               />
             </div>
           </div>
         ))}
-        <MuiButton label={locale.orderButtonLabel} />
+        <MuiFormButton label={locale.orderButtonLabel} />
       </MuiForm>
     </div>
   );

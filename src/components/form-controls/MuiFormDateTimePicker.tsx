@@ -1,23 +1,32 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import DatePicker from '@mui/lab/DatePicker';
 import TextField from '@mui/material/TextField';
+import { DateTimePicker } from '@mui/lab';
+import { createStyles, makeStyles } from '@mui/styles';
+import clsx from 'clsx';
 
-interface IMuiDatePicker {
+interface IMuiDateTimePicker {
   name: string;
   label?: string;
   required?: boolean;
-  disableFuture?: boolean;
+  className?: string;
   disabled?: boolean;
 }
 
-const MuiDatePicker: FC<IMuiDatePicker> = ({
+const useStyles = makeStyles(() => createStyles({
+  formControl: {
+    width: '100%'
+  }
+}));
+
+const MuiFormDatePicker: FC<IMuiDateTimePicker> = ({
   name,
   label,
   required = false,
-  disableFuture = false,
-  disabled = false
+  disabled = false,
+  className
 }) => {
+  const classes = useStyles();
   const { control, formState: { errors } } = useFormContext();
   const error = errors[name];
 
@@ -29,18 +38,18 @@ const MuiDatePicker: FC<IMuiDatePicker> = ({
         const { onChange, value = null, ...otherFieldProps } = field;
 
         return (
-          <DatePicker
+          <DateTimePicker
             label={label}
-            mask="__.__.____"
-            inputFormat="dd.MM.yyyy"
+            mask="__.__.____ __:__"
+            inputFormat="dd.MM.yyyy hh:mm"
             onChange={onChange}
             value={value}
-            disableFuture={disableFuture}
             disabled={disabled}
             renderInput={params => (
               <TextField
                 {...params}
                 {...otherFieldProps}
+                className={clsx(classes.formControl, className)}
                 required={required}
                 error={Boolean(error)}
                 helperText={error?.message}
@@ -54,4 +63,4 @@ const MuiDatePicker: FC<IMuiDatePicker> = ({
   );
 };
 
-export default MuiDatePicker;
+export default MuiFormDatePicker;
