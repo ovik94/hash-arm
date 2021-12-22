@@ -292,17 +292,21 @@ const Banquets: FC = (): JSX.Element => {
               control={<Checkbox checked={saleChecked} onChange={onCheckedSale} size="small" />}
             />
 
+            {saleChecked && (
             <TextField
               label={locale.saleLabel}
               value={sale}
+              variant="standard"
               onChange={onSale}
               InputProps={{
-                endAdornment: <InputAdornment position="end">%</InputAdornment>
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                componentsProps: { input: { min: '0', max: '100' } }
               }}
               disabled={!saleChecked}
               type="number"
               sx={styles.saleInput}
             />
+            )}
           </Box>
 
           <Box sx={styles.sum}>
