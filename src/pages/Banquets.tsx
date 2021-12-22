@@ -302,7 +302,6 @@ const Banquets: FC = (): JSX.Element => {
                 endAdornment: <InputAdornment position="end">%</InputAdornment>,
                 componentsProps: { input: { min: '0', max: '100' } }
               }}
-              disabled={!saleChecked}
               type="number"
               sx={styles.saleInput}
             />
