@@ -2,12 +2,11 @@ import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import { ThemeProvider } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
-import { CssBaseline } from '@mui/material';
+import { ThemeProvider, StyledEngineProvider, Theme } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { Box, CssBaseline, SxProps } from '@mui/material';
 import ErrorBoundary from './ErrorBoundary';
 import { CoreContextProvider } from './CoreContext';
 import { StoreContextProvider } from './StoreContext';
@@ -39,17 +38,15 @@ const requestFactory = new RequestFactory({ requestConfigList: RequestConfigList
 const createRequest = requestFactory.createRequest.bind(requestFactory);
 store.setCreateRequest(createRequest);
 
-const useStyles = makeStyles(() => ({
+const styles: Record<string, SxProps<Theme>> = {
   root: {
     width: '100%',
     background: '#E5E5E5',
     minHeight: '100vh'
   }
-}));
+};
 
 const App: FunctionComponent = () => {
-  const classes = useStyles();
-
   if (Cookies.get('adminName')) {
     const user = JSON.parse(Cookies.get('adminName') || '');
 
@@ -58,52 +55,54 @@ const App: FunctionComponent = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <Box sx={styles.root}>
       <ErrorBoundary>
         <CssBaseline />
-        <ThemeProvider theme={defaultTheme}>
-          <SnackbarProvider autoHideDuration={10000} hideIconVariant>
-            <LocalizationProvider dateAdapter={AdapterDateFns} locale={DateFnsData}>
-              <StoreContextProvider value={store}>
-                <CoreContextProvider value={{ createRequest, locale }}>
-                  <Notifier />
-                  <Router>
-                    <div>
-                      <Switch>
-                        <Route exact path="/login">
-                          <Login />
-                        </Route>
-                        <RouteView exact path="/">
-                          <CheckList />
-                        </RouteView>
-                        <RouteView exact path="/check-list">
-                          <CheckList />
-                        </RouteView>
-                        <RouteView exact path="/contractors">
-                          <Contractors />
-                        </RouteView>
-                        <RouteView exact path="/contractors/:id">
-                          <Order />
-                        </RouteView>
-                        <RouteView exact path="/instructions">
-                          <Instructions />
-                        </RouteView>
-                        <RouteView exact path="/bar-balance">
-                          <BarBalance />
-                        </RouteView>
-                        <RouteView exact path="/ordering-banquets">
-                          <Banquets />
-                        </RouteView>
-                      </Switch>
-                    </div>
-                  </Router>
-                </CoreContextProvider>
-              </StoreContextProvider>
-            </LocalizationProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={defaultTheme}>
+            <SnackbarProvider autoHideDuration={10000} hideIconVariant>
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={DateFnsData}>
+                <StoreContextProvider value={store}>
+                  <CoreContextProvider value={{ createRequest, locale }}>
+                    <Notifier />
+                    <Router>
+                      <div>
+                        <Switch>
+                          <Route exact path="/login">
+                            <Login />
+                          </Route>
+                          <RouteView exact path="/">
+                            <CheckList />
+                          </RouteView>
+                          <RouteView exact path="/check-list">
+                            <CheckList />
+                          </RouteView>
+                          <RouteView exact path="/contractors">
+                            <Contractors />
+                          </RouteView>
+                          <RouteView exact path="/contractors/:id">
+                            <Order />
+                          </RouteView>
+                          <RouteView exact path="/instructions">
+                            <Instructions />
+                          </RouteView>
+                          <RouteView exact path="/bar-balance">
+                            <BarBalance />
+                          </RouteView>
+                          <RouteView exact path="/ordering-banquets">
+                            <Banquets />
+                          </RouteView>
+                        </Switch>
+                      </div>
+                    </Router>
+                  </CoreContextProvider>
+                </StoreContextProvider>
+              </LocalizationProvider>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </ErrorBoundary>
-    </div>
+    </Box>
   );
 };
 

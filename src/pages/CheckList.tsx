@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { makeStyles, createStyles } from '@mui/styles';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, SxProps, Box } from '@mui/material';
 import { observer } from 'mobx-react';
 import { Theme } from '@mui/material/styles';
 import useTitle from '../hooks/useTitle';
@@ -13,27 +12,27 @@ const Locale = {
   reset: 'Сбросить данные'
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  title: {
-    display: 'inline-block'
-  },
+const styles: Record<string, SxProps<Theme>> = {
+  title: theme => ({
+    display: 'inline-block',
+    mb: theme.spacing(3)
+  }),
   resetButton: {
     display: 'inline-block',
     float: 'right'
   },
-  block: {
+  block: theme => ({
     marginBottom: theme.spacing(2)
-  },
-  blockTitle: {
+  }),
+  blockTitle: theme => ({
     margin: theme.spacing(2, 0),
     color: theme.palette.primary.main
-  }
-}));
+  })
+};
 
 const CheckListIds = ['start', 'during', 'end'];
 
 const CheckList: FunctionComponent = (): JSX.Element | null => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { checkListStore } = useStore();
   const [activeSteps, setActiveStep] = useState<{ [key: string]: number }>(checkListStore.activeSteps);
@@ -63,8 +62,8 @@ const CheckList: FunctionComponent = (): JSX.Element | null => {
 
   return (
     <div>
-      <Typography variant="h2" style={{ marginBottom: '32px' }} className={classes.title}>{locale.title}</Typography>
-      <Button onClick={onReset} className={classes.resetButton}>
+      <Typography variant="h2" sx={styles.title}>{locale.title}</Typography>
+      <Button onClick={onReset} sx={styles.resetButton}>
         {locale.reset}
       </Button>
       {
@@ -72,10 +71,10 @@ const CheckList: FunctionComponent = (): JSX.Element | null => {
           const id = CheckListIds[index];
 
           return (
-            <div className={classes.block} key={data.title}>
-              <Typography variant="h3" className={classes.blockTitle}>{data.title}</Typography>
+            <Box sx={styles.block} key={data.title}>
+              <Typography variant="h3" sx={styles.blockTitle}>{data.title}</Typography>
               <MuiStepper id={id} onNext={onNext} onBack={onBack} activeStep={activeSteps[id]} steps={data.items} />
-            </div>
+            </Box>
           );
         })
       }

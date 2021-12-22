@@ -1,23 +1,23 @@
-import { makeStyles, createStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
+import { SxProps } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  input: {
+const styles: Record<string, SxProps<Theme>> = {
+  input: theme => ({
     width: '150px',
     marginTop: theme.spacing(1)
-  },
+  }),
   orderForm: {
     position: 'relative'
   },
-  orderItem: {
+  orderItem: theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginBottom: theme.spacing(2)
-  },
-  button: {
+  }),
+  button: theme => ({
     marginTop: theme.spacing(4),
     width: '100%'
-  }
-}));
+  })
+};
 
-export default useStyles;
+export default styles;

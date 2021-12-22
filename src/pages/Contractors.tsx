@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { makeStyles, createStyles } from '@mui/styles';
-import { Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, SxProps, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import { useHistory } from 'react-router-dom';
@@ -21,37 +20,39 @@ const Locale = {
   orderLabel: 'Сделать заказ'
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const styles: Record<string, SxProps<Theme>> = {
+  title: theme => ({
+    mb: theme.spacing(4)
+  }),
   contractor: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  contractorInfo: {
-    marginBottom: theme.spacing(2)
-  },
-  contractorTitle: {
-    marginBottom: theme.spacing(2)
-  },
-  contractorInfoItem: {
+  contractorInfo: theme => ({
+    mb: theme.spacing(2)
+  }),
+  contractorTitle: theme => ({
+    mb: theme.spacing(2)
+  }),
+  contractorInfoItem: theme => ({
     display: 'inline-block',
-    marginRight: theme.spacing(3)
-  },
+    mr: theme.spacing(3)
+  }),
   contractorInfoLabel: {
     color: 'rgba(0, 0, 0, 0.56)'
   },
-  infoIcon: {
-    marginRight: theme.spacing(1)
-  },
-  info: {
+  infoIcon: theme => ({
+    mr: theme.spacing(1)
+  }),
+  info: theme => ({
     display: 'flex',
     alignItems: 'center',
-    marginTop: theme.spacing(2)
-  }
-}));
+    mt: theme.spacing(2)
+  })
+};
 
 const Contractors: FC = (): JSX.Element => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { contractorsStore } = useStore();
   const history = useHistory();
@@ -70,44 +71,44 @@ const Contractors: FC = (): JSX.Element => {
 
   return (
     <div>
-      <Typography variant="h2" style={{ marginBottom: '32px' }}>{locale.title}</Typography>
+      <Typography variant="h2" sx={styles.title}>{locale.title}</Typography>
       {
         contractorsStore.contractors.map(contractor => (
           <div key={contractor.id}>
-            <div className={classes.contractor}>
-              <div className={classes.contractorInfo}>
-                <Typography variant="h3" className={classes.contractorTitle}>{contractor.title}</Typography>
+            <Box sx={styles.contractor}>
+              <Box sx={styles.contractorInfo}>
+                <Typography variant="h3" sx={styles.contractorTitle}>{contractor.title}</Typography>
                 <div>
-                  <div className={classes.contractorInfoItem}>
+                  <Box sx={styles.contractorInfoItem}>
                     <Typography
                       variant="subtitle1"
-                      className={classes.contractorInfoLabel}
+                      sx={styles.contractorInfoLabel}
                     >
                       {locale.contractorManagerLabel}
                     </Typography>
                     <Typography variant="body2">{contractor.manager}</Typography>
-                  </div>
-                  <div className={classes.contractorInfoItem}>
+                  </Box>
+                  <Box sx={styles.contractorInfoItem}>
                     <Typography
                       variant="subtitle1"
-                      className={classes.contractorInfoLabel}
+                      sx={styles.contractorInfoLabel}
                     >
                       {locale.contractorPhoneLabel}
                     </Typography>
                     <Typography variant="body2">{contractor.phone}</Typography>
-                  </div>
+                  </Box>
                 </div>
                 {
                   contractor.description && (
-                    <div className={classes.info}>
-                      <InfoIcon className={classes.infoIcon} color="secondary" />
+                    <Box sx={styles.info}>
+                      <InfoIcon sx={styles.infoIcon} color="secondary" />
                       <Typography variant="body2">
                         {contractor.description}
                       </Typography>
-                    </div>
+                    </Box>
                   )
                 }
-              </div>
+              </Box>
               {
                 contractor.hasOrder && (
                   <Button
@@ -119,7 +120,7 @@ const Contractors: FC = (): JSX.Element => {
                   </Button>
                 )
               }
-            </div>
+            </Box>
             <Divider />
           </div>
         ))

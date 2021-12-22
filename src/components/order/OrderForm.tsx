@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import yup from '../../core/yup-extended';
 import useLocale from '../../hooks/useLocale';
-import useStyles from './styles';
+import styles from './styles';
 import Locale from './locale';
 import { IContractorNomenclatures } from '../../store/ContractorsStore';
 import Loader from '../loader/Loader';
@@ -24,7 +24,6 @@ interface IOrderForm {
 }
 
 const OrderForm: FC<IOrderForm> = ({ data, onSubmit }: IOrderForm) => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { contractorsStore } = useStore();
 
@@ -46,23 +45,23 @@ const OrderForm: FC<IOrderForm> = ({ data, onSubmit }: IOrderForm) => {
   );
 
   return (
-    <div className={classes.orderForm}>
+    <Box sx={styles.orderForm}>
       <Loader isLoading={contractorsStore.isLoadingOrder} />
       <MuiForm methods={methods} onSubmit={onSubmit}>
         {data.map(item => (
-          <div className={classes.orderItem} key={item.id}>
+          <Box sx={styles.orderItem} key={item.id}>
             <Typography variant="body2">{item.title}</Typography>
-            <div className={classes.input}>
+            <Box sx={styles.input}>
               <MuiFormInput
                 name={item.id}
                 label={locale.inputLabel(item.unit)}
               />
-            </div>
-          </div>
+            </Box>
+          </Box>
         ))}
         <MuiFormButton label={locale.orderButtonLabel} />
       </MuiForm>
-    </div>
+    </Box>
   );
 };
 

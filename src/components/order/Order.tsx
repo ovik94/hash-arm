@@ -5,7 +5,6 @@ import { SubmitHandler } from 'react-hook-form';
 import useLocale from '../../hooks/useLocale';
 import useStore from '../../hooks/useStore';
 import useTitle from '../../hooks/useTitle';
-import useStyles from './styles';
 import Locale from './locale';
 import MuiTable from '../table/MuiTable';
 import Popup from '../popup/Popup';
@@ -13,7 +12,6 @@ import { IContractorNomenclatures } from '../../store/ContractorsStore';
 import OrderForm from './OrderForm';
 
 const Order: FC = () => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { contractorsStore } = useStore();
   const [open, setOpen] = useState<boolean>(false);

@@ -41,7 +41,7 @@ const MuiFormDatePicker: FC<IMuiDateTimePicker> = ({
           <DateTimePicker
             label={label}
             mask="__.__.____ __:__"
-            inputFormat="dd.MM.yyyy hh:mm"
+            inputFormat="dd.MM.yyyy HH:mm"
             onChange={onChange}
             value={value}
             disabled={disabled}

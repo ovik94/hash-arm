@@ -24,7 +24,12 @@ module.exports = () => ({
     },
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
+    //хак для Globalize
+    alias: {
+      'cldr$': 'cldrjs',
+      'cldr': 'cldrjs/dist/cldr'
+    }
   },
   module: {
     rules: [

@@ -1,33 +1,36 @@
-import { makeStyles, createStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
+import { SxProps } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const styles: Record<string, SxProps<Theme>> = {
   loginForm: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     position: 'relative'
   },
-  logo: {
-    margin: theme.spacing(6, 2),
+  logo: theme => ({
+    m: theme.spacing(6, 2),
     height: theme.spacing(12)
-  },
-  selectUserButton: {
+  }),
+  selectUserButton: theme => ({
     display: 'block',
     marginTop: theme.spacing(2)
-  },
+  }),
   selectItem: {
     display: 'flex',
     alignItems: 'center'
   },
-  userInfo: {
+  userInfo: theme => ({
     display: 'flex',
     flexDirection: 'column',
-    marginLeft: theme.spacing(2)
-  },
+    ml: theme.spacing(2)
+  }),
   phone: {
     color: 'rgba(0, 0, 0, 0.6)'
-  }
-}));
+  },
+  button: theme => ({
+    m: theme.spacing(3, 0, 2)
+  })
+};
 
-export default useStyles;
+export default styles;

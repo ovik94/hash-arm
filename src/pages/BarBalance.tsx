@@ -1,7 +1,16 @@
 import React, { FC, useEffect } from 'react';
-import { makeStyles, createStyles } from '@mui/styles';
 import { observer } from 'mobx-react';
-import { Paper, TableRow, TableHead, Table, TableBody, TableCell, TableContainer, Typography } from '@mui/material';
+import {
+  Paper,
+  TableRow,
+  TableHead,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  Typography,
+  SxProps
+} from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import useStore from '../hooks/useStore';
 import useLocale from '../hooks/useLocale';
@@ -13,20 +22,25 @@ const Locale = {
   headCells: ['Название', 'Категория', 'Остаток', 'Ед.измерения']
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  table: {
+const styles: Record<string, SxProps<Theme>> = {
+  title: theme => ({
+    mb: theme.spacing(4)
+  }),
+  table: theme => ({
     minWidth: 650,
     margin: theme.spacing(3, 0)
-  },
-  tableRow: {
+  }),
+  tableRow: theme => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover
     }
-  }
-}));
+  }),
+  categoryName: theme => ({
+    m: theme.spacing(2)
+  })
+};
 
 const BarBalance: FC = (): JSX.Element => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { balanceStore } = useStore();
 
@@ -44,8 +58,8 @@ const BarBalance: FC = (): JSX.Element => {
     }
 
     return (
-      <TableContainer component={Paper} className={classes.table}>
-        <Typography variant="h3" style={{ margin: '16px' }}>{category}</Typography>
+      <TableContainer component={Paper} sx={styles.table}>
+        <Typography variant="h3" sx={styles.categoryName}>{category}</Typography>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -59,7 +73,7 @@ const BarBalance: FC = (): JSX.Element => {
           </TableHead>
           <TableBody>
             {data.filter(item => item.category === category).map(product => (
-              <TableRow className={classes.tableRow} key={product.name}>
+              <TableRow sx={styles.tableRow} key={product.name}>
                 <TableCell width="70%" component="th" scope="row">{product.name}</TableCell>
                 <TableCell width="20%" align="right">{product.category}</TableCell>
                 <TableCell width="10%" align="right">{product.balance}</TableCell>
@@ -74,7 +88,7 @@ const BarBalance: FC = (): JSX.Element => {
 
   return (
     <div>
-      <Typography variant="h2" style={{ marginBottom: '32px' }}>{locale.title}</Typography>
+      <Typography variant="h2" sx={styles.title}>{locale.title}</Typography>
       {renderTable(locale.headCells, balanceStore.barBalance, 'Напитки')}
       {renderTable(locale.headCells, balanceStore.barBalance, 'Крепкий Алкоголь')}
     </div>

@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Cookies from 'js-cookie';
-import useStyles from './styles';
+import styles from './styles';
 import Locale from './locale';
 import useStore from '../../hooks/useStore';
 import useLocale from '../../hooks/useLocale';
@@ -15,7 +15,6 @@ import MuiSelect from '../../mui-components/MuiSelect';
 import { IUser } from '../../store/UserStore';
 
 const LoginForm: FC = (): JSX.Element => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { userStore } = useStore();
   const history = useHistory();
@@ -45,22 +44,24 @@ const LoginForm: FC = (): JSX.Element => {
     const userData = userStore.usersList.find(user => user.id === option.value) || {} as IUser;
 
     return (
-      <div className={classes.selectItem}>
+      <Box sx={styles.selectItem}>
         <AccountCircle color="secondary" />
-        <div className={classes.userInfo}>
+        <Box sx={styles.userInfo}>
           <Typography variant="body1">{option.label}</Typography>
-          { userData?.phone && <Typography variant="subtitle1" className={classes.phone}>{userData.phone}</Typography> }
-        </div>
-      </div>
+          {userData?.phone && <Typography variant="subtitle1" sx={styles.phone}>{userData.phone}</Typography>}
+        </Box>
+      </Box>
     );
   };
 
   const selectOptions = userStore.usersList.map(user => ({ label: user.name, value: user.id }));
 
   return (
-    <div className={classes.loginForm}>
+    <Box sx={styles.loginForm}>
       <Loader isLoading={userStore.isLoading} />
-      <img src={logoUrl} alt="logo" className={classes.logo} />
+      <Box sx={styles.logo}>
+        <img src={logoUrl} alt="logo" style={{ width: '100%' }} />
+      </Box>
       <MuiSelect
         label={locale.selectLabel}
         id="selectUser"
@@ -76,13 +77,11 @@ const LoginForm: FC = (): JSX.Element => {
         color="primary"
         onClick={onClick}
         disabled={!userStore.user.name}
-        style={{
-          margin: '24px 0 16px'
-        }}
+        sx={styles.button}
       >
         {locale.buttonLabel}
       </Button>
-    </div>
+    </Box>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Theme } from '@mui/material/styles';
-import { makeStyles, createStyles } from '@mui/styles';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, SxProps, Box } from '@mui/material';
 import { observer } from 'mobx-react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useTitle from '../hooks/useTitle';
@@ -12,16 +11,16 @@ const Locale = {
   title: 'Инструкции'
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const styles: Record<string, SxProps<Theme>> = {
   heading: {
     flexBasis: '33.33%',
     flexShrink: 0
   },
-  secondaryHeading: {
+  secondaryHeading: theme => ({
     color: theme.palette.text.secondary,
     lineHeight: '24px'
-  },
-  text: {
+  }),
+  text: theme => ({
     '& ul': {
       marginBottom: theme.spacing(2),
       paddingLeft: 0,
@@ -57,11 +56,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     '& h1': theme.typography.h3,
     '& h2': theme.typography.h4,
     '& p': theme.typography.body1
-  }
-}));
+  })
+};
 
 const Instructions: FC = (): JSX.Element => {
-  const classes = useStyles();
   const locale = useLocale(Locale);
   const { instructionsStore } = useStore();
   const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -88,14 +86,11 @@ const Instructions: FC = (): JSX.Element => {
               expandIcon={<ExpandMoreIcon />}
               id={instruction.id}
             >
-              <Typography className={classes.heading} variant="body1">{instruction.title}</Typography>
-              <Typography className={classes.secondaryHeading} variant="subtitle1">{instruction.subtitle}</Typography>
+              <Typography sx={styles.heading} variant="body1">{instruction.title}</Typography>
+              <Typography sx={styles.secondaryHeading} variant="subtitle1">{instruction.subtitle}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <div
-                className={classes.text}
-                dangerouslySetInnerHTML={{ __html: instruction.text }}
-              />
+              <Box sx={styles.text} dangerouslySetInnerHTML={{ __html: instruction.text }} />
             </AccordionDetails>
           </Accordion>
         ))

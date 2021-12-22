@@ -1,4 +1,8 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, Theme } from '@mui/material/styles';
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export const defaultTheme = createTheme({
