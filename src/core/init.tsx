@@ -23,7 +23,7 @@ import Notifier from './Notifier';
 import RequestConfigList from './request/RequestConfigList';
 import Instructions from '../pages/Instructions';
 import BarBalance from '../pages/BarBalance';
-import Banquets from '../pages/Banquets';
+import Banquets from '../pages/banquets/Banquets';
 
 const store = new RootStore();
 
@@ -57,11 +57,11 @@ const App: FunctionComponent = () => {
   return (
     <Box sx={styles.root}>
       <ErrorBoundary>
-        <CssBaseline />
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={defaultTheme}>
             <SnackbarProvider autoHideDuration={10000} hideIconVariant>
               <LocalizationProvider dateAdapter={AdapterDateFns} locale={DateFnsData}>
+                <CssBaseline />
                 <StoreContextProvider value={store}>
                   <CoreContextProvider value={{ createRequest, locale }}>
                     <Notifier />

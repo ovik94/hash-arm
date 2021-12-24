@@ -3,117 +3,36 @@ import {
   Grid,
   IconButton,
   Typography,
-  SxProps,
   Box,
   Paper,
   Divider,
   Checkbox,
   FormControlLabel,
   TextField,
-  InputAdornment, Collapse
+  InputAdornment,
+  Collapse,
+  Alert
 } from '@mui/material';
 import { observer } from 'mobx-react';
-import { Theme } from '@mui/material/styles';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TransitionGroup } from 'react-transition-group';
 import { yupResolver } from '@hookform/resolvers/yup';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import useTitle from '../hooks/useTitle';
-import useLocale from '../hooks/useLocale';
-import useStore from '../hooks/useStore';
-import MuiForm from '../components/form-controls/MuiForm';
-import yup from '../core/yup-extended';
-import MuiFormInput from '../components/form-controls/MuiFormInput';
-import MuiFormMaskedInput from '../components/form-controls/MuiFormMaskedInput';
-import MuiFormDateTimePicker from '../components/form-controls/MuiFormDateTimePicker';
-import { IMenuItem } from '../store/MenuStore';
-import MuiSuggestSelector from '../mui-components/MuiSuggestSelector';
-import { currencyFormatter } from '../core/locale/locale';
-import MuiFormButton from '../components/form-controls/MuiFormButton';
-
-const Locale = {
-  title: 'Заказ банкетов',
-  nameLabel: 'Имя',
-  phoneLabel: 'Номер телефона',
-  personsCount: 'Кол-во гостей',
-  dateLabel: 'Дата и время банкета',
-  potables: 'Напитки',
-  salads: 'Салаты',
-  snacks: 'Закуски',
-  hotter: 'Горячее',
-  sideDishes: 'Гарниры',
-  banquetMenu: 'Банкетное меню',
-  addPosition: 'Добавить',
-  sumLabel: 'Сумма заказа',
-  addSaleLabel: 'Добавить скидку',
-  totalAmountLabel: 'Итого',
-  serviceFeeLabel: 'Процент за обслуживание (12%)',
-  sumCurrency: (sum: number) => `<b>${currencyFormatter(sum)}</b>`,
-  PERSON_MIN: (min: number): string => `Допустимо минимум ${min} человек`,
-  PERSON_MAX: (max: number): string => `Допустимо максимум ${max} человек`
-};
-
-const styles: Record<string, SxProps<Theme>> = {
-  title: theme => ({
-    mb: theme.spacing(4)
-  }),
-  item: theme => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    mb: theme.spacing(1)
-  }),
-  counter: theme => ({
-    display: 'flex',
-    alignItems: 'center',
-    margin: theme.spacing(0, 1)
-  }),
-  positionItem: theme => ({
-    margin: theme.spacing(2, 0)
-  }),
-  itemTitle: {
-    flexGrow: 4
-  },
-  itemPrice: theme => ({
-    mr: theme.spacing(3)
-  }),
-  itemCount: theme => ({
-    m: theme.spacing(0, 2)
-  }),
-  menuType: theme => ({
-    mb: theme.spacing(2)
-  }),
-  order: theme => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    mt: theme.spacing(3)
-  }),
-  orderList: theme => ({
-    width: '60%',
-    ml: theme.spacing(4),
-    p: theme.spacing(2)
-  }),
-  menuCategory: {
-    width: '40%',
-    maxHeight: '520px'
-  },
-  sum: theme => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    m: theme.spacing(2, 0)
-  }),
-  sale: theme => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    m: theme.spacing(1, 0)
-  }),
-  saleInput: {
-    width: '100px'
-  }
-};
+import useTitle from '../../hooks/useTitle';
+import useLocale from '../../hooks/useLocale';
+import useStore from '../../hooks/useStore';
+import MuiForm from '../../components/form-controls/MuiForm';
+import yup from '../../core/yup-extended';
+import MuiFormInput from '../../components/form-controls/MuiFormInput';
+import MuiFormMaskedInput from '../../components/form-controls/MuiFormMaskedInput';
+import MuiFormDateTimePicker from '../../components/form-controls/MuiFormDateTimePicker';
+import { IMenuItem } from '../../store/MenuStore';
+import MuiSuggestSelector from '../../mui-components/MuiSuggestSelector';
+import MuiFormButton from '../../components/form-controls/MuiFormButton';
+import Locale from './locale';
+import styles from './styles';
 
 interface IForm {
   name: string;
@@ -131,6 +50,14 @@ interface ISelectedItem {
 
 type SelectedMenu = { [type: string]: Array<ISelectedItem> };
 
+const pricePerPerson = 1400;
+const weightPerPerson: { [type: string]: number } = {
+  salads: 100,
+  snacks: 150,
+  hotter: 200,
+  banquetMenu: 300
+};
+
 const Banquets: FC = (): JSX.Element => {
   const locale = useLocale(Locale);
   const { menuStore } = useStore();
@@ -139,8 +66,10 @@ const Banquets: FC = (): JSX.Element => {
   const containerRef = useRef(null);
   const [saleChecked, setSaleChecked] = useState<boolean>(false);
   const [serviceFeeChecked, setServiceFeeChecked] = useState<boolean>(false);
+  const [weightRecChecked, setWeightRecChecked] = useState<boolean>(false);
   const [sale, setSale] = useState<string>('');
   const [totalAmount, setTotalAmount] = useState<number>(sum);
+  const [weight, setWeight] = useState<{ [type: string]: number }>({});
   useTitle(locale.title);
 
   useEffect(() => {
@@ -148,6 +77,20 @@ const Banquets: FC = (): JSX.Element => {
       menuStore.fetchMenu();
     }
   }, [menuStore.menu]);
+
+  useEffect(() => {
+    let newTotalAmount = sum;
+
+    if (saleChecked) {
+      newTotalAmount = sum - ((sum / 100) * Number(sale));
+    }
+
+    if (serviceFeeChecked) {
+      newTotalAmount += ((newTotalAmount / 100) * 12);
+    }
+
+    setTotalAmount(newTotalAmount);
+  }, [sum, saleChecked, serviceFeeChecked, sale]);
 
   const schema = yup.object({
     name: yup.string().required(),
@@ -160,14 +103,17 @@ const Banquets: FC = (): JSX.Element => {
       .nullable()
   });
 
-  const methods = useForm<IForm>(
-    {
-      resolver: yupResolver(schema),
-      mode: 'onTouched'
-    }
-  );
+  const methods = useForm<IForm>({
+    resolver: yupResolver(schema),
+    mode: 'onTouched'
+  });
 
   const { watch } = methods;
+  const watchName = watch('name');
+  const watchDate = watch('date');
+  const watchPhone = watch('phone');
+  const watchPersonsCount = watch('personsCount');
+
   const onSubmit: SubmitHandler<IForm> = (data) => {
     const result = { ...data, menu: { ...selectedMenu } };
 
@@ -182,6 +128,7 @@ const Banquets: FC = (): JSX.Element => {
     }
 
     setSum(sum + data.price);
+    setWeight({ ...weight, [type]: (weight[type] || 0) + data.weight });
   };
 
   const deleteItem = (type: string, title: string) => {
@@ -194,6 +141,7 @@ const Banquets: FC = (): JSX.Element => {
 
     if (deletedItem) {
       setSum(sum - (deletedItem.price * (deletedItem.count || 1)));
+      setWeight({ ...weight, [type]: (weight[type] || 0) - (deletedItem.weight * (deletedItem.count || 1)) });
     }
   };
 
@@ -208,9 +156,11 @@ const Banquets: FC = (): JSX.Element => {
             if (type === 'add') {
               resultItem.count = (item?.count || 0) + 1;
               setSum(sum + item.price);
+              setWeight({ ...weight, [itemType]: (weight[itemType] || 0) + item.weight });
             } else if (type === 'remove' && item.count && item.count > 1) {
               resultItem.count = (item?.count || 0) - 1;
               setSum(sum - item.price);
+              setWeight({ ...weight, [itemType]: (weight[itemType] || 0) - item.weight });
             }
 
             return resultItem;
@@ -220,26 +170,6 @@ const Banquets: FC = (): JSX.Element => {
         })
     });
   };
-
-  const renderItem = (type: string, itemData: ISelectedItem) => (
-    <Box sx={styles.item} key={itemData.title}>
-      <Typography variant="body2" sx={styles.itemTitle}>{itemData.title}</Typography>
-      <Typography variant="subtitle1" sx={styles.itemPrice}>{`${itemData.price} руб.`}</Typography>
-      <Typography variant="subtitle1">{`${itemData.weight} гр.`}</Typography>
-      <Box sx={styles.counter}>
-        <IconButton size="small" onClick={() => onEditCount(type, itemData.title, 'remove')}>
-          <RemoveIcon color="primary" />
-        </IconButton>
-        <Typography variant="body2" sx={styles.itemCount}>{`${itemData.count} шт`}</Typography>
-        <IconButton size="small" onClick={() => onEditCount(type, itemData.title, 'add')}>
-          <AddIcon color="primary" />
-        </IconButton>
-      </Box>
-      <IconButton size="small" onClick={() => deleteItem(type, itemData.title)}>
-        <DeleteIcon />
-      </IconButton>
-    </Box>
-  );
 
   const onChangeSnacks = (option: IMenuItem, type: string) => {
     if (option) {
@@ -265,23 +195,86 @@ const Banquets: FC = (): JSX.Element => {
   const onCheckedSale = (event: ChangeEvent<HTMLInputElement>) => {
     setSaleChecked(event.target.checked);
   };
+
   const onCheckedServiceFee = (event: ChangeEvent<HTMLInputElement>) => {
     setServiceFeeChecked(event.target.checked);
+  };
+
+  const onCheckedWeightRec = (event: ChangeEvent<HTMLInputElement>) => {
+    setWeightRecChecked(event.target.checked);
   };
 
   const onSale = (event: ChangeEvent<HTMLInputElement>) => {
     setSale(event.target.value);
   };
 
+  const renderWarningSum = (): JSX.Element | undefined => {
+    const needSum = watchPersonsCount * pricePerPerson;
+
+    if (sum < needSum) {
+      return <Alert severity="warning">{locale.warningSum(needSum)}</Alert>;
+    }
+  };
+
+  const renderWarningWeight = (): Array<JSX.Element> => {
+    const content: Array<JSX.Element> = [];
+
+    Object.keys(weightPerPerson).forEach((type) => {
+      if (weight[type] && (weightPerPerson[type] > (weight[type] / watchPersonsCount))) {
+        content.push(<Alert severity="warning" key={type}>{locale.warningWeight(locale[type])}</Alert>);
+      }
+    });
+
+    return content;
+  };
+
+  const renderItem = (type: string, itemData: ISelectedItem) => (
+    <Grid container spacing={2} key={itemData.title} sx={styles.item}>
+      <Grid item xs={6} md={5}>
+        <Typography variant="body2" sx={styles.itemTitle}>{itemData.title}</Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography variant="subtitle1" sx={styles.itemPrice}>
+          <Box dangerouslySetInnerHTML={{ __html: locale.sumCurrency(itemData.price) }} />
+        </Typography>
+      </Grid>
+      <Grid item xs={4} md={1}>
+        <Typography variant="subtitle1">{`${itemData.weight} гр.`}</Typography>
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <Box sx={styles.counter}>
+          <IconButton size="small" onClick={() => onEditCount(type, itemData.title, 'remove')}>
+            <RemoveIcon color="secondary" />
+          </IconButton>
+          <Typography variant="subtitle1" sx={styles.itemCount}>{`${itemData.count} шт`}</Typography>
+          <IconButton size="small" onClick={() => onEditCount(type, itemData.title, 'add')}>
+            <AddIcon color="secondary" />
+          </IconButton>
+        </Box>
+      </Grid>
+      <Grid item xs={2} md={1}>
+        <IconButton size="small" onClick={() => deleteItem(type, itemData.title)}>
+          <DeleteIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
+  );
+
   const renderFooter = (): JSX.Element => (
     <>
       {sum > 0 && <Divider />}
       {sum > 0 && (
-        <Box sx={styles.footer} mt={2}>
+        <Box sx={styles.footer}>
           <Box sx={styles.sum}>
             <Typography variant="body1" mb={1}>{locale.sumLabel}</Typography>
             <Box dangerouslySetInnerHTML={{ __html: locale.sumCurrency(sum) }} />
           </Box>
+          {watchPersonsCount && renderWarningSum()}
+          <FormControlLabel
+            label={locale.weightRecommendations}
+            control={<Checkbox checked={weightRecChecked} onChange={onCheckedWeightRec} size="small" />}
+          />
+          {weightRecChecked && watchPersonsCount && renderWarningWeight()}
           <FormControlLabel
             label={locale.serviceFeeLabel}
             control={<Checkbox checked={serviceFeeChecked} onChange={onCheckedServiceFee} size="small" />}
@@ -293,18 +286,18 @@ const Banquets: FC = (): JSX.Element => {
             />
 
             {saleChecked && (
-            <TextField
-              label={locale.saleLabel}
-              value={sale}
-              variant="standard"
-              onChange={onSale}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                componentsProps: { input: { min: '0', max: '100' } }
-              }}
-              type="number"
-              sx={styles.saleInput}
-            />
+              <TextField
+                label={locale.saleLabel}
+                value={sale}
+                variant="standard"
+                onChange={onSale}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                  componentsProps: { input: { min: '0', max: '100' } }
+                }}
+                type="number"
+                sx={styles.saleInput}
+              />
             )}
           </Box>
 
@@ -320,20 +313,6 @@ const Banquets: FC = (): JSX.Element => {
       )}
     </>
   );
-
-  useEffect(() => {
-    let newTotalAmount = sum;
-
-    if (saleChecked) {
-      newTotalAmount = sum - ((sum / 100) * Number(sale));
-    }
-
-    if (serviceFeeChecked) {
-      newTotalAmount += ((newTotalAmount / 100) * 12);
-    }
-
-    setTotalAmount(newTotalAmount);
-  }, [sum, saleChecked, serviceFeeChecked, sale]);
 
   return (
     <div ref={containerRef}>
@@ -360,37 +339,38 @@ const Banquets: FC = (): JSX.Element => {
           </Grid>
         </div>
 
-        <Box sx={styles.order}>
-          <Grid container spacing={4} sx={styles.menuCategory}>
-            {Object.keys(menuStore.menu).map(menuType => (
-              <Grid item xs={12} key={menuType}>
-                <MuiSuggestSelector
-                  label={locale[menuType]}
-                  onChange={(option: IMenuItem) => onChangeSnacks(option, menuType)}
-                  options={getSuggestOptions(menuType)}
-                  getOptionLabel={(option: IMenuItem) => option?.title || ''}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <Paper sx={styles.orderList} elevation={3}>
-            {Object.keys(selectedMenu).map(type => (
-              <Box key={type}>
-                {selectedMenu[type].length > 0 && <Typography variant="h4" mb={1}>{locale[type]}</Typography>}
-                <TransitionGroup>
-                  {selectedMenu[type].map(item => (
-                    <Collapse key={item.title}>
-                      {renderItem(type, item)}
-                    </Collapse>
-                  ))}
-                </TransitionGroup>
-              </Box>
-            ))}
+        {watchPersonsCount && watchName && watchDate && watchPhone && (
+          <Box sx={styles.order}>
+            <Grid container spacing={4} sx={styles.menuCategory}>
+              {Object.keys(menuStore.menu).map(menuType => (
+                <Grid item xs={12} key={menuType}>
+                  <MuiSuggestSelector
+                    label={locale[menuType]}
+                    onChange={(option: IMenuItem) => onChangeSnacks(option, menuType)}
+                    options={getSuggestOptions(menuType)}
+                    getOptionLabel={(option: IMenuItem) => option?.title || ''}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <Paper sx={styles.orderList} elevation={3}>
+              {Object.keys(selectedMenu).map(type => (
+                <Box key={type}>
+                  {selectedMenu[type].length > 0 && <Typography variant="h4" mb={1}>{locale[type]}</Typography>}
+                  <TransitionGroup>
+                    {selectedMenu[type].map(item => (
+                      <Collapse key={item.title}>
+                        {renderItem(type, item)}
+                      </Collapse>
+                    ))}
+                  </TransitionGroup>
+                </Box>
+              ))}
 
-            {renderFooter()}
-
-          </Paper>
-        </Box>
+              {renderFooter()}
+            </Paper>
+          </Box>
+        )}
       </MuiForm>
     </div>
   );
