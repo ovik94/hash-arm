@@ -238,10 +238,10 @@ const Banquets: FC = (): JSX.Element => {
           <Box dangerouslySetInnerHTML={{ __html: locale.sumCurrency(itemData.price) }} />
         </Typography>
       </Grid>
-      <Grid item xs={4} md={1}>
+      <Grid item xs={4} md={1.5}>
         <Typography variant="subtitle1">{`${itemData.weight} гр.`}</Typography>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={6} md={2.5}>
         <Box sx={styles.counter}>
           <IconButton size="small" onClick={() => onEditCount(type, itemData.title, 'remove')}>
             <RemoveIcon color="secondary" />
