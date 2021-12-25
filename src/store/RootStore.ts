@@ -6,7 +6,7 @@ import ContractorsStore from './ContractorsStore';
 import NotificationsStore from './NotificationsStore';
 import InstructionsStore from './InstructionsStore';
 import BalanceStore from './BalanceStore';
-import MenuStore from './MenuStore';
+import BanquetsStore from './BanquetsStore';
 
 export interface IAdmin {
   name: string;
@@ -42,7 +42,7 @@ export class RootStore {
 
   balanceStore: BalanceStore;
 
-  menuStore: MenuStore;
+  banquetsStore: BanquetsStore;
 
   constructor() {
     this.userStore = new UserStore(this);
@@ -51,7 +51,7 @@ export class RootStore {
     this.contractorsStore = new ContractorsStore(this);
     this.instructionsStore = new InstructionsStore(this);
     this.balanceStore = new BalanceStore(this);
-    this.menuStore = new MenuStore(this);
+    this.banquetsStore = new BanquetsStore(this);
 
     makeObservable(this, { isLoading: observable, setLoading: action });
   }

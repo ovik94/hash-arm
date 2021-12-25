@@ -28,7 +28,7 @@ import yup from '../../core/yup-extended';
 import MuiFormInput from '../../components/form-controls/MuiFormInput';
 import MuiFormMaskedInput from '../../components/form-controls/MuiFormMaskedInput';
 import MuiFormDateTimePicker from '../../components/form-controls/MuiFormDateTimePicker';
-import { IMenuItem } from '../../store/MenuStore';
+import { IMenuItem, ISaveBanquetBody } from '../../store/BanquetsStore';
 import MuiSuggestSelector from '../../mui-components/MuiSuggestSelector';
 import MuiFormButton from '../../components/form-controls/MuiFormButton';
 import Locale from './locale';
@@ -50,17 +50,9 @@ interface ISelectedItem {
 
 type SelectedMenu = { [type: string]: Array<ISelectedItem> };
 
-const pricePerPerson = 1400;
-const weightPerPerson: { [type: string]: number } = {
-  salads: 100,
-  snacks: 150,
-  hotter: 200,
-  banquetMenu: 300
-};
-
 const Banquets: FC = (): JSX.Element => {
   const locale = useLocale(Locale);
-  const { menuStore } = useStore();
+  const { banquetsStore } = useStore();
   const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>({});
   const [sum, setSum] = useState<number>(0);
   const containerRef = useRef(null);
@@ -73,10 +65,10 @@ const Banquets: FC = (): JSX.Element => {
   useTitle(locale.title);
 
   useEffect(() => {
-    if (!Object.keys(menuStore.menu).length) {
-      menuStore.fetchMenu();
+    if (!Object.keys(banquetsStore.menu).length) {
+      banquetsStore.fetchMenu();
     }
-  }, [menuStore.menu]);
+  }, [banquetsStore.menu]);
 
   useEffect(() => {
     let newTotalAmount = sum;
@@ -105,19 +97,36 @@ const Banquets: FC = (): JSX.Element => {
 
   const methods = useForm<IForm>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      name: '',
+      phone: '',
+      personsCount: 10,
+      date: new Date()
+    },
     mode: 'onTouched'
   });
 
-  const { watch } = methods;
+  const { watch, reset } = methods;
   const watchName = watch('name');
   const watchDate = watch('date');
   const watchPhone = watch('phone');
   const watchPersonsCount = watch('personsCount');
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    const result = { ...data, menu: { ...selectedMenu } };
+    const body: ISaveBanquetBody = { ...data, menu: { ...selectedMenu }, sum, totalAmount };
 
-    console.log(result, 'resultData');
+    if (saleChecked) {
+      body.sale = sale;
+    }
+
+    if (serviceFeeChecked) {
+      body.serviceFee = '12';
+    }
+
+    banquetsStore.save(body).then(() => {
+      reset();
+      setSelectedMenu({});
+    });
   };
 
   const addItem = (type: string, data: ISelectedItem) => {
@@ -179,9 +188,9 @@ const Banquets: FC = (): JSX.Element => {
 
   const getSuggestOptions = (type: string) => {
     // @ts-ignore
-    if (menuStore.menu[type]) {
+    if (banquetsStore.menu[type]) {
       // @ts-ignore
-      return menuStore.menu[type].filter((option: ISelectedItem) => {
+      return banquetsStore.menu[type].filter((option: ISelectedItem) => {
         if (selectedMenu[type]) {
           return !selectedMenu[type].some(item => item.title === option.title);
         }
@@ -209,7 +218,7 @@ const Banquets: FC = (): JSX.Element => {
   };
 
   const renderWarningSum = (): JSX.Element | undefined => {
-    const needSum = watchPersonsCount * pricePerPerson;
+    const needSum = watchPersonsCount * banquetsStore.options.pricePerPerson;
 
     if (sum < needSum) {
       return <Alert severity="warning">{locale.warningSum(needSum)}</Alert>;
@@ -218,7 +227,7 @@ const Banquets: FC = (): JSX.Element => {
 
   const renderWarningWeight = (): Array<JSX.Element> => {
     const content: Array<JSX.Element> = [];
-
+    const { weightPerPerson } = banquetsStore.options;
     Object.keys(weightPerPerson).forEach((type) => {
       if (weight[type] && (weightPerPerson[type] > (weight[type] / watchPersonsCount))) {
         content.push(<Alert severity="warning" key={type}>{locale.warningWeight(locale[type])}</Alert>);
@@ -342,7 +351,7 @@ const Banquets: FC = (): JSX.Element => {
         {watchPersonsCount && watchName && watchDate && watchPhone && (
           <Box sx={styles.order}>
             <Grid container spacing={4} sx={styles.menuCategory}>
-              {Object.keys(menuStore.menu).map(menuType => (
+              {Object.keys(banquetsStore.menu).map(menuType => (
                 <Grid item xs={12} key={menuType}>
                   <MuiSuggestSelector
                     label={locale[menuType]}
