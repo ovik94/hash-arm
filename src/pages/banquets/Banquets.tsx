@@ -52,7 +52,7 @@ type SelectedMenu = { [type: string]: Array<ISelectedItem> };
 
 const Banquets: FC = (): JSX.Element => {
   const locale = useLocale(Locale);
-  const { banquetsStore } = useStore();
+  const { banquetsStore, userStore } = useStore();
   const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>({});
   const [sum, setSum] = useState<number>(0);
   const containerRef = useRef(null);
@@ -113,7 +113,13 @@ const Banquets: FC = (): JSX.Element => {
   const watchPersonsCount = watch('personsCount');
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    const body: ISaveBanquetBody = { ...data, menu: { ...selectedMenu }, sum, totalAmount };
+    const body: ISaveBanquetBody = {
+      ...data,
+      menu: { ...selectedMenu },
+      sum,
+      totalAmount,
+      admin: userStore.user.name
+    };
 
     if (saleChecked) {
       body.sale = sale;
@@ -126,6 +132,8 @@ const Banquets: FC = (): JSX.Element => {
     banquetsStore.save(body).then(() => {
       reset();
       setSelectedMenu({});
+      setSum(0);
+      setWeight({});
     });
   };
 
