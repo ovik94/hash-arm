@@ -27,7 +27,6 @@ const styles: Record<string, SxProps<Theme>> = {
     mb: theme.spacing(4)
   }),
   table: theme => ({
-    minWidth: 650,
     margin: theme.spacing(3, 0)
   }),
   tableRow: theme => ({

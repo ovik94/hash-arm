@@ -32,17 +32,31 @@ const styles: Record<string, SxProps<Theme>> = {
   order: theme => ({
     display: 'flex',
     justifyContent: 'space-between',
-    mt: theme.spacing(3)
+    mt: theme.spacing(3),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column-reverse'
+    }
   }),
   orderList: theme => ({
     width: '60%',
     ml: theme.spacing(4),
-    p: theme.spacing(2)
+    p: theme.spacing(2),
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      m: 0
+    }
   }),
-  menuCategory: {
+  menuCategory: theme => ({
     width: '40%',
-    maxHeight: '520px'
-  },
+    maxHeight: '520px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      m: 0
+    }
+  }),
   footer: theme => ({
     display: 'flex',
     flexDirection: 'column',

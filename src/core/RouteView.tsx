@@ -4,13 +4,13 @@ import { observer } from 'mobx-react';
 import { Theme } from '@mui/material/styles';
 import { Box, SxProps } from '@mui/material';
 import useStore from '../hooks/useStore';
-import TopMenu from '../components/top-menu/TopMenu';
 import { IRouteProps } from './types';
 import Loader from '../components/loader/Loader';
+import Navigation from '../components/navigation/Navigation';
 
 const styles: Record<string, SxProps<Theme>> = {
   main: theme => ({
-    p: theme.spacing(0, 3, 5, 3)
+    p: theme.spacing(12, 5)
   })
 };
 
@@ -23,10 +23,11 @@ const RouteView: FC<IRouteProps> = ({ children, ...rest }: IRouteProps): JSX.Ele
   return (
     <Route {...rest}>
       <Loader isLoading={isLoading} />
-      <TopMenu />
-      <Box sx={styles.main}>
-        {children}
-      </Box>
+      <Navigation>
+        <Box sx={styles.main}>
+          {children}
+        </Box>
+      </Navigation>
     </Route>
   );
 };
