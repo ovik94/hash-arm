@@ -7,7 +7,7 @@ import useLocale from '../hooks/useLocale';
 const Locale = {
   ERROR_BOT_SEND_MESSAGE: 'Произошла ошибка. Бот не смог отправить сообщение в чат',
   CREATE_ORDER_SUCCESS: 'Заявка успешно создана! Проверь чат с менеджером в Telegram',
-  SAVE_BANQUET_SUCCESS: 'Банкет успешно создан! Pdf файл с данными заказа отправлен в чат Telegram',
+  SAVE_BANQUET_SUCCESS: 'Банкет успешно создан! Данные отправлены в чат Telegram',
   DEFAULT: {
     default: 'Всплывающее сообщение',
     error: 'Похоже что-то пошло не так',
