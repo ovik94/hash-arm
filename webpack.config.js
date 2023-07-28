@@ -9,7 +9,6 @@ module.exports = () => ({
     app: path.join(__dirname, 'src', 'core', 'init.tsx')
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
     historyApiFallback: true,
     headers: {
       "Access-Control-Allow-Origin": "*"
@@ -56,9 +55,10 @@ module.exports = () => ({
     path: path.join(__dirname, './dist'),
     filename: '[name].[chunkhash].bundle.js',
     chunkFilename: '[name].[chunkhash].bundle.js',
-    publicPath: '/',
+    publicPath: '/'
   },
   optimization: {
+    concatenateModules: true,
     splitChunks: {
       cacheGroups: {
         vendor: {

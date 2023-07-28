@@ -40,6 +40,10 @@ const RequestConfigList: IRequestConfigList = {
   postBanquetSave: {
     method: RequestMethods.POST,
     path: '/api/banquets/save'
+  },
+  getFortuneList: {
+    method: RequestMethods.GET,
+    path: '/api/fortune/list'
   }
 };
 

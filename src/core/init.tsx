@@ -24,6 +24,7 @@ import RequestConfigList from './request/RequestConfigList';
 import Instructions from '../pages/Instructions';
 import BarBalance from '../pages/BarBalance';
 import Banquets from '../pages/banquets/Banquets';
+import Fortune from '../pages/Fortune';
 
 const store = new RootStore();
 
@@ -68,6 +69,9 @@ const App: FunctionComponent = () => {
                     <Router>
                       <div>
                         <Switch>
+                          <Route exact path="/fortune">
+                            <Fortune />
+                          </Route>
                           <Route exact path="/login">
                             <Login />
                           </Route>
