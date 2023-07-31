@@ -23,7 +23,7 @@ const TopMenu: FC<ITopMenuProps> = ({ setOpen, open, title }) => {
   const logOut = () => {
     userStore.setAuthorized(false);
     userStore.setUser({} as IUser);
-    Cookies.remove('adminName');
+    sessionStorage.removeItem('adminName');
     history.push('/login');
   };
 

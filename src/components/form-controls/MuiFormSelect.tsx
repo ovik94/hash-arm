@@ -12,11 +12,12 @@ interface IMuiSelect {
   defaultValue?: string;
   label?: string | ReactNode;
   validators?: any;
+  renderItem?: (option: { label: string, value: string }) => JSX.Element;
 }
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   formControl: {
-    margin: theme.spacing(3, 0),
+    margin: theme.spacing(2, 0),
     width: '100%'
   }
 }));
@@ -26,7 +27,8 @@ const MuiFormSelect: FC<IMuiSelect> = ({
   name,
   options,
   validators,
-  label
+  label,
+  renderItem
 }: IMuiSelect): JSX.Element => {
   const classes = useStyles();
   const { control, formState: { errors } } = useFormContext();
@@ -51,7 +53,9 @@ const MuiFormSelect: FC<IMuiSelect> = ({
           >
             {
               options.map(option => (
-                <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
+                <MenuItem value={option.value} key={option.value}>
+                  {renderItem ? renderItem(option) : option.label}
+                </MenuItem>
               ))
             }
           </Select>

@@ -17,6 +17,7 @@
     "@mui/styles": "^5.0.1",
     "@types/react-transition-group": "^4.4.4",
     "clsx": "^1.1.1",
+    "copy-webpack-plugin": "^11.0.0",
     "date-fns": "^2.9.0",
     "file-loader": "^6.2.0",
     "globalize": "^1.6.0",

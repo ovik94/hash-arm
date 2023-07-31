@@ -1,6 +1,7 @@
 const Locale = {
   buttonLabel: 'Войти',
-  selectLabel: 'Выберите администратора'
+  selectLabel: 'Выберите администратора',
+  passLabel: 'Пароль'
 };
 
 export default Locale;

@@ -8,13 +8,12 @@ const styles: Record<string, SxProps<Theme>> = {
     alignItems: 'center',
     position: 'relative'
   },
+  form: {
+    width: '100%'
+  },
   logo: theme => ({
-    m: theme.spacing(6, 2),
+    mb: theme.spacing(3),
     height: theme.spacing(12)
-  }),
-  selectUserButton: theme => ({
-    display: 'block',
-    marginTop: theme.spacing(2)
   }),
   selectItem: {
     display: 'flex',
@@ -24,12 +23,6 @@ const styles: Record<string, SxProps<Theme>> = {
     display: 'flex',
     flexDirection: 'column',
     ml: theme.spacing(2)
-  }),
-  phone: {
-    color: 'rgba(0, 0, 0, 0.6)'
-  },
-  button: theme => ({
-    m: theme.spacing(3, 0, 2)
   })
 };
 

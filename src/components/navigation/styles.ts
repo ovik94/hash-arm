@@ -5,7 +5,7 @@ const DRAWER_WIDTH = 240;
 
 const styles: Record<string, SxProps<Theme>> = {
   toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
+    paddingRight: 2
   },
   appBar: theme => ({
     zIndex: theme.zIndex.drawer + 1,

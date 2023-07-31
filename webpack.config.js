@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = () => ({
@@ -74,6 +75,7 @@ module.exports = () => ({
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'core', 'index.html'),
     }),
-    new webpack.ProvidePlugin({ process: 'process/browser' })
+    new webpack.ProvidePlugin({ process: 'process/browser' }),
+    new CopyPlugin({ patterns: [{ from: "public", to: "public" }] })
   ]
 });

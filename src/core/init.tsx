@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider, StyledEngineProvider, Theme } from '@mui/material/styles';
-import Cookies from 'js-cookie';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Box, CssBaseline, SxProps } from '@mui/material';
@@ -48,10 +47,10 @@ const styles: Record<string, SxProps<Theme>> = {
 };
 
 const App: FunctionComponent = () => {
-  if (Cookies.get('adminName')) {
-    const user = JSON.parse(Cookies.get('adminName') || '');
+  const currentAdmin = sessionStorage.getItem('adminName');
 
-    store.userStore.setUser(user);
+  if (currentAdmin) {
+    store.userStore.setUser(JSON.parse(currentAdmin));
     store.userStore.setAuthorized(true);
   }
 

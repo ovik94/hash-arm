@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { createStyles, makeStyles } from '@mui/styles';
 import { TextField } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 
 export interface IMuiInputProps {
   name: string;
@@ -16,8 +17,9 @@ export interface IMuiInputProps {
   [otherProps: string]: any
 }
 
-const useStyles = makeStyles(() => createStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   formControl: {
+    margin: theme.spacing(2, 0),
     width: '100%'
   }
 }));
@@ -44,6 +46,7 @@ const MuiFormInput: FC<IMuiInputProps> = ({
           <TextField
             className={clsx(classes.formControl, className)}
             variant="outlined"
+            fullWidth
             error={Boolean(error?.message)}
             helperText={error?.message || helperText}
             inputRef={ref}

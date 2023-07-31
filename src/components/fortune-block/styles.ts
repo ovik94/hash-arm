@@ -42,11 +42,19 @@ const styles = (
   wrapper: {
     display: 'grid',
     placeItems: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    flexGrow: '1',
+    marginBottom: '24px',
+
+    canvas: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: 10,
+      top: 0
+    }
   },
   dealWheel: {
-    opacity: props.hasPrize ? 0.3 : 1,
-    height: '100vh',
     position: 'relative',
     display: 'grid',
     gridGap: `calc(${props.size} / 20)`,
@@ -58,6 +66,7 @@ const styles = (
     },
 
     ul: {
+      opacity: props.hasPrize ? 0.3 : 1,
       padding: 0,
       position: 'relative',
       display: 'grid',
@@ -71,6 +80,7 @@ const styles = (
     },
 
     li: {
+      opacity: props.hasPrize ? 0.3 : 1,
       display: 'flex',
       alignItems: 'center',
       padding: `0 calc(${props.size} / 6) 0 calc(${props.size} / 10)`,
@@ -83,9 +93,9 @@ const styles = (
   },
 
   ticker: {
+    opacity: props.hasPrize ? 0.3 : 1,
     gridArea: 'spinner',
     position: 'relative',
-    left: `calc(${props.size} / -15)`,
     width: `calc(${props.size} / 10)`,
     height: `calc(${props.size} / 20)`,
     background: `${props.lg}`,
@@ -109,9 +119,11 @@ const styles = (
     paddingBottom: '16px'
   },
   prizeText: {
-    position: 'absolute',
+    gridArea: 'spinner',
+    position: 'relative',
+    // position: 'absolute',
     textAlign: 'center',
-    top: '40%',
+    // top: '40%',
     color: '#9f2720',
     paddingRight: '24px',
     paddingLeft: '24px'

@@ -28,7 +28,6 @@ export default class FortuneStore {
     return this.rootStore.createRequest<Array<IFortune>>('getFortuneList')
       .then((data) => {
         this.setFortuneData(data);
-        console.log(data, 'data');
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
   };

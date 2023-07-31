@@ -8,9 +8,11 @@ import { SystemStyleObject } from "@mui/system/styleFunctionSx/styleFunctionSx";
 import useLocale from "../../hooks/useLocale";
 import Locale from "./locale";
 
+export type ISelectedPrize = { id: string; text: string; }
+
 interface IProps {
   data: Array<IFortune>;
-  prize?: { id: string; text: string; };
+  prize?: ISelectedPrize;
 }
 
 const spinertia = (min: number, max: number) => {
@@ -29,10 +31,11 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
   const [rotation, setRotation] = useState(25);
   const [disabled, setDisabled] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number>();
   const [confetti, setConfetti] = useState<JSConfetti>();
+  const [confettiStopped, setConfettiStopped] = useState(false);
 
   const currentSlice = useRef<number>(0);
+  const selectedIndex = useRef<number>();
 
   const createStyles = styles({
     rotation,
@@ -51,12 +54,28 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
     setConfetti(new JSConfetti({ canvas }));
   };
 
+  const savePrizeInSessionStorage = () => {
+    const currentPrize = sessionStorage.getItem('selectedPrize');
+
+    if (!currentPrize) {
+      const selectedPrize = data.find((item, index) => index === selectedIndex.current);
+
+      if (selectedPrize) {
+        sessionStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: selectedPrize.text }));
+      }
+    }
+  };
+
   const startConfetti = () => {
     if (confetti) {
       confetti.addConfetti({
         confettiRadius: 5,
         confettiNumber: prize ? 200 : 1
-      }).then(() => confetti.clearCanvas());
+      }).then(() => {
+        savePrizeInSessionStorage();
+        confetti.clearCanvas();
+        setConfettiStopped(true);
+      });
     }
   }
 
@@ -75,8 +94,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
 
 
   const selectPrize = (rotate: number) => {
-    const selected = Math.floor(rotate / prizeSlice);
-    setSelectedIndex(selected);
+    selectedIndex.current = Math.floor(rotate / prizeSlice);
   };
 
   useEffect(() => {
@@ -153,7 +171,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
               <li key={item.id} style={{ transform: `rotate(${rotation}deg)` }}>
                 <Typography
                   variant="caption"
-                  sx={selectedIndex === index ? createStyles.selectedText : {}}
+                  sx={selectedIndex.current === index ? createStyles.selectedText : {}}
                 >
                   {item.text}
                 </Typography>
@@ -165,25 +183,18 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
           sx={[createStyles.ticker, ...(isSpinning ? [createStyles.isSpinningTicker] : [])] as SystemStyleObject<Theme>}
           ref={tickerRef}
         />
+
+        {prize && confettiStopped && (
+          <Box sx={createStyles.prizeText}>
+            <Typography variant="h2" dangerouslySetInnerHTML={{ __html: locale.prizeText(prize.text)}} />
+          </Box>
+        )}
+
         <Button onClick={onRun} disabled={disabled} sx={createStyles.button} variant="contained">
           {locale.buttonLabel}
         </Button>
       </Box>
-
-      {prize && (
-        <Box sx={createStyles.prizeText}>
-          <Typography variant="h6" dangerouslySetInnerHTML={{ __html: locale.prizeText(prize.text)}} />
-        </Box>
-      )}
-      <canvas
-        id="canvasConfetti"
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          zIndex: 10
-        }}
-      />
+      <canvas id="canvasConfetti" />
     </Box>
   );
 };
