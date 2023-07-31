@@ -13,6 +13,7 @@ export type ISelectedPrize = { id: string; text: string; }
 interface IProps {
   data: Array<IFortune>;
   prize?: ISelectedPrize;
+  onFinish?: (prize: IFortune) => void;
 }
 
 const spinertia = (min: number, max: number) => {
@@ -21,21 +22,21 @@ const spinertia = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
+const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   const locale = useLocale(Locale);
 
   const [spinnerStyle, setSpinnerStyle] = useState<CSSProperties>({});
   const [prizeSlice, setPrizeSlice] = useState(0);
   const [prizeOffset, setPrizeOffset] = useState(0);
-  const [tickerAnim, setTickerAnim] = useState(0);
   const [rotation, setRotation] = useState(25);
   const [disabled, setDisabled] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [confetti, setConfetti] = useState<JSConfetti>();
-  const [confettiStopped, setConfettiStopped] = useState(false);
+  const [selectedPrize, setSelectedPrize] = useState<IFortune>();
 
   const currentSlice = useRef<number>(0);
   const selectedIndex = useRef<number>();
+  const tickerAnim = useRef<number>(0);
 
   const createStyles = styles({
     rotation,
@@ -70,51 +71,16 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
     if (confetti) {
       confetti.addConfetti({
         confettiRadius: 5,
-        confettiNumber: prize ? 200 : 1
+        confettiNumber: 700
       }).then(() => {
-        savePrizeInSessionStorage();
         confetti.clearCanvas();
-        setConfettiStopped(true);
       });
     }
   }
 
-  useEffect(() => {
-    if (data.length) {
-      const style = {
-        background: `conic-gradient(from -90deg,${data.map(({ color }, i) => `${color} 0 ${(100 / data.length) * (data.length - i)}%`).reverse()})`
-      };
-
-      setSpinnerStyle(style);
-      setPrizeSlice(360 / data.length);
-      setPrizeOffset(Math.floor(180 / data.length));
-      setCanvasConfetti();
-    }
-  }, [data]);
-
-
   const selectPrize = (rotate: number) => {
     selectedIndex.current = Math.floor(rotate / prizeSlice);
   };
-
-  useEffect(() => {
-    if (prize) {
-      setDisabled(true);
-      startConfetti();
-    }
-  }, [prize, confetti]);
-
-  useEffect(() => {
-    spinnerRef.current!.addEventListener("transitionend", () => {
-      const newRotation = rotation % 360;
-
-      cancelAnimationFrame(tickerAnim);
-      setRotation(newRotation)
-      selectPrize(newRotation);
-      setIsSpinning(false);
-      startConfetti();
-    });
-  }, [spinnerRef.current, prizeSlice, rotation, tickerAnim]);
 
   const runTickerAnimation = () => {
     const spinnerStyles = window.getComputedStyle(spinnerRef.current!);
@@ -143,7 +109,8 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
       currentSlice.current = slice;
     }
     // запускаем анимацию
-    setTickerAnim(requestAnimationFrame(runTickerAnimation));
+    // setTickerAnim(requestAnimationFrame(runTickerAnimation));
+    tickerAnim.current = requestAnimationFrame(runTickerAnimation);
   };
 
   const onRun = () => {
@@ -153,6 +120,59 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
     tickerRef.current!.style.animation = 'none';
     runTickerAnimation();
   }
+
+  useEffect(() => {
+    if (data.length) {
+      const style = {
+        background: `conic-gradient(from -90deg,${data.map(({ color }, i) => `${color} 0 ${(100 / data.length) * (data.length - i)}%`).reverse()})`
+      };
+
+      setSpinnerStyle(style);
+      setPrizeSlice(360 / data.length);
+      setPrizeOffset(Math.floor(180 / data.length));
+      setCanvasConfetti();
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (prize) {
+      setDisabled(true);
+      startConfetti();
+    }
+  }, [prize, confetti]);
+
+  useEffect(() => {
+    spinnerRef.current!.addEventListener("transitionend", () => {
+      const newRotation = rotation % 360;
+
+      cancelAnimationFrame(tickerAnim.current);
+      setRotation(newRotation)
+      selectPrize(newRotation);
+      setIsSpinning(false);
+    });
+  }, [spinnerRef.current, prizeSlice, rotation, tickerAnim.current]);
+
+  useEffect(() => {
+    if (selectedIndex.current && isFinite(selectedIndex.current)) {
+      const selectedPrizeData = data.find((item, index) => index === selectedIndex.current);
+
+      if (selectedPrizeData) {
+        setSelectedPrize(selectedPrizeData);
+      }
+    }
+  }, [selectedIndex.current]);
+
+
+  useEffect(() => {
+    if (selectedPrize) {
+      startConfetti();
+      savePrizeInSessionStorage();
+
+      if (onFinish) {
+        onFinish(selectedPrize);
+      }
+    }
+  }, [selectedPrize]);
 
   return (
     <Box sx={createStyles.wrapper}>
@@ -171,7 +191,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
               <li key={item.id} style={{ transform: `rotate(${rotation}deg)` }}>
                 <Typography
                   variant="caption"
-                  sx={selectedIndex.current === index ? createStyles.selectedText : {}}
+                  sx={selectedPrize?.id === item.id ? createStyles.selectedText : {}}
                 >
                   {item.text}
                 </Typography>
@@ -184,7 +204,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize }): JSX.Element => {
           ref={tickerRef}
         />
 
-        {prize && confettiStopped && (
+        {prize && (
           <Box sx={createStyles.prizeText}>
             <Typography variant="h2" dangerouslySetInnerHTML={{ __html: locale.prizeText(prize.text)}} />
           </Box>

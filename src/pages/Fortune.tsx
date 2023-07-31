@@ -5,6 +5,7 @@ import { Theme } from '@mui/material/styles';
 import useTitle from '../hooks/useTitle';
 import useStore from '../hooks/useStore';
 import FortuneBlock, { ISelectedPrize } from '../components/fortune-block/FortuneBlock';
+import { IFortune } from '../store/FortuneStore';
 
 const styles: Record<string, SxProps<Theme>> = {
   container: theme => ({
@@ -26,23 +27,30 @@ const styles: Record<string, SxProps<Theme>> = {
 
 const Fortune = () => {
   useTitle();
-  const { fortuneStore } = useStore();
+  const { fortuneStore: { fetchFortuneData, fortuneData, reduceItemCount } } = useStore();
 
   const prizeStorage = sessionStorage.getItem('selectedPrize') ?
     JSON.parse(sessionStorage.getItem('selectedPrize')!) as ISelectedPrize :
     null;
 
   useEffect(() => {
-    fortuneStore.fetchFortuneData();
+    fetchFortuneData('birthdayFortune');
   }, []);
+
+  const onFinish = (prize: IFortune) => {
+    reduceItemCount(prize.id);
+  };
 
   return (
     <Box sx={styles.container}>
       <img src="public/images/hblogo.svg" alt="logo" />
-      <FortuneBlock
-        data={fortuneStore.fortuneData}
-        prize={prizeStorage && prizeStorage?.id === 'birthday' ? prizeStorage : undefined}
-      />
+      {fortuneData.birthdayFortune && (
+        <FortuneBlock
+          data={fortuneData.birthdayFortune}
+          prize={prizeStorage && prizeStorage?.id === 'birthday' ? prizeStorage : undefined}
+          onFinish={onFinish}
+        />
+      )}
     </Box>
   );
 };

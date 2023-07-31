@@ -9,8 +9,10 @@ export interface IFortune {
   color: string;
 }
 
+export type FortuneType = 'birthdayFortune';
+
 export default class FortuneStore {
-  public fortuneData: Array<IFortune> = [];
+  public fortuneData: { [type: string]: Array<IFortune> } = {};
 
   protected rootStore: RootStore;
 
@@ -19,16 +21,20 @@ export default class FortuneStore {
     makeAutoObservable(this);
   }
 
-  public setFortuneData = (data: Array<IFortune>) => {
-    this.fortuneData = data;
+  public setFortuneData = (type: FortuneType, data: Array<IFortune>) => {
+    this.fortuneData = { ...this.fortuneData, [type]: data };
   };
 
-  public fetchFortuneData = (): Promise<void> => {
+  public fetchFortuneData = (type: FortuneType): Promise<void> => {
     this.rootStore.setLoading(true);
-    return this.rootStore.createRequest<Array<IFortune>>('getFortuneList')
+    return this.rootStore.createRequest<Array<IFortune>>('getFortuneList', { type })
       .then((data) => {
-        this.setFortuneData(data);
+        this.setFortuneData(type, data);
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
   };
+
+  public reduceItemCount = (id: string): Promise<void> => this.rootStore
+    .createRequest<void>('reduceItemCount', {}, { id })
+    .finally(() => {});
 }

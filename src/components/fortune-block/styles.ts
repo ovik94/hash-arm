@@ -121,9 +121,7 @@ const styles = (
   prizeText: {
     gridArea: 'spinner',
     position: 'relative',
-    // position: 'absolute',
     textAlign: 'center',
-    // top: '40%',
     color: '#9f2720',
     paddingRight: '24px',
     paddingLeft: '24px'

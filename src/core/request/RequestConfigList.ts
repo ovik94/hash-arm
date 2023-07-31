@@ -44,6 +44,10 @@ const RequestConfigList: IRequestConfigList = {
   getFortuneList: {
     method: RequestMethods.GET,
     path: '/api/fortune/list'
+  },
+  reduceItemCount: {
+    method: RequestMethods.POST,
+    path: '/api/fortune/reduce'
   }
 };
 
