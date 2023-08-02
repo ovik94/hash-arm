@@ -38,7 +38,7 @@ const Fortune = () => {
   }, []);
 
   const onFinish = (prize: IFortune) => {
-    reduceItemCount(prize.id);
+    reduceItemCount('birthdayFortune', prize.id);
   };
 
   return (

@@ -22,7 +22,7 @@ export default class FortuneStore {
   }
 
   public setFortuneData = (type: FortuneType, data: Array<IFortune>) => {
-    this.fortuneData = { ...this.fortuneData, [type]: data };
+    this.fortuneData = { ...this.fortuneData, [type]: data.filter(prize => Boolean(prize.count)) };
   };
 
   public fetchFortuneData = (type: FortuneType): Promise<void> => {
@@ -34,7 +34,7 @@ export default class FortuneStore {
       }).catch(() => this.rootStore.setLoading(false));
   };
 
-  public reduceItemCount = (id: string): Promise<void> => this.rootStore
-    .createRequest<void>('reduceItemCount', {}, { id })
+  public reduceItemCount = (type: FortuneType, id: string): Promise<void> => this.rootStore
+    .createRequest<void>('reduceItemCount', undefined, { type, id })
     .finally(() => {});
 }
