@@ -153,7 +153,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   }, [spinnerRef.current, prizeSlice, rotation, tickerAnim.current]);
 
   useEffect(() => {
-    if (selectedIndex.current && isFinite(selectedIndex.current)) {
+    if ((selectedIndex.current || selectedIndex.current === 0) && isFinite(selectedIndex.current)) {
       const selectedPrizeData = data.find((item, index) => index === selectedIndex.current);
 
       if (selectedPrizeData) {
