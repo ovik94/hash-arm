@@ -11,7 +11,7 @@ import { CoreContextProvider } from './CoreContext';
 import { StoreContextProvider } from './StoreContext';
 import { defaultTheme } from './theme';
 import locale, { DateFnsData } from './locale/locale';
-import RequestFactory from './request/request-factory';
+import RequestFactory, { IResponse } from './request/request-factory';
 import RouteView from './RouteView';
 import { RootStore } from '../store/RootStore';
 import CheckList from '../pages/CheckList';
@@ -24,13 +24,15 @@ import Instructions from '../pages/Instructions';
 import BarBalance from '../pages/BarBalance';
 import Banquets from '../pages/banquets/Banquets';
 import Fortune from '../pages/Fortune';
+import Statement from '../pages/Statement';
 
 const store = new RootStore();
 
-const onError = (status: string): void => {
+const onError = (res: IResponse<any>): void => {
   store.notificationStore.addNotification({
     type: 'error',
-    code: status
+    code: res.status,
+    text: res.message
   });
 };
 
@@ -94,6 +96,9 @@ const App: FunctionComponent = () => {
                           </RouteView>
                           <RouteView exact path="/ordering-banquets">
                             <Banquets />
+                          </RouteView>
+                          <RouteView exact path="/statement">
+                            <Statement />
                           </RouteView>
                         </Switch>
                       </div>

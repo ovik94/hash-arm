@@ -11,8 +11,9 @@ export interface IRequestConfig {
 }
 
 export interface IResponse<T> {
-  data: T;
+  data?: T;
   status: string;
+  message?: string;
 }
 
 export type IRequestConfigList = Record<string, IRequestConfig>;
@@ -30,7 +31,7 @@ export interface RequestOptions {
 
 export interface IRequestFactoryOptions {
   requestConfigList: IRequestConfigList;
-  onError: (status: string) => void;
+  onError: (res: IResponse<any>) => void;
 }
 
 export default class RequestFactory {
@@ -40,12 +41,12 @@ export default class RequestFactory {
     this.options = options;
   }
 
-  protected onError(status: string): Promise<any> {
+  protected onError(res: IResponse<any>): Promise<any> {
     if (this.options.onError) {
-      this.options.onError(status);
+      this.options.onError(res);
     }
 
-    return Promise.reject<any>(status);
+    return Promise.reject<any>(res);
   }
 
   public createRequest<T>(
@@ -57,14 +58,19 @@ export default class RequestFactory {
     const isFormData = typeof FormData === 'function' && (body instanceof FormData || body instanceof File);
     let { path } = this.options.requestConfigList[requestId];
     const { method } = this.options.requestConfigList[requestId];
-    let requestBody: string | null | undefined;
+    let requestBody: BodyInit | null = null;
     const headers: Record<string, any> = {
       'X-Requested-With': 'XMLHttpRequest'
     };
 
-    if (!isFormData) {
-      headers['Content-Type'] = 'application/json;charset=utf-8';
-      requestBody = JSON.stringify(body);
+    if (body) {
+      if (!isFormData) {
+        headers['Content-Type'] = 'application/json;charset=utf-8';
+        requestBody = JSON.stringify(body);
+      } else {
+        // @ts-ignore
+        requestBody = body;
+      }
     }
 
     if (params) {
@@ -86,7 +92,7 @@ export default class RequestFactory {
           return res.data;
         }
 
-        return this.onError(res.status);
+        return this.onError(res);
       }));
   }
 }

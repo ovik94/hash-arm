@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 export interface IMuiButton {
   label?: string;
   className?: string;
+  [key: string]: any;
 }
 
 const useStyles = makeStyles(() => createStyles({
@@ -15,7 +16,11 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-const MuiFormButton: FC<IMuiButton> = ({ label = 'Сохранить', className }) => {
+const MuiFormButton: FC<IMuiButton> = ({
+  label = 'Сохранить',
+  className,
+  ...otherProps
+}) => {
   const classes = useStyles();
 
   return (
@@ -25,6 +30,7 @@ const MuiFormButton: FC<IMuiButton> = ({ label = 'Сохранить', className
       variant="contained"
       color="primary"
       size="large"
+      {...otherProps}
     >
       {label}
     </Button>

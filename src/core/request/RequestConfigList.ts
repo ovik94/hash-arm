@@ -48,6 +48,10 @@ const RequestConfigList: IRequestConfigList = {
   reduceItemCount: {
     method: RequestMethods.POST,
     path: '/api/fortune/reduce'
+  },
+  processStatement: {
+    method: RequestMethods.POST,
+    path: '/api/statement/process'
   }
 };
 

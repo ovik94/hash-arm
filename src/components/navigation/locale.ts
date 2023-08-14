@@ -19,6 +19,10 @@ const Locale = {
     {
       title: 'Заказ банкетов',
       path: '/ordering-banquets'
+    },
+    {
+      title: 'Загрузить выписку',
+      path: '/statement'
     }
   ]
 };

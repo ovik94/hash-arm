@@ -8,6 +8,7 @@ import InstructionsStore from './InstructionsStore';
 import BalanceStore from './BalanceStore';
 import BanquetsStore from './BanquetsStore';
 import FortuneStore from './FortuneStore';
+import StatementStore from './StatementStore';
 
 export interface IAdmin {
   name: string;
@@ -47,6 +48,8 @@ export class RootStore {
 
   fortuneStore: FortuneStore;
 
+  statementStore: StatementStore;
+
   constructor() {
     this.userStore = new UserStore(this);
     this.notificationStore = new NotificationsStore(this);
@@ -56,6 +59,7 @@ export class RootStore {
     this.balanceStore = new BalanceStore(this);
     this.banquetsStore = new BanquetsStore(this);
     this.fortuneStore = new FortuneStore(this);
+    this.statementStore = new StatementStore(this);
 
     makeObservable(this, { isLoading: observable, setLoading: action });
   }
