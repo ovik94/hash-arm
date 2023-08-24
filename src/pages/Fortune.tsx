@@ -29,8 +29,8 @@ const Fortune = () => {
   useTitle();
   const { fortuneStore: { fetchFortuneData, fortuneData, reduceItemCount } } = useStore();
 
-  const prizeStorage = sessionStorage.getItem('selectedPrize') ?
-    JSON.parse(sessionStorage.getItem('selectedPrize')!) as ISelectedPrize :
+  const prizeStorage = localStorage.getItem('selectedPrize') ?
+    JSON.parse(localStorage.getItem('selectedPrize')!) as ISelectedPrize :
     null;
 
   useEffect(() => {

@@ -56,13 +56,13 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   };
 
   const savePrizeInSessionStorage = () => {
-    const currentPrize = sessionStorage.getItem('selectedPrize');
+    const currentPrize = localStorage.getItem('selectedPrize');
 
     if (!currentPrize) {
       const selectedPrize = data.find((item, index) => index === selectedIndex.current);
 
       if (selectedPrize) {
-        sessionStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: selectedPrize.text }));
+        localStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: selectedPrize.text }));
       }
     }
   };
