@@ -1,14 +1,14 @@
 import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import JSConfetti from 'js-confetti'
+import JSConfetti from 'js-confetti';
 import { Theme } from '@mui/material/styles';
+import { SystemStyleObject } from '@mui/system/styleFunctionSx/styleFunctionSx';
 import { IFortune } from '../../store/FortuneStore';
 import styles from './styles';
-import { SystemStyleObject } from "@mui/system/styleFunctionSx/styleFunctionSx";
-import useLocale from "../../hooks/useLocale";
-import Locale from "./locale";
+import useLocale from '../../hooks/useLocale';
+import Locale from './locale';
 
-export type ISelectedPrize = { id: string; text: string; }
+export type ISelectedPrize = { id: string; text: string; };
 
 interface IProps {
   data: Array<IFortune>;
@@ -76,7 +76,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
         confetti.clearCanvas();
       });
     }
-  }
+  };
 
   const selectPrize = (rotate: number) => {
     selectedIndex.current = Math.floor(rotate / prizeSlice);
@@ -84,7 +84,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
 
   const runTickerAnimation = () => {
     const spinnerStyles = window.getComputedStyle(spinnerRef.current!);
-    const values: Array<string> = spinnerStyles.transform?.split("(")[1].split(")")[0].split(",") || [];
+    const values: Array<string> = spinnerStyles.transform?.split('(')[1].split(')')[0].split(',') || [];
     const a = values[0];
     const b = values[1];
     let rad = Math.atan2(Number(b), Number(a));
@@ -99,7 +99,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
     // если появился новый сектор
     if (currentSlice.current !== slice) {
       // убираем анимацию язычка
-      tickerRef.current!.style.animation = "none";
+      tickerRef.current!.style.animation = 'none';
       // и через 10 миллисекунд отменяем это, чтобы он вернулся в первоначальное положение
       setTimeout(() => {
         // @ts-ignore
@@ -119,7 +119,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
     setIsSpinning(true);
     tickerRef.current!.style.animation = 'none';
     runTickerAnimation();
-  }
+  };
 
   useEffect(() => {
     if (data.length) {
@@ -142,11 +142,11 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   }, [prize, confetti]);
 
   useEffect(() => {
-    spinnerRef.current!.addEventListener("transitionend", () => {
+    spinnerRef.current!.addEventListener('transitionend', () => {
       const newRotation = rotation % 360;
 
       cancelAnimationFrame(tickerAnim.current);
-      setRotation(newRotation)
+      setRotation(newRotation);
       selectPrize(newRotation);
       setIsSpinning(false);
     });
@@ -161,7 +161,6 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
       }
     }
   }, [selectedIndex.current]);
-
 
   useEffect(() => {
     if (selectedPrize) {
@@ -178,7 +177,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
     <Box sx={createStyles.wrapper}>
       <Box sx={createStyles.dealWheel}>
         <ul
-          className='spinner'
+          className="spinner"
           style={isSpinning ?
             { ...spinnerStyle, transition: 'transform 8s cubic-bezier(0.1, -0.01, 0, 1)' } :
             spinnerStyle}
@@ -206,7 +205,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
 
         {prize && (
           <Box sx={createStyles.prizeText}>
-            <Typography variant="h2" dangerouslySetInnerHTML={{ __html: locale.prizeText(prize.text)}} />
+            <Typography variant="h2" dangerouslySetInnerHTML={{ __html: locale.prizeText(prize.text) }} />
           </Box>
         )}
 

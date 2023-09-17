@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider, StyledEngineProvider, Theme } from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, CssBaseline, SxProps } from '@mui/material';
 import ErrorBoundary from './ErrorBoundary';
 import { CoreContextProvider } from './CoreContext';
@@ -25,6 +25,7 @@ import BarBalance from '../pages/BarBalance';
 import Banquets from '../pages/banquets/Banquets';
 import Fortune from '../pages/Fortune';
 import Statement from '../pages/Statement';
+import Feedback from '../pages/Feedback';
 
 const store = new RootStore();
 
@@ -62,7 +63,7 @@ const App: FunctionComponent = () => {
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={defaultTheme}>
             <SnackbarProvider autoHideDuration={10000} hideIconVariant>
-              <LocalizationProvider dateAdapter={AdapterDateFns} locale={DateFnsData}>
+              <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={DateFnsData}>
                 <CssBaseline />
                 <StoreContextProvider value={store}>
                   <CoreContextProvider value={{ createRequest, locale }}>
@@ -72,6 +73,9 @@ const App: FunctionComponent = () => {
                         <Switch>
                           <Route exact path="/fortune">
                             <Fortune />
+                          </Route>
+                          <Route exact path="/feedback">
+                            <Feedback />
                           </Route>
                           <Route exact path="/login">
                             <Login />

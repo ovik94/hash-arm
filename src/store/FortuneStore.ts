@@ -9,7 +9,7 @@ export interface IFortune {
   color: string;
 }
 
-export type FortuneType = 'birthdayFortune';
+export type FortuneType = 'birthdayFortune' | 'feedbackFortune';
 
 export default class FortuneStore {
   public fortuneData: { [type: string]: Array<IFortune> } = {};

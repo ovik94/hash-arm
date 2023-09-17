@@ -9,6 +9,7 @@ import BalanceStore from './BalanceStore';
 import BanquetsStore from './BanquetsStore';
 import FortuneStore from './FortuneStore';
 import StatementStore from './StatementStore';
+import FeedbackStore from './FeedbackStore';
 
 export interface IAdmin {
   name: string;
@@ -50,6 +51,8 @@ export class RootStore {
 
   statementStore: StatementStore;
 
+  feedbackStore: FeedbackStore;
+
   constructor() {
     this.userStore = new UserStore(this);
     this.notificationStore = new NotificationsStore(this);
@@ -60,6 +63,7 @@ export class RootStore {
     this.banquetsStore = new BanquetsStore(this);
     this.fortuneStore = new FortuneStore(this);
     this.statementStore = new StatementStore(this);
+    this.feedbackStore = new FeedbackStore(this);
 
     makeObservable(this, { isLoading: observable, setLoading: action });
   }

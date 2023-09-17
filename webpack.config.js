@@ -17,8 +17,8 @@ module.exports = () => ({
     port: 80,
     proxy: {
       '/api': {
-        target: 'http://localhost:8082',
-        // target: 'http://185.20.226.121:8082',
+        // target: 'http://localhost:8082',
+        target: 'http://185.20.226.121:8082',
         secure: false
       },
     },
@@ -73,7 +73,7 @@ module.exports = () => ({
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'core', 'index.html'),
+      template: path.join(__dirname, 'index.html'),
     }),
     new webpack.ProvidePlugin({ process: 'process/browser' }),
     new CopyPlugin({ patterns: [{ from: "public", to: "public" }] })

@@ -52,6 +52,14 @@ const RequestConfigList: IRequestConfigList = {
   processStatement: {
     method: RequestMethods.POST,
     path: '/api/statement/process'
+  },
+  getFeedbackList: {
+    method: RequestMethods.GET,
+    path: '/api/feedback/list'
+  },
+  sendFeedback: {
+    method: RequestMethods.POST,
+    path: '/api/feedback/send'
   }
 };
 

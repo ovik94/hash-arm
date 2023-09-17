@@ -1,35 +1,50 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
+import get from 'lodash/get';
 import { Controller, useFormContext } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
-import { DateTimePicker } from '@mui/lab';
-import { createStyles, makeStyles } from '@mui/styles';
-import clsx from 'clsx';
+import { Theme } from '@mui/material/styles';
+import { TextFieldProps } from '@mui/material/TextField/TextField';
+import { SystemStyleObject } from '@mui/system/styleFunctionSx/styleFunctionSx';
+import { DateTimePicker } from '@mui/x-date-pickers';
 
 interface IMuiDateTimePicker {
   name: string;
   label?: string;
   required?: boolean;
-  className?: string;
-  disabled?: boolean;
+  sx?: SystemStyleObject<Theme>;
+  textFieldProps?: Partial<TextFieldProps>;
+
+  [key: string]: any;
 }
 
-const useStyles = makeStyles(() => createStyles({
+const styles = {
   formControl: {
+    my: 2,
     width: '100%'
   }
-}));
+};
 
-const MuiFormDatePicker: FC<IMuiDateTimePicker> = ({
+export const defaultProps: Partial<IMuiDateTimePicker> = {
+  required: false,
+  textFieldProps: {}
+};
+
+const MuiDateTimePickerComponent: FC<IMuiDateTimePicker> = memo<IMuiDateTimePicker>(({
   name,
   label,
-  required = false,
-  disabled = false,
-  className
+  required = defaultProps.required,
+  textFieldProps = defaultProps.textFieldProps,
+  sx,
+  control,
+  error,
+  ...otherProps
 }) => {
-  const classes = useStyles();
-  const { control, formState: { errors } } = useFormContext();
-  const error = errors[name];
-
+  const aggregatedProps: Record<string, any> = {};
+  const onFocus = () => {
+    // показать календарь
+    if (aggregatedProps.onFocus) {
+      aggregatedProps.onFocus();
+    }
+  };
   return (
     <Controller
       name={name}
@@ -40,27 +55,35 @@ const MuiFormDatePicker: FC<IMuiDateTimePicker> = ({
         return (
           <DateTimePicker
             label={label}
-            mask="__.__.____ __:__"
-            inputFormat="dd.MM.yyyy HH:mm"
             onChange={onChange}
             value={value}
-            disabled={disabled}
-            renderInput={params => (
-              <TextField
-                {...params}
-                {...otherFieldProps}
-                className={clsx(classes.formControl, className)}
-                required={required}
-                error={Boolean(error)}
-                helperText={error?.message}
-                InputLabelProps={{ shrink: true }}
-              />
-            )}
+            ampm={false}
+            {...otherProps}
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                sx: [styles.formControl, ...(Array.isArray(sx) ? sx : [sx])],
+                variant: 'outlined',
+                required: Boolean(required),
+                error: Boolean(error),
+                helperText: error?.message,
+                onFocus,
+                ...otherFieldProps,
+                ...textFieldProps
+              }
+            }}
           />
         );
       }}
     />
   );
+});
+
+const MuiFormDateTimePicker = (props: IMuiDateTimePicker) => {
+  const methods = useFormContext();
+  const error = get(methods.formState.errors, props.name);
+
+  return <MuiDateTimePickerComponent control={methods.control} error={error} {...props} />;
 };
 
-export default MuiFormDatePicker;
+export default MuiFormDateTimePicker;

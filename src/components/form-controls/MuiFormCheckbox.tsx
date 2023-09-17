@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-const MuiRadioGroup: FC<IMuiCheckbox> = ({
+const MuiFormCheckbox: FC<IMuiCheckbox> = ({
   defaultValue = false,
   label,
   name,
@@ -48,4 +48,4 @@ const MuiRadioGroup: FC<IMuiCheckbox> = ({
   );
 };
 
-export default MuiRadioGroup;
+export default MuiFormCheckbox;

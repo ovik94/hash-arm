@@ -3,9 +3,9 @@
     "target": "es2020",
     "lib": ["es6", "dom", "esnext"],
     "jsx": "react-jsx",
-    "module": "commonjs",
+    "module": "es2020",
     "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "experimentalDecorators": true,
     "baseUrl": "./",
@@ -15,9 +15,8 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "outDir": "./dist/"
+    "outDir": "./dist/",
+    "paths": { "/*": ["./src/*"] },
+    "skipLibCheck": true
   },
-  "include": [
-    "src"
-  ]
 }
