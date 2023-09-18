@@ -1,8 +1,8 @@
 const Locale = {
   buttonLabel: 'Далее',
-  selectLabel: 'Выберите один вариант',
-  messageLabel: 'Введите текст',
-  backButtonLabel: 'Назад'
+  backButtonLabel: 'Назад',
+  selectOtherVariant: 'Ввести свой вариант',
+  selectOtherVariantLabel: 'Свой вариант'
 };
 
 export default Locale;

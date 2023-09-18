@@ -104,6 +104,13 @@ export const defaultTheme = createTheme({
           padding: '12px'
         }
       }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          top: '-4px'
+        }
+      }
     }
   }
 });

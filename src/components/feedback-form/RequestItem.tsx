@@ -1,5 +1,5 @@
-import React, { FC, useMemo } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import React, { ChangeEvent, FC, useMemo, useState } from 'react';
+import { Box, Button, Checkbox, FormControlLabel, Stack, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { BaseSchema } from 'yup';
@@ -42,6 +42,7 @@ const selectStringOptions = [
 const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, activeStep }) => {
   const locale = useLocale(Locale);
   const { feedbackStore: { setResponse } } = useStore();
+  const [showSelectVariant, setShowSelectVariant] = useState(false);
 
   const schema = useMemo(() => {
     const optionsSchema: { [key: string]: BaseSchema } = {};
@@ -62,6 +63,11 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
     mode: 'onTouched'
   });
 
+  const changeShowSelectVariant = (event: ChangeEvent<HTMLInputElement>, field: string): void => {
+    methods.setValue(field, '');
+    setShowSelectVariant(event.target.checked);
+  };
+
   const renderControl = (question: IFeedbackItem) => {
     switch (question.type) {
       case 'select':
@@ -73,10 +79,37 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
           <MuiFormRadioGroup
             key={`SELECT-${question.id}`}
             name={question.id}
-            label={locale.selectLabel}
             options={question.options.map(option => ({ value: option, label: option }))}
           />
         );
+      case 'selectOtherVariant': {
+        if (!question.options) {
+          return null;
+        }
+
+        return (
+          <>
+            <MuiFormRadioGroup
+              key={`SELECT-${question.id}`}
+              name={question.id}
+              disabled={showSelectVariant}
+              options={question.options.map(option => ({ value: option, label: option }))}
+            />
+            <FormControlLabel
+              label={locale.selectOtherVariant}
+              control={(
+                <Checkbox
+                  checked={showSelectVariant}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => changeShowSelectVariant(event, question.id)}
+                />
+            )}
+            />
+            {showSelectVariant && (
+              <MuiFormInput disabled={!showSelectVariant} name={question.id} label={locale.selectOtherVariantLabel} />
+            )}
+          </>
+        );
+      }
       case 'selectGroupString':
         if (!question.options) {
           return null;
@@ -88,7 +121,6 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
             <MuiFormRadioGroup
               name={`${question.id}.${String(index)}`}
               options={selectStringOptions}
-              label={locale.messageLabel}
             />
           </Box>
         ));
@@ -103,7 +135,6 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
             <MuiFormRadioGroup
               name={`${question.id}.${String(index)}`}
               options={selectNumberOptions}
-              label={locale.selectLabel}
             />
           </Box>
         ));
@@ -125,6 +156,7 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
 
   const onSubmitForm: SubmitHandler<IFeedbackForm> = (data) => {
     setResponse(requestData.id, data[requestData.id]);
+    setShowSelectVariant(false);
     onSubmit();
   };
 

@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Box, MobileStepper, Typography } from '@mui/material';
-import { observer } from 'mobx-react-lite';
+import { Box, MobileStepper } from '@mui/material';
 import Messages, { IMessage, MessageStatuses } from '../messages/Messages';
 import { IFeedbackItem } from '../../store/FeedbackStore';
 import styles from './styles';

@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import { RootStore } from './RootStore';
 import { IResponse } from '../core/request/request-factory';
 
-export type IFeedbackType = 'textInput' | 'textArea' | 'select' | 'rating' | 'selectGroupString' | 'selectGroupNumber';
+export type IFeedbackType = 'textInput' | 'textArea' | 'select' | 'rating' | 'selectOtherVariant' | 'selectGroupString' | 'selectGroupNumber';
 
 export interface IFeedbackItem {
   id: string;
