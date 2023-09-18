@@ -27,15 +27,16 @@ const FeedbackForm: FC<IFeedbackFormProps> = ({ questions, onFinish }) => {
   };
 
   const onSubmit = () => {
-    onNext();
-
     if (questions.length && activeStep === questions.length - 1) {
       sendFeedback().then(((response) => {
         if (response?.status !== 'OK' && response?.message) {
           setMessages([{ value: response.message, type: MessageStatuses.ERROR }]);
         }
+
+        onFinish();
       }));
-      onFinish();
+    } else {
+      onNext();
     }
     window.scrollTo(0, 0);
   };

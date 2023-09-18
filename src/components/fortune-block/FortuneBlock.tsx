@@ -59,10 +59,10 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
     const currentPrize = localStorage.getItem('selectedPrize');
 
     if (!currentPrize) {
-      const selectedPrize = data.find((item, index) => index === selectedIndex.current);
+      const currentSelectedPrize = data.find((item, index) => index === selectedIndex.current);
 
-      if (selectedPrize) {
-        localStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: selectedPrize.text }));
+      if (currentSelectedPrize) {
+        localStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: currentSelectedPrize.text }));
       }
     }
   };
@@ -184,10 +184,10 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
           ref={spinnerRef}
         >
           {data.map((item, index) => {
-            const rotation = ((prizeSlice * index) * -1) - prizeOffset;
+            const rotate = ((prizeSlice * index) * -1) - prizeOffset;
 
             return (
-              <li key={item.id} style={{ transform: `rotate(${rotation}deg)` }}>
+              <li key={item.id} style={{ transform: `rotate(${rotate}deg)` }}>
                 <Typography
                   variant="caption"
                   sx={selectedPrize?.id === item.id ? createStyles.selectedText : {}}
