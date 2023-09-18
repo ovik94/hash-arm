@@ -29,7 +29,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
 const Locale = {
   title: 'Обратная связь',
-  subtitle: 'Здравствуйте, потратьте, пожалуйста, несколько минут своего времени на заполнение следующей анкеты.',
+  subtitle: 'Здравствуйте, пока вы ждете свой заказ, потратьте, пожалуйста, несколько минут своего времени на заполнение следующей анкеты. Это поможет стать нам лучше',
   completeTitle: 'Спасибо за ваш отзыв!',
   completeSubtitle: 'Мы будем рады, если вы оставите отзыв о нашем ресторане на одном из этих сервисов:',
   fortuneTitle: 'Покрути колесо и получи свой подарок',
@@ -64,11 +64,11 @@ const Feedback = () => {
     <Container component="main" maxWidth="xs">
       <Loader isLoading={isLoading} />
       <Grid container>
-        <Grid item xs={12} sm={6} sx={styles.logo}>
+        <Grid item xs={12} sm={12} sx={styles.logo}>
           <img src="public/images/logo.png" alt="logo" />
         </Grid>
         {feedbackSent && (
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Typography variant="h6" textAlign="center" color="success.main">{locale.completeTitle}</Typography>
             <Typography variant="body1" textAlign="center" mt={1}>{locale.completeSubtitle}</Typography>
 
@@ -90,9 +90,9 @@ const Feedback = () => {
           </Grid>
         )}
         {!feedbackSent && (
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h5" textAlign="center" mb={1}>{locale.title}</Typography>
-            <Typography variant="body2" textAlign="center" mb={2}>{locale.subtitle}</Typography>
+          <Grid item xs={12} sm={12}>
+            <Typography variant="h4" textAlign="center" mb={1}>{locale.title}</Typography>
+            <Typography variant="subtitle1" textAlign="center" mb={2}>{locale.subtitle}</Typography>
             { feedbackList && <FeedbackForm questions={feedbackList} onFinish={onFinish} />}
           </Grid>
         )}

@@ -16,7 +16,7 @@ const styles: Record<string, SxProps<Theme>> = {
   },
   buttons: {
     position: 'fixed',
-    width: 'calc(100% - 32px)',
+    width: { xs: 'calc(100% - 32px)', sm: '386px' },
     bottom: '0',
     backgroundColor: '#fff',
     padding: '16px',
