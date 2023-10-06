@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
 import { RootStore } from './RootStore';
 import { IOrderData, IOrderDataItem } from '../components/banquet-order/BanquetOrder';
+import { IClientDataForm } from '../components/client-data-form/ClientDataForm';
 
 export interface IMenuItem {
   id: string;
@@ -38,14 +39,7 @@ export interface ISaveBanquetBody {
   phone: string;
   personsCount: number;
   date: Date;
-  menu: {
-    [type: string]: Array<{
-      title: string;
-      price: number;
-      weight: number;
-      count?: number;
-    }>
-  },
+  menu: Array<IOrderData>;
   sum: number;
   totalAmount: number;
   sale?: string;
@@ -57,6 +51,8 @@ export default class BanquetsStore {
   public menu: Array<IMenuGroup> = [];
 
   public options: IOptions = {} as IOptions;
+
+  public clientData: IClientDataForm | null = null;
 
   public orderData: Array<IOrderData> = [];
 
@@ -81,6 +77,18 @@ export default class BanquetsStore {
 
   public setOptions = (options: IOptions) => {
     this.options = options;
+  };
+
+  public setClientData = (data: IClientDataForm | null) => {
+    this.clientData = data;
+  };
+
+  public setOrderData = (data: Array<IOrderData>) => {
+    this.orderData = data;
+  };
+
+  public setOrderSum = (sum: number) => {
+    this.orderSum = sum;
   };
 
   public fetchMenu = (): Promise<void> => {
@@ -129,28 +137,32 @@ export default class BanquetsStore {
 
     this.addOrderSum(option.price);
 
-    this.orderData = newOrderData;
+    this.setOrderData(newOrderData);
   };
 
   public editCountOrderData = (groupId: string, id: string, newCount: number) => {
-    this.orderData = this.orderData.map(orderGroup => (orderGroup.id === groupId ? ({
+    const newOrderData = this.orderData.map(orderGroup => (orderGroup.id === groupId ? ({
       ...orderGroup,
       items: orderGroup.items.map(orderItem => (orderItem.id === id ? ({ ...orderItem, count: newCount }) : orderItem))
     }) : orderGroup));
+
+    this.setOrderData(newOrderData);
   };
 
   public deleteItemOrderData = (groupId: string, id: string) => {
-    this.orderData = this.orderData.map(orderGroup => (orderGroup.id === groupId ? ({
+    const newOrderData = this.orderData.map(orderGroup => (orderGroup.id === groupId ? ({
       ...orderGroup,
       items: orderGroup.items.filter(orderItem => orderItem.id !== id)
     }) : orderGroup)).filter(item => item.items.length > 0);
+
+    this.setOrderData(newOrderData);
   };
 
   public addOrderSum = (amount: number) => {
-    this.orderSum += amount;
+    this.setOrderSum(this.orderSum + amount);
   };
 
   public subtractOrderSum = (amount: number) => {
-    this.orderSum -= amount;
+    this.setOrderSum(this.orderSum - amount);
   };
 }

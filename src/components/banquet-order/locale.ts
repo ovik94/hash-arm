@@ -9,7 +9,11 @@ const Locale = {
   PERSON_MIN: (min: number): string => `Допустимо минимум ${min} человек`,
   PERSON_MAX: (max: number): string => `Допустимо максимум ${max} человек`,
   buttonLabel: 'Далее',
-  sumCurrency: (sum: number) => `<b>${currencyFormatter(sum)}</b>`
+  sumCurrency: (sum: number) => `<b>${currencyFormatter(sum)}</b>`,
+  sumLabel: 'Сумма заказа',
+  addSaleLabel: 'Добавить скидку',
+  totalAmountLabel: 'Итого',
+  serviceFeeLabel: 'Процент за обслуживание (12%)'
 };
 
 export default Locale;

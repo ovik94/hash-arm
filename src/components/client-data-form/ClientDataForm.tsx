@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,6 +10,7 @@ import yup from '../../core/yup-extended';
 import Locale from './locale';
 import useLocale from '../../hooks/useLocale';
 import MuiFormButton from '../form-controls/MuiFormButton';
+import useStore from '../../hooks/useStore';
 
 export interface IClientDataForm {
   name: string;
@@ -24,6 +25,7 @@ interface IClientDataProps {
 
 const ClientDataForm: FC<IClientDataProps> = ({ onSubmitClientForm }) => {
   const locale = useLocale(Locale);
+  const { banquetsStore: { clientData } } = useStore();
 
   const schema = yup.object({
     name: yup.string().required(),
@@ -46,6 +48,12 @@ const ClientDataForm: FC<IClientDataProps> = ({ onSubmitClientForm }) => {
     },
     mode: 'onTouched'
   });
+
+  useEffect(() => {
+    if (!clientData) {
+      methods.reset();
+    }
+  }, [clientData]);
 
   const onSubmit: SubmitHandler<IClientDataForm> = (data) => {
     onSubmitClientForm(data);

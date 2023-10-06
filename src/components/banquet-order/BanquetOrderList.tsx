@@ -6,6 +6,7 @@ import styles from './styles';
 import BanquetOrderListItem from './BanquetOrderListItem';
 import useStore from '../../hooks/useStore';
 import Loader from '../loader/Loader';
+import BanquetOrderListFooter from './BanquetOrderListFooter';
 
 const BanquetOrderList: FC = () => {
   const { banquetsStore: { orderData, isLoading } } = useStore();
@@ -25,8 +26,7 @@ const BanquetOrderList: FC = () => {
           </TransitionGroup>
         </Box>
       ))}
-
-      {/* {renderFooter()} */}
+      {orderData.length > 0 && <BanquetOrderListFooter />}
     </Paper>
   );
 };

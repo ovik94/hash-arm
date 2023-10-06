@@ -44,6 +44,26 @@ const styles: Record<string, SxProps<Theme>> = {
   },
   menuType: {
     mb: 2
+  },
+  footer: {
+    display: 'flex',
+    flexDirection: 'column',
+    mt: 2
+  },
+  sum: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    my: 2,
+    mx: 0
+  },
+  sale: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    my: 1,
+    mx: 0
+  },
+  saleInput: {
+    width: '100px'
   }
 };
 
