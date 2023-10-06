@@ -15,6 +15,8 @@ export interface IMuiSuggestSelector {
   freeSolo?: boolean;
   onInputChange?: (newValue: string | null) => void;
   onChange?: (option: any) => void;
+  value?: any
+
   [otherProps: string]: any
 }
 
@@ -33,10 +35,10 @@ const MuiSuggestSelector: FC<IMuiSuggestSelector> = ({
   freeSolo = false,
   onInputChange = defaultProps.onInputChange,
   onChange = defaultProps.onChange,
+  value = [],
   ...otherProps
 }) => {
   const locale = useLocale(Locale);
-  const [values, setValues] = React.useState<Array<any>>([]);
 
   const onInputChangeHandler = (event: any, newValue: string | null) => {
     if (freeSolo) {
@@ -46,26 +48,29 @@ const MuiSuggestSelector: FC<IMuiSuggestSelector> = ({
     onInputChange(newValue);
   };
 
+  const onChangeValue = (event: any, newValue: string | null) => {
+    onChange(newValue);
+  };
+
   return (
     <Autocomplete
-      value={values}
+      size="small"
+      value={value}
       options={options}
       getOptionLabel={getOptionLabel}
-      onChange={(event: any, newValue: string | null) => {
-        setValues([]);
-        onChange(newValue);
-      }}
+      onChange={onChangeValue}
       freeSolo={freeSolo}
       onInputChange={onInputChangeHandler}
       clearText={locale.clearText}
       closeText={locale.closeText}
       noOptionsText={locale.noOptionsText}
+      isOptionEqualToValue={() => true}
       {...otherProps}
       renderInput={params => (
         <TextField
           {...params}
           label={label}
-          variant="outlined"
+          variant="standard"
         />
       )}
     />

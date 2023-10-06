@@ -22,10 +22,10 @@ import Notifier from './Notifier';
 import RequestConfigList from './request/RequestConfigList';
 import Instructions from '../pages/Instructions';
 import BarBalance from '../pages/BarBalance';
-import Banquets from '../pages/banquets/Banquets';
 import Fortune from '../pages/Fortune';
 import Statement from '../pages/Statement';
 import Feedback from '../pages/Feedback';
+import BanquetsPage from '../pages/BanquetsPage';
 
 const store = new RootStore();
 
@@ -98,8 +98,8 @@ const App: FunctionComponent = () => {
                           <RouteView exact path="/bar-balance">
                             <BarBalance />
                           </RouteView>
-                          <RouteView exact path="/ordering-banquets">
-                            <Banquets />
+                          <RouteView exact path="/banquets">
+                            <BanquetsPage />
                           </RouteView>
                           <RouteView exact path="/statement">
                             <Statement />

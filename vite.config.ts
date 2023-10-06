@@ -11,18 +11,6 @@ export default defineConfig(({mode}) => {
 
   return defineConfig({
     base: '/',
-    resolve: {
-      alias: {
-        '/core': resolve(__dirname, 'src', 'core'),
-        '/icons': resolve(__dirname, 'src', 'icons'),
-        '/hooks': resolve(__dirname, 'src', 'hooks'),
-        '/pages': resolve(__dirname, 'src', 'pages'),
-        '/utils': resolve(__dirname, 'src', 'utils'),
-        '/stores': resolve(__dirname, 'src', 'stores'),
-        '/constants': resolve(__dirname, 'src', 'constants'),
-        '/components': resolve(__dirname, 'src', 'components')
-      }
-    },
     server: {
       port: 80,
       proxy: {

@@ -28,7 +28,7 @@ const MuiFormInput: FC<IMuiInputProps> = ({
   defaultValue = '',
   name,
   className,
-  helperText = ' ',
+  helperText = '',
   ...otherProps
 }) => {
   const classes = useStyles();

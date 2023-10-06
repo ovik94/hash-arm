@@ -37,6 +37,10 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.GET,
     path: '/api/iiko/menu'
   },
+  getMenuItem: {
+    method: RequestMethods.GET,
+    path: '/api/iiko/menuItem'
+  },
   postBanquetSave: {
     method: RequestMethods.POST,
     path: '/api/banquets/save'

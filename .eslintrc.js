@@ -8,7 +8,7 @@ module.exports = {
     browser: true,
     es6: true
   },
-  plugins: ['flowtype'],
+  plugins: ['flowtype', 'react', 'react-hooks'],
   globals: {},
 
   rules: {
