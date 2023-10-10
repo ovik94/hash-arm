@@ -58,9 +58,7 @@ const styles: Record<string, SxProps<Theme>> = {
   },
   sale: {
     display: 'flex',
-    justifyContent: 'space-between',
-    my: 1,
-    mx: 0
+    justifyContent: 'space-between'
   },
   saleInput: {
     width: '100px'

@@ -1,7 +1,8 @@
-import React, { FC, useEffect } from 'react';
-import { Box, Grid } from '@mui/material';
+import React, { FC, useEffect, useState } from 'react';
+import { Box, Button, Grid } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { observer } from 'mobx-react-lite';
 import MuiFormInput from '../form-controls/MuiFormInput';
 import MuiFormMaskedInput from '../form-controls/MuiFormMaskedInput';
 import MuiFormDateTimePicker from '../form-controls/MuiFormDateTimePicker';
@@ -19,13 +20,10 @@ export interface IClientDataForm {
   date: Date;
 }
 
-interface IClientDataProps {
-  onSubmitClientForm: (data: IClientDataForm) => void;
-}
-
-const ClientDataForm: FC<IClientDataProps> = ({ onSubmitClientForm }) => {
+const ClientDataForm: FC = () => {
   const locale = useLocale(Locale);
-  const { banquetsStore: { clientData } } = useStore();
+  const { banquetsStore: { setClientData, clientData } } = useStore();
+  const [disabledForm, setDisabledForm] = useState(false);
 
   const schema = yup.object({
     name: yup.string().required(),
@@ -52,11 +50,17 @@ const ClientDataForm: FC<IClientDataProps> = ({ onSubmitClientForm }) => {
   useEffect(() => {
     if (!clientData) {
       methods.reset();
+      setDisabledForm(false);
     }
   }, [clientData]);
 
   const onSubmit: SubmitHandler<IClientDataForm> = (data) => {
-    onSubmitClientForm(data);
+    setClientData(data);
+    setDisabledForm(true);
+  };
+
+  const onEdit = () => {
+    setDisabledForm(false);
   };
 
   return (
@@ -64,23 +68,44 @@ const ClientDataForm: FC<IClientDataProps> = ({ onSubmitClientForm }) => {
       <Box>
         <Grid container spacing={4} alignItems="center">
           <Grid item xs={12} md={2}>
-            <MuiFormInput name="name" label={locale.nameLabel} />
+            <MuiFormInput
+              name="name"
+              label={locale.nameLabel}
+              disabled={disabledForm}
+            />
           </Grid>
           <Grid item xs={12} md={2}>
-            <MuiFormInput name="personsCount" label={locale.personsCount} />
+            <MuiFormInput
+              name="personsCount"
+              label={locale.personsCount}
+              disabled={disabledForm}
+            />
           </Grid>
           <Grid item xs={12} md={3}>
             <MuiFormMaskedInput
               mask="+7-###-###-##-##"
               name="phone"
               label={locale.phoneLabel}
+              disabled={disabledForm}
             />
           </Grid>
           <Grid item xs={12} md={3}>
-            <MuiFormDateTimePicker name="date" label={locale.dateLabel} />
+            <MuiFormDateTimePicker
+              name="date"
+              label={locale.dateLabel}
+              disabled={disabledForm}
+            />
           </Grid>
           <Grid item xs={12} md={2}>
-            <MuiFormButton label={locale.buttonLabel} />
+            {disabledForm && (
+              <Button
+                onClick={onEdit}
+                variant="outlined"
+              >
+                {locale.editButton}
+              </Button>
+            )}
+            {!disabledForm && <MuiFormButton label={locale.buttonLabel} />}
           </Grid>
         </Grid>
       </Box>
@@ -88,4 +113,4 @@ const ClientDataForm: FC<IClientDataProps> = ({ onSubmitClientForm }) => {
   );
 };
 
-export default ClientDataForm;
+export default observer(ClientDataForm);

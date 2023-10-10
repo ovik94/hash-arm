@@ -14,7 +14,9 @@ const BanquetOrderListFooter: FC = () => {
     userStore: { user }
   } = useStore();
   const [saleChecked, setSaleChecked] = useState(false);
+  const [commentChecked, setCommentChecked] = useState(false);
   const [sale, setSale] = useState('');
+  const [comment, setComment] = useState('');
   const [serviceFeeChecked, setServiceFeeChecked] = useState(false);
   const [totalAmount, setTotalAmount] = useState(orderSum);
 
@@ -30,6 +32,10 @@ const BanquetOrderListFooter: FC = () => {
 
       if (saleChecked) {
         body.sale = sale;
+      }
+
+      if (comment) {
+        body.comment = comment;
       }
 
       if (serviceFeeChecked) {
@@ -48,12 +54,24 @@ const BanquetOrderListFooter: FC = () => {
     setSaleChecked(event.target.checked);
   };
 
+  const onCheckedComment = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.checked) {
+      setComment('');
+    }
+
+    setCommentChecked(event.target.checked);
+  };
+
   const onCheckedServiceFee = (event: ChangeEvent<HTMLInputElement>) => {
     setServiceFeeChecked(event.target.checked);
   };
 
   const onSale = (event: ChangeEvent<HTMLInputElement>) => {
     setSale(event.target.value);
+  };
+
+  const onAddComment = (event: ChangeEvent<HTMLInputElement>) => {
+    setComment(event.target.value);
   };
 
   useEffect(() => {
@@ -87,20 +105,35 @@ const BanquetOrderListFooter: FC = () => {
         />
 
         {saleChecked && (
-        <TextField
-          label={locale.saleLabel}
-          value={sale}
-          variant="standard"
-          onChange={onSale}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            componentsProps: { input: { min: '0', max: '100' } }
-          }}
-          type="number"
-          sx={styles.saleInput}
-        />
+          <TextField
+            label={locale.saleLabel}
+            value={sale}
+            variant="standard"
+            onChange={onSale}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">%</InputAdornment>,
+              componentsProps: { input: { min: '0', max: '100' } }
+            }}
+            type="number"
+            sx={styles.saleInput}
+          />
         )}
       </Box>
+
+      <FormControlLabel
+        label={locale.addCommentLabel}
+        control={<Checkbox checked={commentChecked} onChange={onCheckedComment} size="small" />}
+      />
+
+      {commentChecked && (
+        <TextField
+          label={locale.commentLabel}
+          value={comment}
+          variant="standard"
+          onChange={onAddComment}
+          sx={{ mt: 2 }}
+        />
+      )}
 
       <Box sx={styles.sum}>
         <Typography variant="h2" mb={1}>{locale.totalAmountLabel}</Typography>
@@ -114,7 +147,7 @@ const BanquetOrderListFooter: FC = () => {
         variant="contained"
         color="primary"
       >
-        Сохранить
+        {locale.saveButton}
       </Button>
     </Box>
 

@@ -6,7 +6,8 @@ const Locale = {
   dateLabel: 'Дата и время банкета',
   PERSON_MIN: (min: number): string => `Допустимо минимум ${min} человек`,
   PERSON_MAX: (max: number): string => `Допустимо максимум ${max} человек`,
-  buttonLabel: 'Далее'
+  buttonLabel: 'Далее',
+  editButton: 'Редактировать'
 };
 
 export default Locale;

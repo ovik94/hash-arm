@@ -9,7 +9,11 @@ import Loader from '../loader/Loader';
 import BanquetOrderListFooter from './BanquetOrderListFooter';
 
 const BanquetOrderList: FC = () => {
-  const { banquetsStore: { orderData, isLoading } } = useStore();
+  const { banquetsStore: { orderData, isLoading, menu } } = useStore();
+
+  if (!menu.length) {
+    return null;
+  }
 
   return (
     <Paper sx={styles.orderList} elevation={3}>

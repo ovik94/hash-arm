@@ -12,8 +12,12 @@ const Locale = {
   sumCurrency: (sum: number) => `<b>${currencyFormatter(sum)}</b>`,
   sumLabel: 'Сумма заказа',
   addSaleLabel: 'Добавить скидку',
+  addCommentLabel: 'Добавить комментарий',
   totalAmountLabel: 'Итого',
-  serviceFeeLabel: 'Процент за обслуживание (12%)'
+  serviceFeeLabel: 'Процент за обслуживание (12%)',
+  saleLabel: 'Скидка',
+  commentLabel: 'Комментарий',
+  saveButton: 'Сохранить'
 };
 
 export default Locale;

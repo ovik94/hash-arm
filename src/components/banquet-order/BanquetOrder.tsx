@@ -4,13 +4,8 @@ import { observer } from 'mobx-react-lite';
 import MuiSuggestSelector from '../../mui-components/MuiSuggestSelector';
 import { IMenuGroup, IMenuItem } from '../../store/BanquetsStore';
 import useStore from '../../hooks/useStore';
-import { IClientDataForm } from '../client-data-form/ClientDataForm';
 import styles from './styles';
 import BanquetOrderList from './BanquetOrderList';
-
-interface IBanquetsList {
-  clientData: IClientDataForm;
-}
 
 export interface IOrderDataItem extends IMenuItem {
   count: number;
@@ -23,23 +18,26 @@ export interface IOrderData {
   items: Array<IOrderDataItem>
 }
 
-const BanquetOrder: FC<IBanquetsList> = ({ clientData }) => {
+const BanquetOrder: FC = () => {
   const { banquetsStore: {
     fetchMenu,
     menu,
     addItemOrderData,
     fetchMenuItem,
     orderData,
-    orderSum
+    orderSum,
+    clientData
   } } = useStore();
-  console.log(clientData, 'clientData');
-  console.log(orderData, 'orderData');
 
   useEffect(() => {
     if (!menu.length) {
       fetchMenu();
     }
   }, [menu]);
+
+  if (!clientData) {
+    return null;
+  }
 
   const getOptionLabel = (option: IMenuItem) => option.name || '';
 

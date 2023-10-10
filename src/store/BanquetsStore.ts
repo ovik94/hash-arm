@@ -45,6 +45,7 @@ export interface ISaveBanquetBody {
   sale?: string;
   serviceFee?: string;
   admin: string;
+  comment?: string;
 }
 
 export default class BanquetsStore {

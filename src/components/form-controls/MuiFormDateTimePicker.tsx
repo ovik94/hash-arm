@@ -12,6 +12,7 @@ interface IMuiDateTimePicker {
   required?: boolean;
   sx?: SystemStyleObject<Theme>;
   textFieldProps?: Partial<TextFieldProps>;
+  disabled?: boolean;
 
   [key: string]: any;
 }
@@ -25,6 +26,7 @@ const styles = {
 
 export const defaultProps: Partial<IMuiDateTimePicker> = {
   required: false,
+  disabled: false,
   textFieldProps: {}
 };
 
@@ -36,6 +38,7 @@ const MuiDateTimePickerComponent: FC<IMuiDateTimePicker> = memo<IMuiDateTimePick
   sx,
   control,
   error,
+  disabled,
   ...otherProps
 }) => {
   const aggregatedProps: Record<string, any> = {};
@@ -58,6 +61,7 @@ const MuiDateTimePickerComponent: FC<IMuiDateTimePicker> = memo<IMuiDateTimePick
             onChange={onChange}
             value={value}
             ampm={false}
+            disabled={disabled}
             {...otherProps}
             slotProps={{
               textField: {
@@ -69,7 +73,8 @@ const MuiDateTimePickerComponent: FC<IMuiDateTimePicker> = memo<IMuiDateTimePick
                 helperText: error?.message,
                 onFocus,
                 ...otherFieldProps,
-                ...textFieldProps
+                ...textFieldProps,
+                disabled
               }
             }}
           />
