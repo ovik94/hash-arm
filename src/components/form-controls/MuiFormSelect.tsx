@@ -42,12 +42,12 @@ const MuiFormSelect: FC<IMuiSelect> = ({
       rules={validators}
       render={({ field }) => (
         <FormControl className={classes.formControl} error={Boolean(error?.message)}>
-          {label && <InputLabel id={`${name}-label`} shrink variant="outlined">{label}</InputLabel>}
+          {label && <InputLabel id={`${name}-label`} variant="outlined">{label}</InputLabel>}
           <Select
             MenuProps={{ variant: 'menu' }}
             variant="outlined"
             id={name}
-            input={<OutlinedInput notched label={label} />}
+            input={<OutlinedInput label={label} />}
             labelId={`${name}-label`}
             {...field}
           >

@@ -1,31 +1,29 @@
-import { Theme } from '@mui/material/styles';
-import { makeStyles, createStyles } from '@mui/styles';
+import { Theme, SxProps } from '@mui/material/styles';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+const styles: Record<string, SxProps<Theme>> = {
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.14), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 3px 5px rgba(0, 0, 0, 0.2)',
-    padding: theme.spacing(9),
+    borderRadius: { xs: 0, sm: '8px' }
+  },
+  content: {
+    backgroundColor: 'background.paper',
+    boxShadow: {
+      sm: '0px 6px 10px rgba(0, 0, 0, 0.14), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 3px 5px rgba(0, 0, 0, 0.2)',
+      xs: 'none'
+    },
+    py: 8,
+    px: { xs: 2, sm: 8 },
+    width: { xs: '100%', sm: 'auto' },
+    height: { xs: '100vh', sm: 'auto' },
     position: 'relative'
   },
-  small: {
-    width: '530px'
-  },
-  medium: {
-    width: '630px'
-  },
-  large: {
-    width: '730px'
-  },
   close: {
-    right: theme.spacing(3),
-    top: theme.spacing(3)
+    position: 'absolute',
+    zIndex: 10,
+    right: theme => theme.spacing(2),
+    top: theme => theme.spacing(2),
+    fill: 'none',
+    color: theme => theme.palette.grey[500]
   }
-}));
+};
 
-export default useStyles;
+export default styles;

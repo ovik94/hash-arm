@@ -1,43 +1,32 @@
-import React, { FC, ReactNode } from 'react';
-import { Dialog, Fade, Backdrop, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { FC } from 'react';
+import { observer } from 'mobx-react-lite';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Dialog, IconButton, Box } from '@mui/material';
+import { IPopupProps } from '../../store/PopupStore';
+import useStores from '../../hooks/useStore';
+import styles from './styles';
+import Loader from '../loader/Loader';
 
-import clsx from 'clsx';
-import useStyles from './styles';
-
-interface IPopup {
-  open: boolean;
-  children: ReactNode
-  onClose: () => void;
-  // eslint-disable-next-line react/require-default-props
-  size?: 'small' | 'medium' | 'large';
-}
-
-const Popup: FC<IPopup> = ({ open, size = 'small', onClose, children }: IPopup): JSX.Element => {
-  const classes = useStyles();
+const Popup: FC<IPopupProps> = ({ open, sx = {}, size = 'sm', onClose, children }) => {
+  const { popupStore } = useStores();
 
   return (
     <Dialog
-      className={classes.modal}
       open={open}
-      onClose={onClose}
+      onClose={onClose || undefined}
       closeAfterTransition
-      BackdropComponent={Backdrop}
-      maxWidth="lg"
-      BackdropProps={{
-        timeout: 500
-      }}
+      scroll="body"
+      maxWidth={size}
+      sx={styles.dialog}
+      PaperProps={{ sx: styles.paper }}
     >
-      <Fade in={open}>
-        <div className={clsx(classes.paper, classes[size])}>
-          <IconButton className={classes.close} style={{ position: 'absolute' }} onClick={onClose} size="small">
-            <CloseIcon />
-          </IconButton>
-          {children}
-        </div>
-      </Fade>
+      <Loader isLoading={popupStore.isLoading} />
+      <Box sx={sx.paper || styles.content}>
+        {onClose && <IconButton sx={styles.close} onClick={onClose} size="small"><HighlightOffIcon /></IconButton>}
+        {children}
+      </Box>
     </Dialog>
   );
 };
 
-export default Popup;
+export default observer<IPopupProps>(Popup);

@@ -5,6 +5,7 @@
     "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.jsx",
+    "store/**/*.ts",
     ".eslintrc.js"
   ]
 }

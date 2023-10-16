@@ -14,18 +14,17 @@ import locale, { DateFnsData } from './locale/locale';
 import RequestFactory, { IResponse } from './request/request-factory';
 import RouteView from './RouteView';
 import { RootStore } from '../store/RootStore';
-import CheckList from '../pages/CheckList';
 import Login from '../pages/Login';
 import Contractors from '../pages/Contractors';
-import Order from '../components/order/Order';
 import Notifier from './Notifier';
 import RequestConfigList from './request/RequestConfigList';
-import Instructions from '../pages/Instructions';
 import BarBalance from '../pages/BarBalance';
 import Fortune from '../pages/Fortune';
 import Statement from '../pages/Statement';
 import Feedback from '../pages/Feedback';
 import BanquetsPage from '../pages/BanquetsPage';
+import UsersPage from '../pages/UsersPage';
+import PopupProvider from './PopupProvider';
 
 const store = new RootStore();
 
@@ -69,6 +68,7 @@ const App: FunctionComponent = () => {
                   <CoreContextProvider value={{ createRequest, locale }}>
                     <Notifier />
                     <Router>
+                      <PopupProvider />
                       <div>
                         <Switch>
                           <Route exact path="/fortune">
@@ -81,19 +81,13 @@ const App: FunctionComponent = () => {
                             <Login />
                           </Route>
                           <RouteView exact path="/">
-                            <CheckList />
+                            <Statement />
                           </RouteView>
-                          <RouteView exact path="/check-list">
-                            <CheckList />
+                          <RouteView exact path="/users">
+                            <UsersPage />
                           </RouteView>
                           <RouteView exact path="/contractors">
                             <Contractors />
-                          </RouteView>
-                          <RouteView exact path="/contractors/:id">
-                            <Order />
-                          </RouteView>
-                          <RouteView exact path="/instructions">
-                            <Instructions />
                           </RouteView>
                           <RouteView exact path="/bar-balance">
                             <BarBalance />

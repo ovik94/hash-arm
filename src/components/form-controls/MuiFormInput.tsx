@@ -8,7 +8,6 @@ import { Theme } from '@mui/material/styles';
 export interface IMuiInputProps {
   name: string;
   defaultValue?: string;
-  label?: string;
   multiline?: boolean;
   minRows?: number;
   maxRows?: number;

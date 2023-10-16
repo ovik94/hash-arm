@@ -65,10 +65,6 @@ const Contractors: FC = (): JSX.Element => {
     }
   }, [contractorsStore.contractors]);
 
-  const onOrder = (id: string) => {
-    history.push(`/contractors/${id}`);
-  };
-
   return (
     <div>
       <Typography variant="h2" sx={styles.title}>{locale.title}</Typography>
@@ -109,17 +105,6 @@ const Contractors: FC = (): JSX.Element => {
                   )
                 }
               </Box>
-              {
-                contractor.hasOrder && (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => onOrder(contractor.id)}
-                  >
-                    {locale.orderLabel}
-                  </Button>
-                )
-              }
             </Box>
             <Divider />
           </div>

@@ -1,9 +1,25 @@
 import { IRequestConfigList, RequestMethods } from './request-factory';
 
 const RequestConfigList: IRequestConfigList = {
+  login: {
+    method: RequestMethods.POST,
+    path: '/api/user/login'
+  },
   getUsersList: {
     method: RequestMethods.GET,
     path: '/api/user/list'
+  },
+  addUser: {
+    method: RequestMethods.POST,
+    path: '/api/user/add'
+  },
+  editUser: {
+    method: RequestMethods.POST,
+    path: '/api/user/edit'
+  },
+  deleteUser: {
+    method: RequestMethods.POST,
+    path: '/api/user/delete'
   },
   getCheckList: {
     method: RequestMethods.GET,

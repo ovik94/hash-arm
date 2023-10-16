@@ -1,16 +1,12 @@
 const Locale = {
   menu: [
     {
-      title: 'Чек-лист Менеджера',
-      path: '/check-list'
+      title: 'Сотрудники',
+      path: '/users'
     },
     {
       title: 'Поставщики',
       path: '/contractors'
-    },
-    {
-      title: 'Иструкции',
-      path: '/instructions'
     },
     {
       title: 'Склад',

@@ -93,7 +93,7 @@ const Statement = () => {
 
   return (
     <Paper sx={styles.container}>
-      <Typography mb={2}>{locale.title}</Typography>
+      <Typography variant="h2" mb={2}>{locale.title}</Typography>
       <MuiForm methods={methods} onSubmit={onSubmit}>
         <Grid container>
           <Grid item xs={12} sm={6}>

@@ -16,7 +16,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "outDir": "./dist/",
-    "paths": { "/*": ["./src/*"] },
+    "paths": { "/*": ["./*"] },
     "skipLibCheck": true
   },
 }

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Box, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
@@ -15,22 +15,20 @@ import MuiForm from '../form-controls/MuiForm';
 import yup from '../../core/yup-extended';
 import MuiFormInput from '../form-controls/MuiFormInput';
 import MuiFormButton from '../form-controls/MuiFormButton';
-import Messages, { IMessage, MessageStatuses } from '../messages/Messages';
 
 interface IForm {
-  adminName: string;
-  pass: string;
+  id: string;
+  password: string;
 }
 
 const LoginForm: FC = (): JSX.Element => {
   const locale = useLocale(Locale);
   const { userStore } = useStore();
   const history = useHistory();
-  const [messages, setMessages] = useState<Array<IMessage>>();
 
   const schema = yup.object({
-    adminName: yup.string().required(),
-    pass: yup.string().required()
+    id: yup.string().required(),
+    password: yup.string().required()
   });
 
   const methods = useForm<IForm>({
@@ -39,26 +37,15 @@ const LoginForm: FC = (): JSX.Element => {
   });
 
   useEffect(() => {
-    if (!userStore.usersList.length) {
+    if (!userStore.usersList) {
       userStore.fetchUsersList();
     }
   }, [userStore.usersList]);
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    const user = userStore.usersList.find(item => item.id === data.adminName);
-
-    if (user) {
-      const checkPass = data.pass === `${user.name}Админ`;
-
-      if (checkPass && user) {
-        userStore.setUser(user);
-        userStore.setAuthorized(true);
-        sessionStorage.setItem('adminName', JSON.stringify(userStore.user));
-        history.push('/');
-      } else {
-        setMessages([{ value: 'Неправилный пароль', type: MessageStatuses.ERROR }]);
-      }
-    }
+    userStore.login(data).then(() => {
+      history.push('/');
+    });
   };
 
   const renderSelectItem = (option: { label: string, value: string }): JSX.Element => (
@@ -70,7 +57,9 @@ const LoginForm: FC = (): JSX.Element => {
     </Box>
   );
 
-  const selectOptions = userStore.usersList.map(user => ({ label: user.name, value: user.id }));
+  const selectOptions = (userStore.usersList || [])
+    .filter(user => user.role !== 'waiter')
+    .map(user => ({ label: user.name, value: user.id }));
 
   return (
     <Box sx={styles.loginForm}>
@@ -79,16 +68,15 @@ const LoginForm: FC = (): JSX.Element => {
         <img src="public/images/logo.png" alt="logo" style={{ width: '100%', height: '96px' }} />
       </Box>
       <Box sx={styles.form}>
-        <Messages messages={messages} />
         <MuiForm methods={methods} onSubmit={onSubmit}>
           <MuiFormSelect
-            name="adminName"
+            name="id"
             options={selectOptions}
             renderItem={renderSelectItem}
             label={locale.selectLabel}
           />
           <MuiFormInput
-            name="pass"
+            name="password"
             label={locale.passLabel}
             type="password"
             autoComplete="current-password"
