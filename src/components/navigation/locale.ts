@@ -5,8 +5,8 @@ const Locale = {
       path: '/users'
     },
     {
-      title: 'Поставщики',
-      path: '/contractors'
+      title: 'Контрагенты',
+      path: '/counterparties'
     },
     {
       title: 'Склад',

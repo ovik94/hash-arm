@@ -80,6 +80,22 @@ const RequestConfigList: IRequestConfigList = {
   sendFeedback: {
     method: RequestMethods.POST,
     path: '/api/feedback/send'
+  },
+  getCounterparties: {
+    method: RequestMethods.GET,
+    path: '/api/v2/counterparties'
+  },
+  addCounterparty: {
+    method: RequestMethods.POST,
+    path: '/api/v2/counterparties/add'
+  },
+  editCounterparty: {
+    method: RequestMethods.POST,
+    path: '/api/v2/counterparties/edit'
+  },
+  deleteCounterparty: {
+    method: RequestMethods.POST,
+    path: '/api/v2/counterparties/delete'
   }
 };
 

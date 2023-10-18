@@ -2,7 +2,7 @@ import { makeObservable, observable, action } from 'mobx';
 import RequestFactory from '../core/request/request-factory';
 import UserStore from './UserStore';
 import CheckListStore from './CheckListStore';
-import ContractorsStore from './ContractorsStore';
+import CounterpartiesStore from './CounterpartiesStore';
 import NotificationsStore from './NotificationsStore';
 import InstructionsStore from './InstructionsStore';
 import BalanceStore from './BalanceStore';
@@ -42,7 +42,7 @@ export class RootStore {
 
   checkListStore: CheckListStore;
 
-  contractorsStore: ContractorsStore;
+  counterpartiesStore: CounterpartiesStore;
 
   instructionsStore: InstructionsStore;
 
@@ -60,7 +60,7 @@ export class RootStore {
     this.userStore = new UserStore(this);
     this.notificationStore = new NotificationsStore(this);
     this.checkListStore = new CheckListStore(this);
-    this.contractorsStore = new ContractorsStore(this);
+    this.counterpartiesStore = new CounterpartiesStore(this);
     this.instructionsStore = new InstructionsStore(this);
     this.balanceStore = new BalanceStore(this);
     this.banquetsStore = new BanquetsStore(this);

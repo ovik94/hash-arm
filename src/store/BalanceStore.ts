@@ -9,7 +9,7 @@ export interface IBalance {
   balance: number;
 }
 
-export default class ContractorsStore {
+export default class BalanceStore {
   public barBalance: Array<IBalance> = [];
 
   protected rootStore: RootStore;

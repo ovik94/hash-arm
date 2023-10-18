@@ -15,7 +15,6 @@ import RequestFactory, { IResponse } from './request/request-factory';
 import RouteView from './RouteView';
 import { RootStore } from '../store/RootStore';
 import Login from '../pages/Login';
-import Contractors from '../pages/Contractors';
 import Notifier from './Notifier';
 import RequestConfigList from './request/RequestConfigList';
 import BarBalance from '../pages/BarBalance';
@@ -25,6 +24,7 @@ import Feedback from '../pages/Feedback';
 import BanquetsPage from '../pages/BanquetsPage';
 import UsersPage from '../pages/UsersPage';
 import PopupProvider from './PopupProvider';
+import CounterpartiesPage from '../pages/CounterpartiesPage';
 
 const store = new RootStore();
 
@@ -86,8 +86,8 @@ const App: FunctionComponent = () => {
                           <RouteView exact path="/users">
                             <UsersPage />
                           </RouteView>
-                          <RouteView exact path="/contractors">
-                            <Contractors />
+                          <RouteView exact path="/counterparties">
+                            <CounterpartiesPage />
                           </RouteView>
                           <RouteView exact path="/bar-balance">
                             <BarBalance />

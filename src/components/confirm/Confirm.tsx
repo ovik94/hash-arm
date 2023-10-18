@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Stack, Button, Typography } from '@mui/material';
+import { Stack, Button, Typography } from '@mui/material';
 import styles from './styles';
 
 interface IConfirm {

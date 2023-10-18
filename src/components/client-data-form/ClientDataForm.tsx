@@ -102,7 +102,7 @@ const ClientDataForm: FC = () => {
                 onClick={onEdit}
                 variant="outlined"
               >
-                {locale.editButton}
+                {locale.buttons.edit}
               </Button>
             )}
             {!disabledForm && <MuiFormButton label={locale.buttonLabel} />}

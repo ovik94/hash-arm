@@ -87,7 +87,7 @@ const UserDetailForm: FC<IUserDetailFormProps> = ({ user }) => {
         </Grid>
       </Grid>
 
-      <MuiFormButton label={user?.id ? locale.updateButton : locale.addButton} sx={{ mt: 3 }} />
+      <MuiFormButton label={user?.id ? locale.buttons.update : locale.buttons.add} sx={{ mt: 3 }} />
     </MuiForm>
   );
 };

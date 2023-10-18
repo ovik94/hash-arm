@@ -10,11 +10,10 @@ import {
 } from '@mui/material';
 import TableToolbar from './TableToolbar';
 import useStyles from './styles';
-import { IContractorNomenclatures } from '../../store/ContractorsStore';
 import TableHeader from './TableHeader';
 
 interface ITableProps {
-  data: Array<IContractorNomenclatures>;
+  data: Array<any>;
   headCells: Array<{ id: string; label: string; }>;
   onSelected: (selectedIds: Array<string>) => void;
   // eslint-disable-next-line react/require-default-props
@@ -24,7 +23,7 @@ interface ITableProps {
 const MuiTable: FC<ITableProps> = ({ headCells, data, isSearchable = false, onSelected }: ITableProps): JSX.Element => {
   const classes = useStyles();
   const [selected, setSelected] = useState<Array<string>>([]);
-  const [items, setItems] = useState<Array<IContractorNomenclatures>>(data);
+  const [items, setItems] = useState<Array<any>>(data);
 
   const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {

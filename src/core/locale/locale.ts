@@ -11,6 +11,12 @@ export const currencyFormatter = Globalize.currencyFormatter('RUB');
 const locale = {
   defaultTitle: 'АРМ ХашЛаваш',
   fieldRequired: 'Заполните поле',
+  buttons: {
+    add: 'Добавить',
+    update: 'Редактировать',
+    delete: 'Удалить',
+    cancel: 'Отменить'
+  },
   userRoleName: {
     supervisor: 'Руководитель',
     admin: 'Администратор',
@@ -29,7 +35,13 @@ const locale = {
       label: 'Официант',
       value: 'waiter'
     }
-  ]
+  ],
+  counterpartyTypes: {
+    kitchen: 'Кухонный сотрудник',
+    service: 'Сотрудник зала',
+    manager: 'Руководитель',
+    provider: 'Поставщик / Контрагент'
+  }
 };
 
 export const DateFnsData = ruDateFnsData;
