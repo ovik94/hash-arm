@@ -1,3 +1,5 @@
+import { PrivilegeType } from '../../store/UserStore';
+
 const Locale = {
   menu: [
     {
@@ -18,11 +20,13 @@ const Locale = {
     },
     {
       title: 'Загрузить выписку',
-      path: '/statement'
+      path: '/statement',
+      privilege: PrivilegeType.UPLOAD_STATEMENT
     },
     {
       title: 'Вопросы для обратной связи',
-      path: '/feedback-requests'
+      path: '/feedback-requests',
+      privilege: PrivilegeType.EDIT_FEEDBACK_REQUESTS
     }
   ]
 };

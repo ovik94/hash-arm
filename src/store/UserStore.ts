@@ -5,7 +5,9 @@ import { IUserDetailForm } from '../components/user-detail-form/UserDetailForm';
 
 export enum PrivilegeType {
   EDIT_USER = 'EDIT_USER',
-  EDIT_SUPERVISOR = 'EDIT_SUPERVISOR'
+  EDIT_SUPERVISOR = 'EDIT_SUPERVISOR',
+  EDIT_FEEDBACK_REQUESTS = 'EDIT_FEEDBACK_REQUESTS',
+  UPLOAD_STATEMENT = 'UPLOAD_STATEMENT'
 }
 
 export interface IUser {
