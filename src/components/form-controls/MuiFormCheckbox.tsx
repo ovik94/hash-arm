@@ -38,7 +38,7 @@ const MuiFormCheckbox: FC<IMuiCheckbox> = ({
       render={({ field }) => (
         <FormControl className={classes.formControl} error={Boolean(error?.message)}>
           <FormControlLabel
-            control={<Checkbox {...field} color="primary" size="small" />}
+            control={<Checkbox {...field} checked={field.value} color="primary" size="small" />}
             label={<Typography variant="subtitle2">{label}</Typography>}
           />
           {error?.message && <FormHelperText>{error.message}</FormHelperText>}

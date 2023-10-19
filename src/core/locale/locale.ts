@@ -15,7 +15,8 @@ const locale = {
     add: 'Добавить',
     update: 'Редактировать',
     delete: 'Удалить',
-    cancel: 'Отменить'
+    cancel: 'Отменить',
+    save: 'Сохранить'
   },
   userRoleName: {
     supervisor: 'Руководитель',

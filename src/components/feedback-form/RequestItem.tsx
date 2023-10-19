@@ -47,12 +47,14 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
   const schema = useMemo(() => {
     const optionsSchema: { [key: string]: BaseSchema } = {};
 
-    if (requestData.type === 'selectGroupNumber' || requestData.type === 'selectGroupString') {
-      optionsSchema[requestData.id] = requestData.required ? yup.array().of(yup.string().required()) : yup.array();
-    } else if (requestData.type === 'rating') {
-      optionsSchema[requestData.id] = requestData.required ? yup.number().required() : yup.number();
-    } else {
-      optionsSchema[requestData.id] = requestData.required ? yup.string().required() : yup.string();
+    if (requestData.id) {
+      if (requestData.type === 'selectGroupNumber' || requestData.type === 'selectGroupString') {
+        optionsSchema[requestData.id] = requestData.required ? yup.array().of(yup.string().required()) : yup.array();
+      } else if (requestData.type === 'rating') {
+        optionsSchema[requestData.id] = requestData.required ? yup.number().required() : yup.number();
+      } else {
+        optionsSchema[requestData.id] = requestData.required ? yup.string().required() : yup.string();
+      }
     }
 
     return yup.object(optionsSchema);
@@ -71,7 +73,7 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
   const renderControl = (question: IFeedbackItem) => {
     switch (question.type) {
       case 'select':
-        if (!question.options) {
+        if (!question.options || !question.id) {
           return null;
         }
 
@@ -83,7 +85,7 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
           />
         );
       case 'selectOtherVariant': {
-        if (!question.options) {
+        if (!question.options || !question.id) {
           return null;
         }
 
@@ -100,7 +102,7 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
               control={(
                 <Checkbox
                   checked={showSelectVariant}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => changeShowSelectVariant(event, question.id)}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => changeShowSelectVariant(event, question.id || '')}
                 />
             )}
             />
@@ -141,7 +143,7 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
       case 'textArea':
         return (
           <MuiFormInput
-            name={question.id}
+            name={question.id || ''}
             label={locale.messageLabel}
             multiline
             minRows={5}
@@ -149,15 +151,17 @@ const RequestItem: FC<IRequestItemProps> = ({ requestData, onSubmit, onBack, act
           />
         );
       case 'rating':
-        return <MuiFormRating name={question.id} />;
+        return <MuiFormRating name={question.id || ''} />;
       default:
     }
   };
 
   const onSubmitForm: SubmitHandler<IFeedbackForm> = (data) => {
-    setResponse(requestData.id, data[requestData.id]);
-    setShowSelectVariant(false);
-    onSubmit();
+    if (requestData.id) {
+      setResponse(requestData.id, data[requestData.id]);
+      setShowSelectVariant(false);
+      onSubmit();
+    }
   };
 
   const onBackButton = () => {

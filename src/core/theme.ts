@@ -77,6 +77,22 @@ export const defaultTheme = createTheme({
     }
   },
   components: {
+    MuiDialog: {
+      styleOverrides: {
+        paperWidthLg: {
+          minWidth: '900px',
+          maxWidth: '900px'
+        },
+        paperWidthMd: {
+          minWidth: '600px',
+          maxWidth: '600px'
+        },
+        paperWidthSm: {
+          minWidth: '350px',
+          maxWidth: '350px'
+        }
+      }
+    },
     MuiDivider: {
       styleOverrides: {
         root: {

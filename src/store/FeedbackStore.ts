@@ -3,15 +3,22 @@ import { makeAutoObservable } from 'mobx';
 import { RootStore } from './RootStore';
 import { IResponse } from '../core/request/request-factory';
 
-export type IFeedbackType = 'textInput' | 'textArea' | 'select' | 'rating' | 'selectOtherVariant' | 'selectGroupString' | 'selectGroupNumber';
+export type IFeedbackType =
+  'textInput'
+  | 'textArea'
+  | 'select'
+  | 'rating'
+  | 'selectOtherVariant'
+  | 'selectGroupString'
+  | 'selectGroupNumber';
 
 export interface IFeedbackItem {
-  id: string;
+  id?: string;
   title: string;
-  required: boolean;
+  type: IFeedbackType;
+  required?: boolean;
   subtitle?: string;
   options?: Array<string>;
-  type: IFeedbackType;
   response?: string | Array<string> | number;
 }
 
@@ -33,9 +40,18 @@ export default class FeedbackStore {
     this.feedbackList = (this.feedbackList || []).map(item => (item.id === id ? ({ ...item, response: value }) : item));
   };
 
-  public fetchFeedbackList = (): Promise<void> => {
+  public fetchFeedbackList = (): Promise<Array<IFeedbackItem>> => {
     this.rootStore.setLoading(true);
     return this.rootStore.createRequest<Array<IFeedbackItem>>('getFeedbackList')
+      .then((data) => {
+        this.setFeedbackList(data);
+        return data;
+      }).finally(() => this.rootStore.setLoading(false));
+  };
+
+  public updateFeedbackList = (requests: Array<IFeedbackItem>): Promise<void> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IFeedbackItem>>('updateFeedbackList', undefined, { requests })
       .then((data) => {
         this.setFeedbackList(data);
         this.rootStore.setLoading(false);

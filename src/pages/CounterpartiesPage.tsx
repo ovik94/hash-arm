@@ -26,7 +26,7 @@ const CounterpartiesPage = () => {
 
   const onAdd = () => {
     popupStore.openPopup({
-      props: { size: 'sm' },
+      props: { size: 'md' },
       content: CounterpartyDetailForm
     });
   };

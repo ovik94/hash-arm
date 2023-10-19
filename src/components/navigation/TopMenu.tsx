@@ -1,6 +1,5 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { observer } from 'mobx-react-lite';
-import Cookies from 'js-cookie';
 import { Toolbar, AppBar, IconButton, Typography, Divider, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';

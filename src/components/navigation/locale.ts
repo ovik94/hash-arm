@@ -19,6 +19,10 @@ const Locale = {
     {
       title: 'Загрузить выписку',
       path: '/statement'
+    },
+    {
+      title: 'Вопросы для обратной связи',
+      path: '/feedback-requests'
     }
   ]
 };

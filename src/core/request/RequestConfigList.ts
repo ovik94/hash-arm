@@ -77,6 +77,10 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.GET,
     path: '/api/feedback/list'
   },
+  updateFeedbackList: {
+    method: RequestMethods.POST,
+    path: '/api/feedback/update'
+  },
   sendFeedback: {
     method: RequestMethods.POST,
     path: '/api/feedback/send'

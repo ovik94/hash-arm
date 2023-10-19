@@ -30,7 +30,7 @@ const UsersList: FC<IUsersListProps> = ({ users }) => {
 
   const onEdit = (user: IUser) => {
     popupStore.openPopup({
-      props: { size: 'sm' },
+      props: { size: 'md' },
       contentProps: { user },
       content: UserDetailForm
     });

@@ -9,8 +9,7 @@ import UsersList from '../components/users-list/UsersList';
 import UserDetailForm from '../components/user-detail-form/UserDetailForm';
 
 const Locale = {
-  title: 'Список сотрудников',
-  add: 'Добавить'
+  title: 'Список сотрудников'
 };
 
 const UsersPage = () => {
@@ -26,7 +25,7 @@ const UsersPage = () => {
 
   const onAdd = () => {
     popupStore.openPopup({
-      props: { size: 'sm' },
+      props: { size: 'md' },
       content: UserDetailForm
     });
   };
@@ -42,7 +41,7 @@ const UsersPage = () => {
           component="label"
           onClick={onAdd}
         >
-          {locale.add}
+          {locale.buttons.add}
         </Button>
       </Stack>
       <UsersList users={userStore.usersList || []} />

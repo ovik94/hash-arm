@@ -10,8 +10,8 @@ const styles: Record<string, SxProps<Theme>> = {
       sm: '0px 6px 10px rgba(0, 0, 0, 0.14), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 3px 5px rgba(0, 0, 0, 0.2)',
       xs: 'none'
     },
-    py: 8,
-    px: { xs: 2, sm: 8 },
+    py: 4,
+    px: { xs: 2, sm: 4 },
     width: { xs: '100%', sm: 'auto' },
     height: { xs: '100vh', sm: 'auto' },
     position: 'relative'

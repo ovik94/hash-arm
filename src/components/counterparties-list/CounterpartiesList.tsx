@@ -30,7 +30,7 @@ const CounterpartiesList: FC<IUsersListProps> = ({ counterparties }) => {
 
   const onEdit = (counterparty: ICounterparty) => {
     popupStore.openPopup({
-      props: { size: 'sm' },
+      props: { size: 'md' },
       contentProps: { counterparty },
       content: CounterpartyDetailForm
     });

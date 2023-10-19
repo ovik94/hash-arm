@@ -25,6 +25,7 @@ import BanquetsPage from '../pages/BanquetsPage';
 import UsersPage from '../pages/UsersPage';
 import PopupProvider from './PopupProvider';
 import CounterpartiesPage from '../pages/CounterpartiesPage';
+import FeedbackRequestsPage from '../pages/FeedbackRequestsPage';
 
 const store = new RootStore();
 
@@ -97,6 +98,9 @@ const App: FunctionComponent = () => {
                           </RouteView>
                           <RouteView exact path="/statement">
                             <Statement />
+                          </RouteView>
+                          <RouteView exact path="/feedback-requests">
+                            <FeedbackRequestsPage />
                           </RouteView>
                         </Switch>
                       </div>

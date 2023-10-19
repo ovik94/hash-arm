@@ -24,6 +24,8 @@ const BanquetOrderListItem: FC<IBanquetOrderListItem> = ({ item, groupData }) =>
     } else {
       editCountOrderData(groupData.id, item.id, item.count - 1);
     }
+
+    subtractOrderSum(item.price);
   };
 
   const onPlusCount = () => {
