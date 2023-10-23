@@ -76,7 +76,7 @@ export class RootStore {
     this.createRequest = createRequest;
   }
 
-  public setLoading(value: boolean) {
+  public setLoading = (value: boolean) => {
     this.isLoading = value;
-  }
+  };
 }

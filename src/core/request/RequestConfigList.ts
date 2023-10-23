@@ -49,6 +49,14 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.GET,
     path: '/api/iiko/bar-balance'
   },
+  getBarNomenclature: {
+    method: RequestMethods.GET,
+    path: '/api/iiko/bar-nomenclature'
+  },
+  saveBarLimits: {
+    method: RequestMethods.POST,
+    path: '/api/iiko/save-bar-limits'
+  },
   getMenu: {
     method: RequestMethods.GET,
     path: '/api/iiko/menu'
