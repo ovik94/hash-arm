@@ -45,7 +45,7 @@ const Feedback = () => {
 
   const {
     feedbackStore: { fetchFeedbackList, feedbackList },
-    fortuneStore: { fetchFortuneData, fortuneData },
+    fortuneStore: { fetchFortuneData, wheelOfFortuneData },
     isLoading
   } = useStore();
 
@@ -81,10 +81,10 @@ const Feedback = () => {
               </Fab>
             </Stack>
 
-            {fortuneData.feedbackFortune && fortuneData.feedbackFortune.length > 0 && (
+            {wheelOfFortuneData.feedbackFortune && wheelOfFortuneData.feedbackFortune.length > 0 && (
               <>
                 <Typography variant="h4" textAlign="center" mt={1} mb={2}>{locale.fortuneTitle}</Typography>
-                <FortuneBlock data={fortuneData.feedbackFortune} />
+                <FortuneBlock data={wheelOfFortuneData.feedbackFortune} />
               </>
             )}
           </Grid>

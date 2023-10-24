@@ -2,32 +2,33 @@ import { Theme, SxProps } from '@mui/material/styles';
 
 const styles: Record<string, SxProps<Theme>> = {
   value: {
-    backgroundColor: '#fff',
     borderBottom: '1px solid',
     borderColor: theme => theme.palette.grey[300],
-
-    '& .MuiSvgIcon-root': {
-      fill: theme => theme.palette.grey[500]
-    }
+    borderRadius: '4px',
+    backgroundColor: theme => theme.palette.grey[100]
   },
-  header: {
-    backgroundColor: theme => theme.palette.grey[200],
-    height: '32px',
-    pl: 9
+  colorBox: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '50%',
+    mr: 1
   },
-  name: {
-    flexGrow: 1,
-    pl: 2
+  dragIconBox: {
+    display: 'flex'
   },
   dragIcon: {
-    m: 2
+    fill: theme => theme.palette.grey[500],
+    m: 1
+  },
+  title: {
+    flexGrow: 1,
+    ml: 1
   },
   editableTextField: {
     flexGrow: 1,
 
     '.MuiOutlinedInput-root': {
-      width: '500px',
-      ml: 2
+      mr: 3
     },
 
     '.MuiOutlinedInput-input': {

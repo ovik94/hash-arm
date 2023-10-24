@@ -127,6 +127,14 @@ export const defaultTheme = createTheme({
           top: '-4px'
         }
       }
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          marginLeft: 0,
+          marginRight: 0
+        }
+      }
     }
   }
 });

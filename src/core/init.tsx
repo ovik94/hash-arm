@@ -26,6 +26,7 @@ import UsersPage from '../pages/UsersPage';
 import PopupProvider from './PopupProvider';
 import CounterpartiesPage from '../pages/CounterpartiesPage';
 import FeedbackRequestsPage from '../pages/FeedbackRequestsPage';
+import WheelOfFortunePage from '../pages/WheelOfFortunePage';
 
 const store = new RootStore();
 
@@ -101,6 +102,9 @@ const App: FunctionComponent = () => {
                           </RouteView>
                           <RouteView exact path="/feedback-requests">
                             <FeedbackRequestsPage />
+                          </RouteView>
+                          <RouteView exact path="/wheel-of-fortune">
+                            <WheelOfFortunePage />
                           </RouteView>
                         </Switch>
                       </div>

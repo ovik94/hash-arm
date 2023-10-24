@@ -27,6 +27,11 @@ const Locale = {
       title: 'Вопросы для обратной связи',
       path: '/feedback-requests',
       privilege: PrivilegeType.EDIT_FEEDBACK_REQUESTS
+    },
+    {
+      title: 'Колесо фортуны',
+      path: '/wheel-of-fortune',
+      privilege: PrivilegeType.EDIT_FORTUNE_DATA
     }
   ]
 };

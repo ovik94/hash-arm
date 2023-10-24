@@ -2,17 +2,25 @@ import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
 import { RootStore } from './RootStore';
 
-export interface IFortune {
-  id: string;
-  count: number;
-  text: string;
+export interface IWheelOfFortuneContent {
+  id?: string;
+  title: string;
   color: string;
 }
 
-export type FortuneType = 'birthdayFortune' | 'feedbackFortune';
+export interface IWheelOfFortuneData {
+  id?: string;
+  code: string;
+  description: string;
+  content: Array<IWheelOfFortuneContent>;
+}
+
+export type FortuneCode = 'birthdayFortune' | 'feedbackFortune';
 
 export default class FortuneStore {
-  public fortuneData: { [type: string]: Array<IFortune> } = {};
+  public wheelOfFortuneList: Array<IWheelOfFortuneData> | null = null;
+
+  public wheelOfFortuneData: { [type: string]: Array<IWheelOfFortuneContent> } = {};
 
   protected rootStore: RootStore;
 
@@ -21,20 +29,56 @@ export default class FortuneStore {
     makeAutoObservable(this);
   }
 
-  public setFortuneData = (type: FortuneType, data: Array<IFortune>) => {
-    this.fortuneData = { ...this.fortuneData, [type]: data.filter(prize => Boolean(prize.count)) };
+  public setWheelOfFortuneData = (code: FortuneCode, data: Array<IWheelOfFortuneContent>) => {
+    this.wheelOfFortuneData = { ...this.wheelOfFortuneData, [code]: data };
   };
 
-  public fetchFortuneData = (type: FortuneType): Promise<void> => {
+  public setWheelOfFortuneList = (data: Array<IWheelOfFortuneData>) => {
+    this.wheelOfFortuneList = data;
+  };
+
+  public fetchFortuneData = (code: FortuneCode): Promise<void> => {
     this.rootStore.setLoading(true);
-    return this.rootStore.createRequest<Array<IFortune>>('getFortuneList', { type })
+    return this.rootStore.createRequest<IWheelOfFortuneData>('getWheelOfFortuneData', { code })
       .then((data) => {
-        this.setFortuneData(type, data);
+        this.setWheelOfFortuneData(code, data.content);
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
   };
 
-  public reduceItemCount = (type: FortuneType, id: string): Promise<void> => this.rootStore
-    .createRequest<void>('reduceItemCount', undefined, { type, id })
-    .finally(() => {});
+  public fetchWheelOfFortuneList = (): Promise<void> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IWheelOfFortuneData>>('getWheelOfFortuneList')
+      .then((data) => {
+        this.setWheelOfFortuneList(data);
+        this.rootStore.setLoading(false);
+      }).catch(() => this.rootStore.setLoading(false));
+  };
+
+  public addWheelOfFortune = (body: IWheelOfFortuneData): Promise<void> => {
+    this.rootStore.popupStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IWheelOfFortuneData>>('addWheelOfFortune', undefined, body)
+      .then((data) => {
+        this.setWheelOfFortuneList(data);
+        this.rootStore.popupStore.setLoading(false);
+      }).catch(() => this.rootStore.popupStore.setLoading(false));
+  };
+
+  public editWheelOfFortune = (body: IWheelOfFortuneData): Promise<void> => {
+    this.rootStore.popupStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IWheelOfFortuneData>>('editWheelOfFortune', undefined, body)
+      .then((data) => {
+        this.setWheelOfFortuneList(data);
+        this.rootStore.popupStore.setLoading(false);
+      }).catch(() => this.rootStore.popupStore.setLoading(false));
+  };
+
+  public deleteWheelOfFortune = (id: string): Promise<void> => {
+    this.rootStore.popupStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IWheelOfFortuneData>>('deleteWheelOfFortune', undefined, { id })
+      .then((data) => {
+        this.setWheelOfFortuneList(data);
+        this.rootStore.popupStore.setLoading(false);
+      }).catch(() => this.rootStore.popupStore.setLoading(false));
+  };
 }

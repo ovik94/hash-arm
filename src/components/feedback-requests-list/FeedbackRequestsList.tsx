@@ -2,7 +2,7 @@ import React, { FC, useCallback, useMemo } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { Box, Typography } from '@mui/material';
 import DictionaryValuesListItem from './FeedbackRequestsListItem';
-import DraggableList from '../draggable-list/DraggableList';
+import DraggableList, { reorder } from '../draggable-list/DraggableList';
 import useLocale from '../../hooks/useLocale';
 import useStores from '../../hooks/useStore';
 import Locale from './locale';
@@ -14,18 +14,6 @@ interface IFeedbackRequestsListProps {
   onChange: (values: Array<IFeedbackItem>) => void;
   values: Array<IFeedbackItem>;
 }
-
-export const reorder = (
-  list: Array<IFeedbackItem>,
-  startIndex: number,
-  endIndex: number
-) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
 
 const FeedbackRequestsList: FC<IFeedbackRequestsListProps> = ({ onChange, values }) => {
   const locale = useLocale(Locale);
@@ -50,7 +38,7 @@ const FeedbackRequestsList: FC<IFeedbackRequestsListProps> = ({ onChange, values
       return;
     }
 
-    const newItems = reorder(values, source.index, destination.index);
+    const newItems = reorder<IFeedbackItem>(values, source.index, destination.index);
 
     onChange(newItems);
   }, [values]);

@@ -5,7 +5,6 @@ import { Theme } from '@mui/material/styles';
 import useTitle from '../hooks/useTitle';
 import useStore from '../hooks/useStore';
 import FortuneBlock, { ISelectedPrize } from '../components/fortune-block/FortuneBlock';
-import { IFortune } from '../store/FortuneStore';
 
 const styles: Record<string, SxProps<Theme>> = {
   container: theme => ({
@@ -27,7 +26,7 @@ const styles: Record<string, SxProps<Theme>> = {
 
 const Fortune = () => {
   useTitle();
-  const { fortuneStore: { fetchFortuneData, fortuneData, reduceItemCount } } = useStore();
+  const { fortuneStore: { fetchFortuneData, wheelOfFortuneData } } = useStore();
 
   const prizeStorage = localStorage.getItem('selectedPrize') ?
     JSON.parse(localStorage.getItem('selectedPrize')!) as ISelectedPrize :
@@ -37,18 +36,13 @@ const Fortune = () => {
     fetchFortuneData('birthdayFortune');
   }, []);
 
-  const onFinish = (prize: IFortune) => {
-    reduceItemCount('birthdayFortune', prize.id);
-  };
-
   return (
     <Box sx={styles.container}>
       <img src="public/images/hblogo.svg" alt="logo" />
-      {fortuneData.birthdayFortune && (
+      {wheelOfFortuneData.birthdayFortune && (
         <FortuneBlock
-          data={fortuneData.birthdayFortune}
+          data={wheelOfFortuneData.birthdayFortune}
           prize={prizeStorage && prizeStorage?.id === 'birthday' ? prizeStorage : undefined}
-          onFinish={onFinish}
         />
       )}
     </Box>

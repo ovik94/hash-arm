@@ -3,7 +3,7 @@ import { Box, Button, Typography } from '@mui/material';
 import JSConfetti from 'js-confetti';
 import { Theme } from '@mui/material/styles';
 import { SystemStyleObject } from '@mui/system/styleFunctionSx/styleFunctionSx';
-import { IFortune } from '../../store/FortuneStore';
+import { IWheelOfFortuneContent } from '../../store/FortuneStore';
 import styles from './styles';
 import useLocale from '../../hooks/useLocale';
 import Locale from './locale';
@@ -11,9 +11,9 @@ import Locale from './locale';
 export type ISelectedPrize = { id: string; text: string; };
 
 interface IProps {
-  data: Array<IFortune>;
+  data: Array<IWheelOfFortuneContent>;
   prize?: ISelectedPrize;
-  onFinish?: (prize: IFortune) => void;
+  onFinish?: (prize: IWheelOfFortuneContent) => void;
 }
 
 const spinertia = (min: number, max: number) => {
@@ -32,7 +32,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   const [disabled, setDisabled] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [confetti, setConfetti] = useState<JSConfetti>();
-  const [selectedPrize, setSelectedPrize] = useState<IFortune>();
+  const [selectedPrize, setSelectedPrize] = useState<IWheelOfFortuneContent>();
 
   const currentSlice = useRef<number>(0);
   const selectedIndex = useRef<number>();
@@ -62,7 +62,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
       const currentSelectedPrize = data.find((item, index) => index === selectedIndex.current);
 
       if (currentSelectedPrize) {
-        localStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: currentSelectedPrize.text }));
+        localStorage.setItem('selectedPrize', JSON.stringify({ id: 'birthday', text: currentSelectedPrize.title }));
       }
     }
   };
@@ -124,7 +124,10 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   useEffect(() => {
     if (data.length) {
       const style = {
-        background: `conic-gradient(from -90deg,${data.map(({ color }, i) => `${color} 0 ${(100 / data.length) * (data.length - i)}%`).reverse()})`
+        background: `conic-gradient(
+        from -90deg,
+        ${data.map(({ color }, i) => `${color} 0 ${(100 / data.length) * (data.length - i)}%
+        `).reverse()})`
       };
 
       setSpinnerStyle(style);
@@ -153,6 +156,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
   }, [spinnerRef.current, prizeSlice, rotation, tickerAnim.current]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
     if ((selectedIndex.current || selectedIndex.current === 0) && isFinite(selectedIndex.current)) {
       const selectedPrizeData = data.find((item, index) => index === selectedIndex.current);
 
@@ -192,7 +196,7 @@ const FortuneBlock: FC<IProps> = ({ data, prize, onFinish }): JSX.Element => {
                   variant="caption"
                   sx={selectedPrize?.id === item.id ? createStyles.selectedText : {}}
                 >
-                  {item.text}
+                  {item.title}
                 </Typography>
               </li>
             );

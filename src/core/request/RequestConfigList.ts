@@ -69,9 +69,25 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.POST,
     path: '/api/banquets/save'
   },
-  getFortuneList: {
+  getWheelOfFortuneList: {
     method: RequestMethods.GET,
-    path: '/api/fortune/list'
+    path: '/api/wheel-of-fortune/list'
+  },
+  getWheelOfFortuneData: {
+    method: RequestMethods.GET,
+    path: '/api/wheel-of-fortune/data'
+  },
+  addWheelOfFortune: {
+    method: RequestMethods.POST,
+    path: '/api/wheel-of-fortune/add'
+  },
+  editWheelOfFortune: {
+    method: RequestMethods.POST,
+    path: '/api/wheel-of-fortune/edit'
+  },
+  deleteWheelOfFortune: {
+    method: RequestMethods.POST,
+    path: '/api/wheel-of-fortune/delete'
   },
   reduceItemCount: {
     method: RequestMethods.POST,
