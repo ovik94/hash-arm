@@ -8,6 +8,8 @@ const Locale = {
   ERROR_BOT_SEND_MESSAGE: 'Произошла ошибка. Бот не смог отправить сообщение в чат',
   CREATE_ORDER_SUCCESS: 'Заявка успешно создана! Проверь чат с менеджером в Telegram',
   SAVE_BANQUET_SUCCESS: 'Банкет успешно создан! Данные отправлены в чат Telegram',
+  EDIT_BANQUET_SUCCESS: 'Банкет был успешно изменен! Данные отправлены в чат Telegram',
+  DELETE_BANQUET_SUCCESS: 'Банкет удален!',
   SAVE_FEEDBACK_REQUESTS: 'Список вопросов сохранен',
   DEFAULT: {
     default: 'Всплывающее сообщение',

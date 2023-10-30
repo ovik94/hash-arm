@@ -15,8 +15,9 @@ const Locale = {
       path: '/bar-balance'
     },
     {
-      title: 'Заказ банкетов',
-      path: '/banquets'
+      title: 'Резерв банкетов',
+      path: '/banquets-list',
+      privilege: PrivilegeType.RESERVE_BANQUET
     },
     {
       title: 'Загрузить выписку',

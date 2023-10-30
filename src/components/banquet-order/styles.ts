@@ -34,9 +34,6 @@ const styles: Record<string, SxProps<Theme>> = {
   itemTitle: {
     flexGrow: 4
   },
-  itemPrice: {
-    mr: 3
-  },
   itemCount: {
     my: 0,
     mx: 0,
@@ -45,23 +42,12 @@ const styles: Record<string, SxProps<Theme>> = {
   menuType: {
     mb: 2
   },
-  footer: {
-    display: 'flex',
-    flexDirection: 'column',
-    mt: 2
-  },
-  sum: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    my: 2,
-    mx: 0
-  },
-  sale: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
   saleInput: {
-    width: '100px'
+    m: '0 !important',
+
+    '.MuiTextField-root': {
+      m: 0
+    }
   }
 };
 

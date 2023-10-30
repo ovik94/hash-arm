@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 // eslint-disable-next-line import/no-cycle
 import { RootStore } from './RootStore';
-import { IOrderData, IOrderDataItem } from '../components/banquet-order/BanquetOrder';
-import { IClientDataForm } from '../components/client-data-form/ClientDataForm';
+import { IOrderData } from '../components/banquet-order/BanquetOrderMenu';
 
 export interface IMenuItem {
   id: string;
@@ -34,7 +33,8 @@ export interface IOptions {
   weightPerPerson: { [type: string]: number }
 }
 
-export interface ISaveBanquetBody {
+export interface IBanquetReserve {
+  id?: string;
   name: string;
   phone: string;
   personsCount: number;
@@ -43,7 +43,7 @@ export interface ISaveBanquetBody {
   sum: number;
   totalAmount: number;
   sale?: string;
-  serviceFee?: string;
+  serviceFee?: boolean;
   admin: string;
   comment?: string;
 }
@@ -51,13 +51,9 @@ export interface ISaveBanquetBody {
 export default class BanquetsStore {
   public menu: Array<IMenuGroup> = [];
 
+  public reserves: Array<IBanquetReserve> | null = null;
+
   public options: IOptions = {} as IOptions;
-
-  public clientData: IClientDataForm | null = null;
-
-  public orderData: Array<IOrderData> = [];
-
-  public orderSum: number = 0;
 
   public isLoading: boolean = false;
 
@@ -80,16 +76,8 @@ export default class BanquetsStore {
     this.options = options;
   };
 
-  public setClientData = (data: IClientDataForm | null) => {
-    this.clientData = data;
-  };
-
-  public setOrderData = (data: Array<IOrderData>) => {
-    this.orderData = data;
-  };
-
-  public setOrderSum = (sum: number) => {
-    this.orderSum = sum;
+  public setReserves = (reserves: Array<IBanquetReserve>) => {
+    this.reserves = reserves;
   };
 
   public fetchMenu = (): Promise<void> => {
@@ -102,6 +90,22 @@ export default class BanquetsStore {
       .finally(() => this.rootStore.setLoading(false));
   };
 
+  public getReserve = (id: string): Promise<IBanquetReserve> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<IBanquetReserve>('getBanquetReserve', { id })
+      .then(data => data)
+      .finally(() => this.rootStore.setLoading(false));
+  };
+
+  public getReservesList = (): Promise<void> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IBanquetReserve>>('getBanquetReservesList')
+      .then((data) => {
+        this.setReserves(data);
+      })
+      .finally(() => this.rootStore.setLoading(false));
+  };
+
   public fetchMenuItem = (id: string): Promise<IBanquetsMenuItem> => {
     this.setLoading(true);
     return this.rootStore.createRequest<IBanquetsMenuItem>('getMenuItem', { id })
@@ -109,61 +113,33 @@ export default class BanquetsStore {
       .finally(() => this.setLoading(false));
   };
 
-  public save = (data: ISaveBanquetBody): Promise<void> => {
+  public save = (data: IBanquetReserve): Promise<void> => {
     this.rootStore.setLoading(true);
-    return this.rootStore.createRequest('postBanquetSave', {}, data)
-      .then(() => {
+    return this.rootStore.createRequest<Array<IBanquetReserve>>('saveBanquet', {}, data)
+      .then((reserves) => {
+        this.setReserves(reserves);
         this.rootStore.notificationStore.addNotification({ code: 'SAVE_BANQUET_SUCCESS', type: 'success' });
         this.rootStore.setLoading(false);
       }).catch(() => this.rootStore.setLoading(false));
   };
 
-  public addItemOrderData = (id: string, name: string, option: IOrderDataItem) => {
-    const currentData = this.orderData.find(orderItem => orderItem.id === id);
-    let newOrderData;
-
-    if (currentData) {
-      const newItems = currentData.items.slice(0);
-      newItems.push(option);
-      newOrderData = this.orderData.map(orderItem => (orderItem.id === id ? ({
-        ...orderItem,
-        items: newItems
-      }) : orderItem));
-    } else {
-      const copyOrderData = this.orderData.slice(0);
-      copyOrderData.push({ id, name, items: [option] });
-
-      newOrderData = copyOrderData;
-    }
-
-    this.addOrderSum(option.price);
-
-    this.setOrderData(newOrderData);
+  public edit = (data: IBanquetReserve): Promise<void> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IBanquetReserve>>('editBanquet', {}, data)
+      .then((reserves) => {
+        this.setReserves(reserves);
+        this.rootStore.notificationStore.addNotification({ code: 'EDIT_BANQUET_SUCCESS', type: 'success' });
+        this.rootStore.setLoading(false);
+      }).catch(() => this.rootStore.setLoading(false));
   };
 
-  public editCountOrderData = (groupId: string, id: string, newCount: number) => {
-    const newOrderData = this.orderData.map(orderGroup => (orderGroup.id === groupId ? ({
-      ...orderGroup,
-      items: orderGroup.items.map(orderItem => (orderItem.id === id ? ({ ...orderItem, count: newCount }) : orderItem))
-    }) : orderGroup));
-
-    this.setOrderData(newOrderData);
-  };
-
-  public deleteItemOrderData = (groupId: string, id: string) => {
-    const newOrderData = this.orderData.map(orderGroup => (orderGroup.id === groupId ? ({
-      ...orderGroup,
-      items: orderGroup.items.filter(orderItem => orderItem.id !== id)
-    }) : orderGroup)).filter(item => item.items.length > 0);
-
-    this.setOrderData(newOrderData);
-  };
-
-  public addOrderSum = (amount: number) => {
-    this.setOrderSum(this.orderSum + amount);
-  };
-
-  public subtractOrderSum = (amount: number) => {
-    this.setOrderSum(this.orderSum - amount);
+  public delete = (data: IBanquetReserve): Promise<void> => {
+    this.rootStore.setLoading(true);
+    return this.rootStore.createRequest<Array<IBanquetReserve>>('deleteBanquet', {}, data)
+      .then((reserves) => {
+        this.setReserves(reserves);
+        this.rootStore.notificationStore.addNotification({ code: 'DELETE_BANQUET_SUCCESS', type: 'success' });
+        this.rootStore.setLoading(false);
+      }).catch(() => this.rootStore.setLoading(false));
   };
 }

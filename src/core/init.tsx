@@ -27,6 +27,7 @@ import PopupProvider from './PopupProvider';
 import CounterpartiesPage from '../pages/CounterpartiesPage';
 import FeedbackRequestsPage from '../pages/FeedbackRequestsPage';
 import WheelOfFortunePage from '../pages/WheelOfFortunePage';
+import BanquetDetailPage from '../pages/BanquetDetailPage';
 
 const store = new RootStore();
 
@@ -94,8 +95,11 @@ const App: FunctionComponent = () => {
                           <RouteView exact path="/bar-balance">
                             <BarBalance />
                           </RouteView>
-                          <RouteView exact path="/banquets">
+                          <RouteView exact path="/banquets-list">
                             <BanquetsPage />
+                          </RouteView>
+                          <RouteView exact path="/banquet/:id?">
+                            <BanquetDetailPage />
                           </RouteView>
                           <RouteView exact path="/statement">
                             <Statement />

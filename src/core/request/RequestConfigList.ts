@@ -65,9 +65,25 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.GET,
     path: '/api/iiko/menuItem'
   },
-  postBanquetSave: {
+  saveBanquet: {
     method: RequestMethods.POST,
     path: '/api/banquets/save'
+  },
+  editBanquet: {
+    method: RequestMethods.POST,
+    path: '/api/banquets/edit'
+  },
+  deleteBanquet: {
+    method: RequestMethods.POST,
+    path: '/api/banquets/delete'
+  },
+  getBanquetReserve: {
+    method: RequestMethods.GET,
+    path: '/api/banquets/reserve'
+  },
+  getBanquetReservesList: {
+    method: RequestMethods.GET,
+    path: '/api/banquets/reserves'
   },
   getWheelOfFortuneList: {
     method: RequestMethods.GET,

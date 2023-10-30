@@ -1,8 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { observer } from 'mobx-react-lite';
 import MuiFormInput from '../form-controls/MuiFormInput';
 import MuiFormMaskedInput from '../form-controls/MuiFormMaskedInput';
 import MuiFormDateTimePicker from '../form-controls/MuiFormDateTimePicker';
@@ -11,7 +10,6 @@ import yup from '../../core/yup-extended';
 import Locale from './locale';
 import useLocale from '../../hooks/useLocale';
 import MuiFormButton from '../form-controls/MuiFormButton';
-import useStore from '../../hooks/useStore';
 
 export interface IClientDataForm {
   name: string;
@@ -20,9 +18,13 @@ export interface IClientDataForm {
   date: Date;
 }
 
-const ClientDataForm: FC = () => {
+interface IClientDataProps {
+  clientData: IClientDataForm | null;
+  onSaveClientData: (data: IClientDataForm) => void;
+}
+
+const ClientDataForm: FC<IClientDataProps> = ({ clientData, onSaveClientData }) => {
   const locale = useLocale(Locale);
-  const { banquetsStore: { setClientData, clientData } } = useStore();
   const [disabledForm, setDisabledForm] = useState(false);
 
   const schema = yup.object({
@@ -38,24 +40,24 @@ const ClientDataForm: FC = () => {
 
   const methods = useForm<IClientDataForm>({
     resolver: yupResolver(schema),
-    defaultValues: {
+    defaultValues: useMemo(() => (clientData || {
       name: '',
       phone: '',
       personsCount: 10,
       date: undefined
-    },
+    }), [clientData]),
     mode: 'onTouched'
   });
 
   useEffect(() => {
-    if (!clientData) {
-      methods.reset();
-      setDisabledForm(false);
+    if (clientData) {
+      methods.reset(clientData);
+      setDisabledForm(true);
     }
   }, [clientData]);
 
   const onSubmit: SubmitHandler<IClientDataForm> = (data) => {
-    setClientData(data);
+    onSaveClientData(data);
     setDisabledForm(true);
   };
 
@@ -102,7 +104,7 @@ const ClientDataForm: FC = () => {
                 onClick={onEdit}
                 variant="outlined"
               >
-                {locale.buttons.edit}
+                {locale.buttons.update}
               </Button>
             )}
             {!disabledForm && <MuiFormButton label={locale.buttonLabel} />}
@@ -113,4 +115,4 @@ const ClientDataForm: FC = () => {
   );
 };
 
-export default observer(ClientDataForm);
+export default ClientDataForm;
