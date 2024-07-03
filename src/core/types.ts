@@ -1,19 +1,17 @@
-import React from 'react';
-import { IAdmin, IAdminList, ICheckList } from '../store/RootStore';
-import RequestFactory from './request/request-factory';
+import React from "react";
+import { IAdmin, IAdminList } from "../store/RootStore";
+import RequestFactory from "./request/request-factory";
 
 export interface IMainAppOptions {
-  createRequest: RequestFactory['createRequest'];
-  locale: Record<string, any>
+  createRequest: RequestFactory["createRequest"];
+  locale: Record<string, any>;
 }
 
 export interface IStoreContext {
   admin: IAdmin;
   adminList: IAdminList;
-  checkList: ICheckList,
   setAdmin: (data: IAdmin) => void;
   setAdminList: (data: IAdminList) => void;
-  setCheckList: (data: ICheckList) => void;
   fetchAdminList: () => void;
   isAuthorized: boolean;
   isLoading: boolean;
