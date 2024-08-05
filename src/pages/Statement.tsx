@@ -24,8 +24,9 @@ import { IProcessedOperation, OperationStatus } from "../store/StatementStore";
 import MuiFormSelect from "../components/form-controls/MuiFormSelect";
 
 const Locale = {
-  title: "Загрузка выписки из банка",
-  buttonLabel: "Записать операции",
+  statementTitle: "Загрузка выписки из банка",
+  loadButton: "Загрузить",
+  processButton: "Записать операции",
   companyTypesLabel: "Компания",
   companyTypes: [
     { value: "ipHashLavash", label: "ИП Багдасарян Альфа" },
@@ -67,16 +68,19 @@ const Statement = () => {
   const locale = useLocale(Locale);
   const [fileProcessed, setFileProcessed] = useState(false);
   const [fileProcessedError, setFileProcessedError] = useState(false);
-  const [processedList, setProcessedList] =
-    useState<Array<IProcessedOperation>>();
+  const [operations, setOperations] = useState<Array<IProcessedOperation>>();
 
   const { statementStore } = useStore();
 
   const methods = useForm<IForm>({
     mode: "onBlur",
+    defaultValues: {
+      companyType: undefined,
+      file: undefined,
+    },
   });
 
-  const { setValue, control } = methods;
+  const { setValue, control, reset } = methods;
   const file = useWatch({ control, name: "file" });
   const companyType = useWatch({ control, name: "companyType" });
 
@@ -87,29 +91,39 @@ const Statement = () => {
   const onSubmit = (data: IForm) => {
     const formData = new FormData();
 
-    if (data.companyType) {
-      formData.append("companyType", data.companyType);
-    }
+    if (!fileProcessed) {
+      if (data.companyType) {
+        formData.append("companyType", data.companyType);
+      }
 
-    if (data.file) {
-      formData.append("file", data.file, data.file.name);
-    }
+      if (data.file) {
+        formData.append("file", data.file, data.file.name);
+      }
 
-    statementStore
-      .processStatement(formData)
-      .then((result) => {
-        setProcessedList(result);
-        setFileProcessed(true);
-      })
-      .catch(() => {
-        setFileProcessedError(true);
-      });
+      statementStore
+        .loadStatement(formData)
+        .then((result) => {
+          setOperations(result);
+          setFileProcessed(true);
+        })
+        .catch(() => {
+          setFileProcessedError(true);
+        });
+    } else {
+      if (operations && companyType) {
+        statementStore.processStatement(operations, companyType).then(() => {
+          reset();
+          onClearFile();
+          setOperations([]);
+        });
+      }
+    }
   };
 
   return (
     <Paper sx={styles.container}>
       <Typography variant="h2" mb={2}>
-        {locale.title}
+        {locale.statementTitle}
       </Typography>
       <MuiForm methods={methods} onSubmit={onSubmit}>
         <Grid container>
@@ -123,6 +137,7 @@ const Statement = () => {
           <Grid item xs={12} sm={12}>
             <FileUploader
               setValue={setValue}
+              file={file}
               onClear={onClearFile}
               fileProcessed={fileProcessed}
               hasError={fileProcessedError}
@@ -131,17 +146,17 @@ const Statement = () => {
           </Grid>
         </Grid>
 
-        {file && companyType && !fileProcessed && (
+        {file && companyType && (
           <MuiFormButton
             variant="contained"
             color="primary"
-            label={locale.buttonLabel}
+            label={fileProcessed ? locale.processButton : locale.loadButton}
           />
         )}
 
-        {processedList && (
+        {operations && (
           <List>
-            {processedList.map((operation, index) => {
+            {operations.map((operation, index) => {
               const hasError = operation.status !== OperationStatus.SUCCESS;
 
               return (

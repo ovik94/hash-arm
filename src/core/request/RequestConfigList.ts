@@ -105,6 +105,10 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.POST,
     path: "/api/statement/process",
   },
+  loadStatement: {
+    method: RequestMethods.POST,
+    path: "/api/statement/load",
+  },
   getFeedbackList: {
     method: RequestMethods.GET,
     path: "/api/feedback/list",

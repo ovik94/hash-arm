@@ -1,11 +1,11 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // eslint-disable-next-line import/no-cycle
-import { RootStore } from './RootStore';
+import { RootStore } from "./RootStore";
 
 export enum OperationStatus {
-  SUCCESS = 'SUCCESS',
-  OPERATION_FAIL = 'OPERATION_FAIL',
-  COUNTERPARTY_FAIL = 'COUNTERPARTY_FAIL'
+  SUCCESS = "SUCCESS",
+  OPERATION_FAIL = "OPERATION_FAIL",
+  COUNTERPARTY_FAIL = "COUNTERPARTY_FAIL",
 }
 
 export interface IProcessedOperation {
@@ -16,7 +16,7 @@ export interface IProcessedOperation {
     incoming: number | string;
     name: string;
     purposeOfPayment: string;
-  }
+  };
 }
 
 export default class StatementStore {
@@ -27,11 +27,38 @@ export default class StatementStore {
     makeAutoObservable(this);
   }
 
-  public processStatement = (formData: FormData) => {
+  public processStatement = (
+    operations: Array<IProcessedOperation>,
+    companyType: string
+  ) => {
     this.rootStore.setLoading(true);
 
     return this.rootStore
-      .createRequest<Array<IProcessedOperation>>('processStatement', undefined, formData)
+      .createRequest<Array<IProcessedOperation>>(
+        "processStatement",
+        undefined,
+        { operations, companyType }
+      )
+      .then(() => {
+        this.rootStore.notificationStore.addNotification({
+          code: "STATEMENT_SUCCESS",
+          type: "success",
+        });
+      })
+      .finally(() => {
+        this.rootStore.setLoading(false);
+      });
+  };
+
+  public loadStatement = (formData: FormData) => {
+    this.rootStore.setLoading(true);
+
+    return this.rootStore
+      .createRequest<Array<IProcessedOperation>>(
+        "loadStatement",
+        undefined,
+        formData
+      )
       .finally(() => {
         this.rootStore.setLoading(false);
       });
