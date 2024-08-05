@@ -1,48 +1,53 @@
-import * as Globalize from 'globalize';
-import ruDateFnsData from 'date-fns/locale/ru';
+import * as Globalize from "globalize";
+import ruDateFnsData from "date-fns/locale/ru";
 // eslint-disable-next-line import/extensions
-import ruLocaleData from './cldr-data/ru.json';
+import ruLocaleData from "./cldr-data/ru.json";
 
 Globalize.load(ruLocaleData);
-Globalize.locale('ru');
+Globalize.locale("ru");
 
-export const currencyFormatter = Globalize.currencyFormatter('RUB');
+export const currencyFormatter = Globalize.currencyFormatter("RUB");
 
 const locale = {
-  defaultTitle: 'АРМ ХашЛаваш',
-  fieldRequired: 'Заполните поле',
+  defaultTitle: "АРМ ХашЛаваш",
+  fieldRequired: "Заполните поле",
   buttons: {
-    add: 'Добавить',
-    update: 'Редактировать',
-    delete: 'Удалить',
-    cancel: 'Отменить',
-    save: 'Сохранить'
+    add: "Добавить",
+    update: "Редактировать",
+    delete: "Удалить",
+    cancel: "Отменить",
+    save: "Сохранить",
   },
   userRoleName: {
-    supervisor: 'Руководитель',
-    admin: 'Администратор',
-    waiter: 'Официант'
+    supervisor: "Руководитель",
+    admin: "Администратор",
+    waiter: "Официант",
+    teller: "Кассир",
   },
   roles: [
     {
-      label: 'Руководитель',
-      value: 'supervisor'
+      label: "Руководитель",
+      value: "supervisor",
     },
     {
-      label: 'Администратор',
-      value: 'admin'
+      label: "Администратор",
+      value: "admin",
     },
     {
-      label: 'Официант',
-      value: 'waiter'
-    }
+      label: "Официант",
+      value: "waiter",
+    },
+    {
+      label: "Кассир",
+      value: "teller",
+    },
   ],
   counterpartyTypes: {
-    kitchen: 'Кухонный сотрудник',
-    service: 'Сотрудник зала',
-    manager: 'Руководитель',
-    provider: 'Поставщик / Контрагент'
-  }
+    kitchen: "Кухонный сотрудник",
+    service: "Сотрудник зала",
+    manager: "Руководитель",
+    provider: "Поставщик / Контрагент",
+  },
 };
 
 export const DateFnsData = ruDateFnsData;

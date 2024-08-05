@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
-import clsx from 'clsx';
-import { Controller, useFormContext } from 'react-hook-form';
-import { createStyles, makeStyles } from '@mui/styles';
-import { TextField } from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import React, { FC, useMemo, useState } from "react";
+import clsx from "clsx";
+import { Controller, useFormContext } from "react-hook-form";
+import { createStyles, makeStyles } from "@mui/styles";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Theme } from "@mui/material/styles";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export interface IMuiInputProps {
   name: string;
@@ -13,26 +14,50 @@ export interface IMuiInputProps {
   maxRows?: number;
   className?: string;
   helperText?: string;
-  [otherProps: string]: any
+  [otherProps: string]: any;
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  formControl: {
-    margin: theme.spacing(2, 0),
-    width: '100%'
-  }
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(2, 0),
+      width: "100%",
+    },
+  })
+);
 
 const MuiFormInput: FC<IMuiInputProps> = ({
-  defaultValue = '',
+  defaultValue = "",
   name,
   className,
-  helperText = '',
+  helperText = "",
+  type = "text",
   ...otherProps
 }) => {
   const classes = useStyles();
-  const { control, formState: { errors } } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
   const error = errors[name];
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onClickShowPassword = () => setShowPassword((show) => !show);
+
+  const renderEndAdornment = useMemo(() => {
+    console.log(showPassword, "showPassword");
+    if (type === "password") {
+      return (
+        <InputAdornment position="end">
+          <IconButton onClick={onClickShowPassword} edge="end">
+            {showPassword ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        </InputAdornment>
+      );
+    }
+    return undefined;
+  }, [type, showPassword]);
 
   return (
     <Controller
@@ -48,7 +73,11 @@ const MuiFormInput: FC<IMuiInputProps> = ({
             fullWidth
             error={Boolean(error?.message)}
             helperText={error?.message || helperText}
+            type={showPassword && type === "password" ? "text" : type}
             inputRef={ref}
+            InputProps={{
+              endAdornment: renderEndAdornment,
+            }}
             {...otherField}
             {...otherProps}
           />

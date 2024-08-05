@@ -1,23 +1,24 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // eslint-disable-next-line import/no-cycle
-import { RootStore } from './RootStore';
-import { IUserDetailForm } from '../components/user-detail-form/UserDetailForm';
+import { RootStore } from "./RootStore";
+import { IUserDetailForm } from "../components/user-detail-form/UserDetailForm";
 
 export enum PrivilegeType {
-  EDIT_USER = 'EDIT_USER',
-  EDIT_SUPERVISOR = 'EDIT_SUPERVISOR',
-  EDIT_FEEDBACK_REQUESTS = 'EDIT_FEEDBACK_REQUESTS',
-  EDIT_FORTUNE_DATA = 'EDIT_FORTUNE_DATA',
-  UPLOAD_STATEMENT = 'UPLOAD_STATEMENT',
-  RESERVE_BANQUET = 'RESERVE_BANQUET'
+  EDIT_USER = "EDIT_USER",
+  EDIT_SUPERVISOR = "EDIT_SUPERVISOR",
+  EDIT_FEEDBACK_REQUESTS = "EDIT_FEEDBACK_REQUESTS",
+  EDIT_FORTUNE_DATA = "EDIT_FORTUNE_DATA",
+  UPLOAD_STATEMENT = "UPLOAD_STATEMENT",
+  RESERVE_BANQUET = "RESERVE_BANQUET",
 }
 
 export interface IUser {
   id: string;
   name: string;
   phone: string;
-  role: 'admin' | 'waiter' | 'supervisor',
-  privilege: Array<PrivilegeType>
+  role: "admin" | "waiter" | "supervisor" | "teller";
+  password?: string;
+  privilege: Array<PrivilegeType>;
 }
 
 export default class UserStore {
@@ -54,41 +55,47 @@ export default class UserStore {
 
   public fetchUsersList = (): Promise<void> => {
     this.setLoading(true);
-    return this.rootStore.createRequest<Array<IUser>>('getUsersList')
+    return this.rootStore
+      .createRequest<Array<IUser>>("getUsersList")
       .then((data) => {
         this.setUsersList(data);
         this.setLoading(false);
-      }).catch(() => this.setLoading(false));
+      })
+      .catch(() => this.setLoading(false));
   };
 
-  public login = (data: { id: string; password: string; }): Promise<void> => {
+  public login = (data: { id: string; password: string }): Promise<void> => {
     this.setLoading(true);
-    return this.rootStore.createRequest('login', undefined, data)
+    return this.rootStore
+      .createRequest("login", undefined, data)
       .then(() => {
-        const user = this.usersList?.find(item => item.id === data.id);
+        const user = this.usersList?.find((item) => item.id === data.id);
 
         if (user) {
           this.setUser(user);
           this.setAuthorized(true);
-          sessionStorage.setItem('adminName', JSON.stringify(user));
+          sessionStorage.setItem("adminName", JSON.stringify(user));
         }
 
         this.setLoading(false);
-      }).catch(() => this.setLoading(false));
+      })
+      .catch(() => this.setLoading(false));
   };
 
   public addUser = (data: IUserDetailForm): Promise<void> => {
     this.rootStore.popupStore.setLoading(true);
-    return this.rootStore.createRequest<Array<IUser>>('addUser', undefined, data)
+    return this.rootStore
+      .createRequest<Array<IUser>>("addUser", undefined, data)
       .then((users) => {
         this.setUsersList(users);
       })
       .finally(() => this.rootStore.popupStore.setLoading(false));
   };
 
-  public editUser = (data: IUserDetailForm & { id: string; }): Promise<void> => {
+  public editUser = (data: IUserDetailForm & { id: string }): Promise<void> => {
     this.rootStore.popupStore.setLoading(true);
-    return this.rootStore.createRequest<Array<IUser>>('editUser', undefined, data)
+    return this.rootStore
+      .createRequest<Array<IUser>>("editUser", undefined, data)
       .then((users) => {
         this.setUsersList(users);
       })
@@ -97,7 +104,8 @@ export default class UserStore {
 
   public deleteUser = (data: IUser): Promise<void> => {
     this.rootStore.popupStore.setLoading(true);
-    return this.rootStore.createRequest<Array<IUser>>('deleteUser', undefined, data)
+    return this.rootStore
+      .createRequest<Array<IUser>>("deleteUser", undefined, data)
       .then((users) => {
         this.setUsersList(users);
       })

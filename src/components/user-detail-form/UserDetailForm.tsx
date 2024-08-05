@@ -1,17 +1,18 @@
-import React, { FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid, Typography } from '@mui/material';
-import yup from '../../core/yup-extended';
-import useStore from '../../hooks/useStore';
-import MuiForm from '../form-controls/MuiForm';
-import MuiFormSelect from '../form-controls/MuiFormSelect';
-import MuiFormInput from '../form-controls/MuiFormInput';
-import MuiFormButton from '../form-controls/MuiFormButton';
-import MuiFormMaskedInput from '../form-controls/MuiFormMaskedInput';
-import useLocale from '../../hooks/useLocale';
-import Locale from './locale';
-import { IUser } from '../../store/UserStore';
+import React, { FC } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Grid, Typography } from "@mui/material";
+import yup from "../../core/yup-extended";
+import useStore from "../../hooks/useStore";
+import MuiForm from "../form-controls/MuiForm";
+import MuiFormSelect from "../form-controls/MuiFormSelect";
+import MuiFormInput from "../form-controls/MuiFormInput";
+import MuiFormButton from "../form-controls/MuiFormButton";
+import MuiFormMaskedInput from "../form-controls/MuiFormMaskedInput";
+import useLocale from "../../hooks/useLocale";
+import Locale from "./locale";
+import { IUser } from "../../store/UserStore";
+import { observer } from "mobx-react-lite";
 
 export interface IUserDetailForm {
   name: string;
@@ -32,17 +33,18 @@ const UserDetailForm: FC<IUserDetailFormProps> = ({ user }) => {
     name: yup.string().required(),
     role: yup.string().required(),
     phone: yup.string(),
-    password: yup.string()
+    password: yup.string(),
   });
 
   const methods = useForm<IUserDetailForm>({
     resolver: yupResolver(schema),
-    mode: 'onSubmit',
+    mode: "onSubmit",
     defaultValues: {
-      name: user?.name || '',
-      phone: user?.phone || '',
-      role: user?.role || ''
-    }
+      name: user?.name || "",
+      phone: user?.phone || "",
+      role: user?.role || "",
+      password: user?.password || "",
+    },
   });
 
   const onSubmit: SubmitHandler<IUserDetailForm> = (data) => {
@@ -57,9 +59,13 @@ const UserDetailForm: FC<IUserDetailFormProps> = ({ user }) => {
     }
   };
 
+  console.log(locale.roles, "locale.roles");
+
   return (
     <MuiForm methods={methods} onSubmit={onSubmit}>
-      <Typography variant="h6" mb={3}>{locale.title}</Typography>
+      <Typography variant="h6" mb={3}>
+        {locale.title}
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <MuiFormInput name="name" label={locale.nameLabel} />
@@ -78,18 +84,25 @@ const UserDetailForm: FC<IUserDetailFormProps> = ({ user }) => {
             label={locale.phoneLabel}
           />
         </Grid>
-        <Grid item xs={6}>
-          <MuiFormInput
-            name="password"
-            label={locale.passwordLabel}
-            helperText={locale.passwordHelper}
-          />
-        </Grid>
+        {userStore.user?.role === "supervisor" &&
+          (user?.role === "admin" || user?.role === "supervisor") && (
+            <Grid item xs={6}>
+              <MuiFormInput
+                name="password"
+                type="password"
+                label={locale.passwordLabel}
+                helperText={locale.passwordHelper}
+              />
+            </Grid>
+          )}
       </Grid>
 
-      <MuiFormButton label={user?.id ? locale.buttons.update : locale.buttons.add} sx={{ mt: 3 }} />
+      <MuiFormButton
+        label={user?.id ? locale.buttons.update : locale.buttons.add}
+        sx={{ mt: 3 }}
+      />
     </MuiForm>
   );
 };
 
-export default UserDetailForm;
+export default observer(UserDetailForm);
