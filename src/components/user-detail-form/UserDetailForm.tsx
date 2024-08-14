@@ -85,7 +85,9 @@ const UserDetailForm: FC<IUserDetailFormProps> = ({ user }) => {
           />
         </Grid>
         {userStore.user?.role === "supervisor" &&
-          (user?.role === "admin" || user?.role === "supervisor") && (
+          (user?.role === "admin" ||
+            user?.role === "supervisor" ||
+            user?.role === "teller") && (
             <Grid item xs={6}>
               <MuiFormInput
                 name="password"
