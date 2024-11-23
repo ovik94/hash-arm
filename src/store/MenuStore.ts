@@ -21,10 +21,15 @@ export interface IMenuGroupItem {
   image?: string;
 }
 
+export interface ILunchWeek {
+  weekNumber: number;
+  isHoliday: boolean;
+}
+
 export default class MenuStore {
   public menuList: Array<IMenuListItem> | null = null;
   public menu: Record<string, Array<IMenuGroup>> = {};
-
+  public lunchWeek: ILunchWeek | null = null;
   protected rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
@@ -38,6 +43,10 @@ export default class MenuStore {
 
   public setMenu = (menu: Array<IMenuGroup>, id: string) => {
     this.menu = { ...this.menu, [id]: menu };
+  };
+
+  public setLunchWeek = (lunchWeek: ILunchWeek) => {
+    this.lunchWeek = lunchWeek;
   };
 
   public fetchMenuList = async () => {
@@ -60,6 +69,18 @@ export default class MenuStore {
       .createRequest<Array<IMenuGroup>>("getMenu", undefined, { id })
       .then((data) => {
         this.setMenu(data, id);
+      })
+      .finally(() => {
+        this.rootStore.setLoading(false);
+      });
+  };
+
+  public getLunchWeek = async () => {
+    this.rootStore.setLoading(true);
+    return this.rootStore
+      .createRequest<ILunchWeek>("getLunchWeek")
+      .then((week) => {
+        this.setLunchWeek(week);
       })
       .finally(() => {
         this.rootStore.setLoading(false);

@@ -91,7 +91,7 @@ const App: FunctionComponent = () => {
                           <Route exact path="/feedback">
                             <Feedback />
                           </Route>
-                          <Route exact path="/menu">
+                          <Route exact path="/menu/:id?">
                             <Menu />
                           </Route>
                           <Route exact path="/login">

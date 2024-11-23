@@ -145,6 +145,10 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.POST,
     path: "/api/iiko-cloud/menu",
   },
+  getLunchWeek: {
+    method: RequestMethods.GET,
+    path: "/api/lunch/get-week",
+  },
 };
 
 export default RequestConfigList;

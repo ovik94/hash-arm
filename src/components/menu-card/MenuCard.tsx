@@ -13,7 +13,7 @@ const MenuCard: FC<IMenuGroupItem> = ({
   return (
     <Box sx={styles.card}>
       <Box sx={styles.cardImage}>
-        <img src={image || "public/images/empty-menu.png"} />
+        <img src={image || "/public/images/empty-menu.png"} />
       </Box>
 
       <Box sx={styles.cardContent}>

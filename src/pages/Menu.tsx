@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import {
   Card,
@@ -19,6 +20,7 @@ import useLocale from "../hooks/useLocale";
 import useStore from "../hooks/useStore";
 import Loader from "../components/loader/Loader";
 import MenuItems from "../components/menu-items/MenuItems";
+import MenuLunch from "../components/menu-lunch/MenuLunch";
 
 const styles: Record<string, SxProps<Theme>> = {
   wrapper: {
@@ -31,13 +33,14 @@ const styles: Record<string, SxProps<Theme>> = {
 
 const Locale = {
   title: "Меню",
+  lunch: "Бизнес-ланч",
 };
 
 const MENU_LIST_IMAGES: Record<string, string> = {
-  "36012": "public/images/main-menu.jpg",
-  "36014": "public/images/child-menu.jpg",
-  "36013": "public/images/banquet-menu.jpg",
-  "36015": "public/images/semi-finished-menu.jpg",
+  "36012": "/public/images/main-menu.jpg",
+  "36014": "/public/images/child-menu.jpg",
+  "36013": "/public/images/banquet-menu.jpg",
+  "36015": "/public/images/semi-finished-menu.jpg",
 };
 
 const Menu = () => {
@@ -48,17 +51,22 @@ const Menu = () => {
     menuStore: { fetchMenuList, menuList },
     isLoading,
   } = useStore();
+  const { id } = useParams<{ id: string }>();
 
-  const [menuGroup, setMenuGroup] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     if (!menuList) {
       fetchMenuList();
     }
-  }, [menuList, menuGroup]);
+  }, [menuList]);
 
   const onChangeMenuGroup = useCallback((id: string) => {
-    setMenuGroup(id);
+    history.push(`/menu/${id}`);
+  }, []);
+
+  const onOpenLunch = useCallback(() => {
+    history.push(`/menu/lunch`);
   }, []);
 
   const renderMenuList = useMemo(() => {
@@ -87,18 +95,39 @@ const Menu = () => {
             </Card>
           </Grid>
         ))}
+        <Grid key="lunch" item xs={12} sm={6}>
+          <Card onClick={onOpenLunch}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                sx={styles.card}
+                image="/public/images/lunch-menu.jpg"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h2" component="div">
+                  Бизнес-ланч
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
       </Grid>
     );
-  }, [menuList, menuGroup, onChangeMenuGroup]);
+  }, [menuList, onChangeMenuGroup]);
 
   const title = useMemo(() => {
-    if (!menuGroup) {
+    if (id === "lunch") {
+      return locale.lunch;
+    }
+
+    if (!id) {
       return locale.title;
     }
 
-    const menu = menuList?.find((item) => item.id === menuGroup);
+    const menu = menuList?.find((item) => item.id === id);
     return menu ? menu.name : locale.title;
-  }, [menuList, menuGroup]);
+  }, [menuList, id]);
 
   const onBack = useCallback(() => {
     onChangeMenuGroup("");
@@ -108,7 +137,7 @@ const Menu = () => {
     <Container component="main" maxWidth="lg" sx={styles.wrapper}>
       <Loader isLoading={isLoading} />
       <Stack direction="row" alignItems="center" mb={2}>
-        {menuGroup && (
+        {(id || id === "lunch") && (
           <IconButton color="primary" onClick={onBack}>
             <ChevronLeft />
           </IconButton>
@@ -116,8 +145,9 @@ const Menu = () => {
         <Typography variant="h3">{title}</Typography>
       </Stack>
 
-      {!menuGroup && renderMenuList}
-      {menuGroup && <MenuItems menuId={menuGroup} />}
+      {!id && renderMenuList}
+      {id && id === "lunch" && <MenuLunch />}
+      {id && id !== "lunch" && <MenuItems menuId={id} />}
     </Container>
   );
 };
