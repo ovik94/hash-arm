@@ -49,11 +49,11 @@ const RequestConfigList: IRequestConfigList = {
     method: RequestMethods.POST,
     path: "/api/iiko/save-bar-limits",
   },
-  getMenu: {
+  getBanquetMenu: {
     method: RequestMethods.GET,
     path: "/api/iiko/menu",
   },
-  getMenuItem: {
+  getBanquetMenuItem: {
     method: RequestMethods.GET,
     path: "/api/iiko/menuItem",
   },
@@ -136,6 +136,14 @@ const RequestConfigList: IRequestConfigList = {
   deleteCounterparty: {
     method: RequestMethods.POST,
     path: "/api/v2/counterparties/delete",
+  },
+  getMenuList: {
+    method: RequestMethods.GET,
+    path: "/api/iiko-cloud/menu-list",
+  },
+  getMenu: {
+    method: RequestMethods.POST,
+    path: "/api/iiko-cloud/menu",
   },
 };
 
