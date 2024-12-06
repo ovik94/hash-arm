@@ -6,10 +6,10 @@ import styles from "./styles";
 import useStore from "/src/hooks/useStore";
 
 const LUNCH_MENU_SRC: Record<number, string> = {
-  1: "https://drive.google.com/file/d/1k13JuLQp5Bk1TcrFSbSZsD_IkDLDxUzW/preview?usp=sharing",
-  2: "https://drive.google.com/file/d/1C3voBa7q28a-_AqVsvXYgxf2UTa4GO8s/preview?usp=sharing",
-  3: "https://drive.google.com/file/d/19q5aIUHq-KF8gLY2ddHA6DJHlOGNtTna/preview?usp=sharing",
-  4: "https://drive.google.com/file/d/1M54wr3w0aDpQmL3MWzvADOLUvYF0Wjph/preview?usp=sharing",
+  1: "https://drive.google.com/file/d/19q5aIUHq-KF8gLY2ddHA6DJHlOGNtTna/preview?usp=sharing",
+  2: "https://drive.google.com/file/d/1M54wr3w0aDpQmL3MWzvADOLUvYF0Wjph/preview?usp=sharing",
+  3: "https://drive.google.com/file/d/1k13JuLQp5Bk1TcrFSbSZsD_IkDLDxUzW/preview?usp=sharing",
+  4: "https://drive.google.com/file/d/1C3voBa7q28a-_AqVsvXYgxf2UTa4GO8s/preview?usp=sharing",
 };
 
 const MenuLunch: FC = () => {
