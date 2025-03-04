@@ -9,9 +9,11 @@ import Loader from '../components/loader/Loader';
 import Navigation from '../components/navigation/Navigation';
 
 const styles: Record<string, SxProps<Theme>> = {
-  main: theme => ({
-    p: theme.spacing(12, 5)
-  })
+  main: {
+    pt: { xs: 8, sm: 12 },
+    pb: { xs: 8, sm: 12 },
+    px: { xs: 2, sm: 4 }
+  }
 };
 
 const RouteView: FC<IRouteProps> = ({ children, ...rest }: IRouteProps): JSX.Element => {

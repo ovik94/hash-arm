@@ -3,11 +3,13 @@ import { Theme, SxProps } from '@mui/material/styles';
 const styles: Record<string, SxProps<Theme>> = {
   uploadButtonBlock: {
     display: 'flex',
-    mt: 3
+    flexDirection: { xs: 'column', sm: 'row' },
+    mt: { xs: 1, sm: 3 }
   },
   uploadHint: {
-    ml: 2,
-    width: 1 / 2,
+    ml: { xs: 0, sm: 2 },
+    mt: { xs: 2, sm: 0 },
+    width: { xs: 1, sm: 1 / 2 },
     lineHeight: '20px',
     letterSpacing: '0.25px',
     color: 'rgba(0, 0, 0, 0.54)'

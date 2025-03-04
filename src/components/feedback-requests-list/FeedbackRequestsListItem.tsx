@@ -75,7 +75,7 @@ const FeedbackRequestsListItem: FC<IDictionaryValuesListProps> = ({
         <DragIndicatorIcon sx={styles.dragIcon} />
       </Box>
 
-      <Typography sx={styles.name}>{item?.title}</Typography>
+      <Typography variant="subtitle2" sx={styles.name}>{item?.title}</Typography>
       <>
         <IconButton
           onClick={onEdit}
@@ -85,7 +85,7 @@ const FeedbackRequestsListItem: FC<IDictionaryValuesListProps> = ({
         </IconButton>
         <IconButton
           onClick={onDelete}
-          sx={{ mx: 2 }}
+          sx={{ mx: { xs: 1, sm: 2 } }}
           size="small"
         >
           <DeleteIcon />

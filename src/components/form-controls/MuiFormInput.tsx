@@ -1,10 +1,10 @@
-import React, { FC, useMemo, useState } from "react";
-import clsx from "clsx";
-import { Controller, useFormContext } from "react-hook-form";
-import { createStyles, makeStyles } from "@mui/styles";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { Theme } from "@mui/material/styles";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import React, { FC, useMemo, useState } from 'react';
+import clsx from 'clsx';
+import { Controller, useFormContext } from 'react-hook-form';
+import { createStyles, makeStyles } from '@mui/styles';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export interface IMuiInputProps {
   name: string;
@@ -14,30 +14,29 @@ export interface IMuiInputProps {
   maxRows?: number;
   className?: string;
   helperText?: string;
+
   [otherProps: string]: any;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    formControl: {
-      margin: theme.spacing(2, 0),
-      width: "100%",
-    },
-  })
-);
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  formControl: {
+    margin: theme.spacing(2, 0),
+    width: '100%'
+  }
+}));
 
 const MuiFormInput: FC<IMuiInputProps> = ({
-  defaultValue = "",
+  defaultValue = '',
   name,
   className,
-  helperText = "",
-  type = "text",
+  helperText = '',
+  type = 'text',
   ...otherProps
 }) => {
   const classes = useStyles();
   const {
     control,
-    formState: { errors },
+    formState: { errors }
   } = useFormContext();
   const error = errors[name];
 
@@ -46,8 +45,7 @@ const MuiFormInput: FC<IMuiInputProps> = ({
   const onClickShowPassword = () => setShowPassword((show) => !show);
 
   const renderEndAdornment = useMemo(() => {
-    console.log(showPassword, "showPassword");
-    if (type === "password") {
+    if (type === 'password') {
       return (
         <InputAdornment position="end">
           <IconButton onClick={onClickShowPassword} edge="end">
@@ -65,7 +63,10 @@ const MuiFormInput: FC<IMuiInputProps> = ({
       control={control}
       defaultValue={defaultValue}
       render={({ field }) => {
-        const { ref, ...otherField } = field;
+        const {
+          ref,
+          ...otherField
+        } = field;
         return (
           <TextField
             className={clsx(classes.formControl, className)}
@@ -73,10 +74,10 @@ const MuiFormInput: FC<IMuiInputProps> = ({
             fullWidth
             error={Boolean(error?.message)}
             helperText={error?.message || helperText}
-            type={showPassword && type === "password" ? "text" : type}
+            type={showPassword && type === 'password' ? 'text' : type}
             inputRef={ref}
             InputProps={{
-              endAdornment: renderEndAdornment,
+              endAdornment: renderEndAdornment
             }}
             {...otherField}
             {...otherProps}

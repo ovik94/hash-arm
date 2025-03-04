@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { observer } from "mobx-react";
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Box,
   Grid,
@@ -9,53 +9,54 @@ import {
   ListItemText,
   Paper,
   SxProps,
-  Typography,
-} from "@mui/material";
-import { Theme } from "@mui/material/styles";
-import { useForm, useWatch } from "react-hook-form";
-import { Done, ErrorOutline } from "@mui/icons-material";
-import useTitle from "../hooks/useTitle";
-import FileUploader from "../components/file-uploader/FileUploader";
-import MuiForm from "../components/form-controls/MuiForm";
-import MuiFormButton from "../components/form-controls/MuiFormButton";
-import useLocale from "../hooks/useLocale";
-import useStore from "../hooks/useStore";
-import { IProcessedOperation, OperationStatus } from "../store/StatementStore";
-import MuiFormSelect from "../components/form-controls/MuiFormSelect";
+  Typography
+} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { useForm, useWatch } from 'react-hook-form';
+import { Done, ErrorOutline } from '@mui/icons-material';
+import useTitle from '../hooks/useTitle';
+import FileUploader from '../components/file-uploader/FileUploader';
+import MuiForm from '../components/form-controls/MuiForm';
+import MuiFormButton from '../components/form-controls/MuiFormButton';
+import useLocale from '../hooks/useLocale';
+import useStore from '../hooks/useStore';
+import { IProcessedOperation, OperationStatus } from '../store/StatementStore';
+import MuiFormSelect from '../components/form-controls/MuiFormSelect';
 
 const Locale = {
-  statementTitle: "Загрузка выписки из банка",
-  loadButton: "Загрузить",
-  processButton: "Записать операции",
-  companyTypesLabel: "Компания",
+  statementTitle: 'Загрузка выписки из банка',
+  loadButton: 'Загрузить',
+  processButton: 'Записать операции',
+  companyTypesLabel: 'Компания',
   companyTypes: [
-    { value: "ipHashLavash", label: "ИП Багдасарян Альфа" },
-    { value: "oooHashLavash", label: "ООО ХашЛаваш Альфа" },
-    { value: "ipFoodTrack", label: "ИП Багдасарян Сбербанк" },
+    { value: 'ipHashLavash', label: 'ИП Багдасарян Альфа' },
+    { value: 'oooHashLavash', label: 'ООО ХашЛаваш Альфа' },
+    { value: 'ipFoodTrack', label: 'ИП Багдасарян Сбербанк' }
   ],
   statuses: {
-    SUCCESS: "Успешно",
-    OPERATION_FAIL: "Не найдена статья ДДС",
-    COUNTERPARTY_FAIL: "Не найден контрагент",
-  },
+    SUCCESS: 'Успешно',
+    OPERATION_FAIL: 'Не найдена статья ДДС',
+    COUNTERPARTY_FAIL: 'Не найден контрагент'
+  }
 };
 
 const styles: Record<string, SxProps<Theme>> = {
   container: {
-    width: "100%",
-    py: 4,
-    px: 3,
+    width: '100%',
+    py: { xs: 2, md: 3 },
+    px: { xs: 2, md: 3 }
   },
   operationText: {
-    display: "flex",
-    alignItems: "center",
+    display: { xs: 'unset', sm: 'flex' },
+    justifyContent: { xs: 'unset', sm: 'space-between' },
+    alignItems: 'center'
   },
   errorTextColor: {
-    color: (theme) => theme.palette.error.main,
+    color: theme => theme.palette.error.main
   },
   successTextColor: {
-    color: (theme) => theme.palette.success.main,
-  },
+    color: theme => theme.palette.success.main
+  }
 };
 
 export interface IForm {
@@ -73,16 +74,16 @@ const Statement = () => {
   const { statementStore } = useStore();
 
   const methods = useForm<IForm>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
       companyType: undefined,
-      file: undefined,
-    },
+      file: undefined
+    }
   });
 
   const { setValue, control, reset } = methods;
-  const file = useWatch({ control, name: "file" });
-  const companyType = useWatch({ control, name: "companyType" });
+  const file = useWatch({ control, name: 'file' });
+  const companyType = useWatch({ control, name: 'companyType' });
 
   const onClearFile = () => {
     setFileProcessed(false);
@@ -93,11 +94,11 @@ const Statement = () => {
 
     if (!fileProcessed) {
       if (data.companyType) {
-        formData.append("companyType", data.companyType);
+        formData.append('companyType', data.companyType);
       }
 
       if (data.file) {
-        formData.append("file", data.file, data.file.name);
+        formData.append('file', data.file, data.file.name);
       }
 
       statementStore
@@ -109,14 +110,12 @@ const Statement = () => {
         .catch(() => {
           setFileProcessedError(true);
         });
-    } else {
-      if (operations && companyType) {
-        statementStore.processStatement(operations, companyType).then(() => {
-          reset();
-          onClearFile();
-          setOperations([]);
-        });
-      }
+    } else if (operations && companyType) {
+      statementStore.processStatement(operations, companyType).then(() => {
+        reset();
+        onClearFile();
+        setOperations([]);
+      });
     }
   };
 
@@ -170,7 +169,7 @@ const Statement = () => {
                     )}
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    primary={(
                       <Box sx={styles.operationText}>
                         <Typography variant="body2" mr={2}>
                           {operation.operation.name}
@@ -192,8 +191,8 @@ const Statement = () => {
                           </Typography>
                         )}
                       </Box>
-                    }
-                    secondary={
+                    )}
+                    secondary={(
                       <Box sx={styles.operationText}>
                         <Typography variant="caption">
                           {operation.operation.date}
@@ -201,16 +200,16 @@ const Statement = () => {
                         <Typography
                           variant="caption"
                           sx={
-                            hasError
-                              ? styles.errorTextColor
-                              : styles.successTextColor
+                            hasError ?
+                              styles.errorTextColor :
+                              styles.successTextColor
                           }
                           ml={2}
                         >
                           {locale.statuses[operation.status]}
                         </Typography>
                       </Box>
-                    }
+                    )}
                   />
                 </ListItem>
               );

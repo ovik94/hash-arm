@@ -2,7 +2,11 @@ import { Theme, SxProps } from '@mui/material/styles';
 
 const styles: Record<string, SxProps<Theme>> = {
   paper: {
-    borderRadius: { xs: 0, sm: '8px' }
+    borderRadius: { xs: 0, sm: '8px' },
+    minWidth: { xs: 'unset' },
+    m: { xs: '8px' },
+    mt: { xs: '32px' },
+    maxWidth: { xs: 'unset !important' }
   },
   content: {
     backgroundColor: 'background.paper',

@@ -20,7 +20,7 @@ const styles: Record<string, SxProps<Theme>> = {
     pl: 2
   },
   dragIcon: {
-    m: 2
+    m: { xs: 1, sm: 2 }
   },
   editableTextField: {
     flexGrow: 1,

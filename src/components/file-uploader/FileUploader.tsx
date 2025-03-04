@@ -1,12 +1,12 @@
-import React, { ChangeEvent, FC, useEffect, useState } from "react";
-import { Typography, Box, Divider, IconButton, Button } from "@mui/material";
-import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
-import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
-import PlusIcon from "@mui/icons-material/Add";
-import { UseFormSetValue } from "react-hook-form";
-import Locale from "./locale";
-import styles from "./styles";
-import useLocale from "../../hooks/useLocale";
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
+import InsertDriveFileOutlined from '@mui/icons-material/InsertDriveFileOutlined';
+import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
+import PlusIcon from '@mui/icons-material/Add';
+import { UseFormSetValue } from 'react-hook-form';
+import Locale from './locale';
+import styles from './styles';
+import useLocale from '../../hooks/useLocale';
 
 interface IFileUploaderProps {
   setValue: UseFormSetValue<{ file?: File }>;
@@ -17,26 +17,27 @@ interface IFileUploaderProps {
   accept?: string;
 }
 
-type State = "loaded" | "processed" | "error";
+type State = 'loaded' | 'processed' | 'error';
 
 const FileUploader: FC<IFileUploaderProps> = ({
   setValue,
   file,
-  onClear = () => {},
+  onClear = () => {
+  },
   fileProcessed = false,
   hasError = false,
-  accept = "",
+  accept = ''
 }) => {
   const locale = useLocale(Locale);
-  const [state, setState] = useState<State>("loaded");
+  const [state, setState] = useState<State>('loaded');
 
   useEffect(() => {
     if (fileProcessed && !hasError) {
-      setState("processed");
+      setState('processed');
     }
 
     if (hasError) {
-      setState("error");
+      setState('error');
     }
   }, [fileProcessed, hasError]);
 
@@ -47,11 +48,11 @@ const FileUploader: FC<IFileUploaderProps> = ({
       return;
     }
 
-    setValue("file", Array.from(uploadedFiles)[0]);
+    setValue('file', Array.from(uploadedFiles)[0]);
   };
 
   const onClearFile = () => {
-    setValue("file", undefined);
+    setValue('file', undefined);
 
     onClear();
   };

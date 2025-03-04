@@ -1,26 +1,26 @@
-import { FC, memo, useEffect, useRef } from "react";
-import { autorun } from "mobx";
-import { useSnackbar } from "notistack";
-import useStore from "../hooks/useStore";
-import useLocale from "../hooks/useLocale";
+import { FC, memo, useEffect, useRef } from 'react';
+import { autorun } from 'mobx';
+import { useSnackbar } from 'notistack';
+import useStore from '../hooks/useStore';
+import useLocale from '../hooks/useLocale';
 
 const Locale = {
   ERROR_BOT_SEND_MESSAGE:
-    "Произошла ошибка. Бот не смог отправить сообщение в чат",
+    'Произошла ошибка. Бот не смог отправить сообщение в чат',
   CREATE_ORDER_SUCCESS:
-    "Заявка успешно создана! Проверь чат с менеджером в Telegram",
+    'Заявка успешно создана! Проверь чат с менеджером в Telegram',
   SAVE_BANQUET_SUCCESS:
-    "Банкет успешно создан! Данные отправлены в чат Telegram",
+    'Банкет успешно создан! Данные отправлены в чат Telegram',
   EDIT_BANQUET_SUCCESS:
-    "Банкет был успешно изменен! Данные отправлены в чат Telegram",
-  DELETE_BANQUET_SUCCESS: "Банкет удален!",
-  SAVE_FEEDBACK_REQUESTS: "Список вопросов сохранен",
-  STATEMENT_SUCCESS: "Выписка успешно загружена в Гугл Таблицы",
+    'Банкет был успешно изменен! Данные отправлены в чат Telegram',
+  DELETE_BANQUET_SUCCESS: 'Банкет удален!',
+  SAVE_FEEDBACK_REQUESTS: 'Список вопросов сохранен',
+  STATEMENT_SUCCESS: 'Выписка успешно загружена в Гугл Таблицы',
   DEFAULT: {
-    default: "Всплывающее сообщение",
-    error: "Похоже что-то пошло не так",
-    warning: "Внимание, внимание, внимание",
-  },
+    default: 'Всплывающее сообщение',
+    error: 'Похоже что-то пошло не так',
+    warning: 'Внимание, внимание, внимание'
+  }
 };
 
 const Notifier: FC = () => {

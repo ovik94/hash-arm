@@ -11,15 +11,6 @@ const Locale = {
       path: '/counterparties'
     },
     {
-      title: 'Склад',
-      path: '/bar-balance'
-    },
-    {
-      title: 'Резерв банкетов',
-      path: '/banquets-list',
-      privilege: PrivilegeType.RESERVE_BANQUET
-    },
-    {
       title: 'Загрузить выписку',
       path: '/statement',
       privilege: PrivilegeType.UPLOAD_STATEMENT
