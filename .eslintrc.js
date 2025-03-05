@@ -40,6 +40,7 @@ module.exports = {
     'arrow-body-style': [1, 'as-needed'],
     'arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
     'operator-linebreak': [2, 'after'],
-    'linebreak-style': 0
+    'linebreak-style': 0,
+    'no-underscore-dangle': [2, 'never'],
   }
 };

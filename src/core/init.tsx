@@ -30,6 +30,7 @@ import CounterpartiesPage from '../pages/CounterpartiesPage';
 import FeedbackRequestsPage from '../pages/FeedbackRequestsPage';
 import WheelOfFortunePage from '../pages/WheelOfFortunePage';
 import Menu from '../pages/Menu';
+import CertificatesPage from '../pages/CertificatesPage';
 
 const store = new RootStore();
 
@@ -102,6 +103,9 @@ const App: FunctionComponent = () => {
                           </RouteView>
                           <RouteView exact path="/counterparties">
                             <CounterpartiesPage />
+                          </RouteView>
+                          <RouteView exact path="/certificates">
+                            <CertificatesPage />
                           </RouteView>
                           <RouteView exact path="/statement">
                             <Statement />

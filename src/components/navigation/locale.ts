@@ -16,6 +16,10 @@ const Locale = {
       privilege: PrivilegeType.UPLOAD_STATEMENT
     },
     {
+      title: 'Сертификаты',
+      path: '/certificates'
+    },
+    {
       title: 'Вопросы для обратной связи',
       path: '/feedback-requests',
       privilege: PrivilegeType.EDIT_FEEDBACK_REQUESTS

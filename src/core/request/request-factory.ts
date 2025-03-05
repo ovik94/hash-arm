@@ -86,13 +86,24 @@ export default class RequestFactory {
       body: requestBody
     });
 
-    return fetch(request).then((response: Response): Promise<T> => response.json()
-      .then((res: IResponse<T>) => {
-        if (res.status === 'OK') {
-          return res.data;
-        }
+    return fetch(request).then((response: Response): Promise<T> => {
+      const contentType = response.headers.get('content-type');
 
-        return this.onError(res);
-      }));
+      if (contentType && contentType.includes('application/json')) {
+        return response.json().then((res: IResponse<T>) => {
+          if (res.status === "OK") {
+            return res.data;
+          }
+
+          return this.onError(res);
+        });
+      }
+
+      // @ts-ignore
+      return response;
+    })
+      .catch((err) => {
+        return this.onError(err);
+      });
   }
 }

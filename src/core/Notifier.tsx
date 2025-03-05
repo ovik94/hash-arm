@@ -16,6 +16,8 @@ const Locale = {
   DELETE_BANQUET_SUCCESS: 'Банкет удален!',
   SAVE_FEEDBACK_REQUESTS: 'Список вопросов сохранен',
   STATEMENT_SUCCESS: 'Выписка успешно загружена в Гугл Таблицы',
+  CERTIFICATE_ACTIVATE_SUCCESS: 'Сертификат успешно активирован и отправлен в Telegram!',
+  CERTIFICATE_SEND_SUCCESS: 'Сертификат успешно отправлен в Telegram!',
   DEFAULT: {
     default: 'Всплывающее сообщение',
     error: 'Похоже что-то пошло не так',
